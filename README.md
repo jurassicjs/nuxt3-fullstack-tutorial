@@ -21,6 +21,7 @@ check out the Full Stack Jack Youtube Channel here :point_right: ![YouTube Chann
 <a href="https://www.youtube.com/channel/UCFDF_U_uoKc6MhIZPZKo5CA" target="_blank">
 <img src=https://img.shields.io/badge/youtube-%23EE4831.svg?&style=for-the-badge&logo=youtube&logoColor=white alt=youtube style="margin-bottom: 5px;" />
 </a>
+</div>
 
 
 # Nuxt 3 Fullstack Tutorial
