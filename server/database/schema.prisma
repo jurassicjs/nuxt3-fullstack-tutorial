@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id               Int            @id @default(autoincrement())
+  loginType        String?        @default("email")
+  password         String?
+  email            String?        @unique
+  name             String?
+  username         String?        @unique
+  session          Session[]
+  questions        Question[]
+  answers          Answer[]
+  stripeCustomerId String?
+  Subscription     Subscription[]
+}
+
+model Session {
+  id        Int       @id @default(autoincrement())
+  authToken String    @unique
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int       
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Subscription {
+  id            Int     @id @default(autoincrement())
+  user          User    @relation(fields: [userId], references: [id])
+  userId        Int
+  stripeId      String  @unique
+  stripeStatus  String?
+  stripePriceId String?
+  quantity      Int?
+  trialEndsAt   Int?
+  endsAt        Int?
+}
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    Int
+  title       String
+  description String
+  answers     Answer[]
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   Int
+  text       String
+}
