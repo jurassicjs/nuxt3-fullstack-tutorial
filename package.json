@@ -14,5 +14,12 @@
     "nuxt": "3.0.0-rc.4",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.6"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.0.0",
+    "prisma": "^4.0.0"
+  },
+  "prisma": {
+    "schema": "server/database/schema.prisma"
   }
 }
