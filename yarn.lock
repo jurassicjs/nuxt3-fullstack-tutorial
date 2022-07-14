@@ -344,7 +344,7 @@
     methods "^1.1.2"
     path-to-regexp "^6.1.0"
 
-"@mapbox/node-pre-gyp@^1.0.5":
+"@mapbox/node-pre-gyp@^1.0.0", "@mapbox/node-pre-gyp@^1.0.5":
   version "1.0.9"
   resolved "https://registry.npmjs.org/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.9.tgz"
   integrity sha512-aDF3S3rK9Q2gey/WAttUlISduDItz5BU3306M9Eyv6/oS40aMprnopshtlKTykxRNIBEZuRMaZAnbrQ4QtKGyw==
@@ -1061,6 +1061,14 @@ base64-js@^1.3.1:
   version "1.5.1"
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
+
+bcrypt@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/bcrypt/-/bcrypt-5.0.1.tgz#f1a2c20f208e2ccdceea4433df0c8b2c54ecdf71"
+  integrity sha512-9BTgmrhZM2t1bNuDtrtIMVSmmxZBrJ71n8Wg+YgdjHuIWYF7SjjmCPZFB+/5i/o/PIeRpwVJR3P+NrpIItUjqw==
+  dependencies:
+    "@mapbox/node-pre-gyp" "^1.0.0"
+    node-addon-api "^3.1.0"
 
 big.js@^5.2.2:
   version "5.2.2"
@@ -3224,6 +3232,11 @@ nitropack@^0.4.5:
     unenv "^0.5.2"
     unimport "^0.4.0"
     unstorage "^0.5.3"
+
+node-addon-api@^3.1.0:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-3.2.1.tgz#81325e0a2117789c0128dab65e7e38f07ceba161"
+  integrity sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==
 
 node-domexception@^1.0.0:
   version "1.0.0"
