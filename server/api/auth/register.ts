@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import { IUser } from '~/types/IUser';
 import { doesUserExist } from '~/server/services/userService'
 import { createUser } from '~/server/database/repositories/userRespository'
+import { makeSession } from '~~/server/services/sessionService';
 
 export default async (event: CompatibilityEvent) => {
   const body = await useBody(event)
