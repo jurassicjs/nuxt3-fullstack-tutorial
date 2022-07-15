@@ -1,3 +1,4 @@
+import { sanitizeUserForFrontend } from '~~/server/services/userService';
 import { CompatibilityEvent } from "h3"
 import { createSession, getSessionByAuthToken } from "~~/server/database/repositories/sessionRepository"
 import { IUser } from "~~/types/IUser"
@@ -20,5 +21,5 @@ export async function makeSession(user: IUser, event: CompatibilityEvent): Promi
 export async function getUserBySessionToken(authToken: string): Promise<IUser> {
     const session = await getSessionByAuthToken(authToken)
 
-    return session.user
+    return sanitizeUserForFrontend(session.user)
 }

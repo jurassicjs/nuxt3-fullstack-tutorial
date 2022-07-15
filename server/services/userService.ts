@@ -1,4 +1,5 @@
 import { getUserByEmail, getUserByUserName } from '~/server/database/repositories/userRespository';
+import { IUser } from '~~/types/IUser';
 
 type ExistsCheck = {
  value: boolean
@@ -32,4 +33,17 @@ export async function doesUserExist(email: string, username: string): Promise<Ex
  }
 
  return { value: false }
+}
+
+export function sanitizeUserForFrontend(user: IUser | undefined): IUser {
+
+ if (!user) {
+     return user
+ }
+
+ delete user.password;
+ delete user.loginType;
+ delete user.stripeCustomerId;
+
+ return user
 }
