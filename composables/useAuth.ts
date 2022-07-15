@@ -1,3 +1,4 @@
+import { useRouter, useState} from "#app";
 import { ISession } from "~~/types/ISession";
 
 export async function registerWithEmail(username: string, name: string, email: string, password: string): Promise<void> {
