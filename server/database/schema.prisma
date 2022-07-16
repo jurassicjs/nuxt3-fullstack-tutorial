@@ -17,7 +17,7 @@ model User {
   email            String?        @unique
   name             String?
   username         String?        @unique
-  session          Session?
+  session          Session[]
   questions        Question[]
   answers          Answer[]
   stripeCustomerId String?
@@ -28,7 +28,7 @@ model Session {
   id        Int       @id @default(autoincrement())
   authToken String    @unique
   user      User      @relation(fields: [userId], references: [id])
-  userId    Int       @unique
+  userId    Int       
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?

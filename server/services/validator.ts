@@ -33,8 +33,8 @@ async function runChecks(key: string, value: string): Promise<InputValidation> {
   return check
  }
 
- if (value.length < 8) {
-  if (key == 'password') {
+ if (key == 'password') {
+  if (value.length < 8) {
    check.hasError = true
    check.errorMessage = `password must be at least 8 characters`
   }

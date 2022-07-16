@@ -60,3 +60,9 @@ export async function registerWithEmail(
     console.log('error: ' + e.toString())
   }
 }
+
+export async function loginWithEmail(email: string, password: string) {
+  const user = await $fetch<IUser>('/api/auth/login', { method: 'POST', body: { email: email, password: password } })
+  useState('user').value = user
+  await useRouter().push('/dashboard')
+}
