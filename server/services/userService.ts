@@ -1,49 +1,29 @@
-import { getUserByEmail, getUserByUserName } from '~/server/database/repositories/userRespository';
 import { IUser } from '~~/types/IUser';
+import { RegistationRequest } from '~~/types/IRegistration';
+import { validate } from '~~/server/services/validator';
 
-type ExistsCheck = {
- value: boolean
- message?: string
-};
+export async function validateUser(data: RegistationRequest): Promise<FormValidation> {
 
-type RegistrationErrors = {
- emailError?: string
- usernameError?: string
-}
+    const errors = await validate(data)
 
-export async function doesUserExist(email: string, username: string): Promise<ExistsCheck> {
- const hasEmail = await getUserByEmail(email)
- const hasUserName = await getUserByUserName(email)
- const emailExists = hasEmail !== null
- const userNameExists = hasUserName !== null
+    if (errors.size > 0) {
 
- const errors: RegistrationErrors = {}
+        return { hasErrors: true, errors }
+    }
 
- if (emailExists) {
-  errors.emailError = `This email, ${email}, is already registered!`
- }
-
- if (userNameExists) {
-  errors.usernameError = `The username, ${username}, is already registered!`
- }
-
- if (emailExists || userNameExists) {
-  const message = JSON.stringify(errors)
-  return { value: true, message }
- }
-
- return { value: false }
+    return { hasErrors: false }
 }
 
 export function sanitizeUserForFrontend(user: IUser | undefined): IUser {
 
- if (!user) {
-     return user
- }
+    if (!user) {
+        return user
+    }
 
- delete user.password;
- delete user.loginType;
- delete user.stripeCustomerId;
+    delete user.password;
+    delete user.loginType;
+    delete user.stripeCustomerId;
 
- return user
+    return user
 }
+

@@ -1,17 +1,29 @@
 {
   "customPresentationMode.overrides": {
 
-        "editor.fontSize": 14,
+        "editor.fontSize": 20,
         "editor.fontWeight": "700",
         "editor.fontLigatures": false,
         "editor.tabSize": 1,
         "workbench.colorTheme": "Atom One Dark",
-        "workbench.activityBar.visible": false
+        "workbench.activityBar.visible": true
       },
       "workbench.colorTheme": "Atom One Dark",
       "editor.fontWeight": "700",
       "window.zoomLevel": 2,
-      "editor.fontSize": 20,
-      "editor.tabSize": 1
+      "editor.fontSize": 14,
+      "editor.tabSize": 1,
+      "workbench.statusBar.visible": false,
+      "workbench.editor.showTabs": false,
+      "editor.fontLigatures": false,
+      "workbench.activityBar.visible": false,
+      "customPresentationMode.backup": {
+        "workbench.colorTheme": "Atom One Dark",
+        "editor.fontWeight": "700",
+        "window.zoomLevel": 1,
+        "editor.fontSize": 20,
+        "editor.tabSize": 1
+      }
+    
 }
 
