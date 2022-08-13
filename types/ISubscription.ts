@@ -7,4 +7,6 @@ export type ISubscription = {
   quantity: number | null
   trialEndsAt: number | null
   endsAt: number | null
+  startDate: number | null
+  lastEventDate: number | null
 }

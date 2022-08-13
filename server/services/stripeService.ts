@@ -1,7 +1,8 @@
 import { SubPostRes } from '~/types/SubPostRes';
-import { updateStripeCustomerId } from "~/server/database/repositories/userRespository"
+import { createOrUpdateSubscription, getSubscriptionById, getUserByStripeCustomerId} from "~/server/database/repositories/userRespository"
 import { IUser } from '~/types/IUser';
 import Stripe from 'stripe';
+import { ISubscription } from '~~/types/ISubscription';
 
 const config = useRuntimeConfig()
 const stripe = new Stripe(config.private.stripeSecretKey, null);
@@ -38,4 +39,33 @@ export async function getSubscribeUrl(lookupKey: string, user: IUser): Promise<S
  });
 
  return {url: session.url, user, shouldUpdateUser}
+}
+
+export async function handleSubscriptionChange(subscription: Stripe.Subscription, lastEventDate: number): Promise<boolean> {
+    const localSubscription = await getSubscriptionById(subscription.id)
+
+    if(localSubscription?.lastEventDate > lastEventDate){
+        return true
+    }
+
+    const stripeCustomerId = subscription.customer as string
+
+    const user = await getUserByStripeCustomerId(stripeCustomerId)
+
+    const data = {
+        userId: user.id,
+        name: subscription.id,
+        stripeId: subscription.id,
+        stripeStatus: subscription.status,
+        stripePriceId: subscription.items.data[0].price.id,
+        quantity: subscription.description,
+        trialEndsAt: subscription.trial_end,
+        endsAt: subscription.ended_at,
+        startDate: subscription.start_date,
+        lastEventDate: lastEventDate
+    } as unknown as ISubscription
+
+    await createOrUpdateSubscription(data)
+
+    return true;
 }
