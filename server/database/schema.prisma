@@ -59,7 +59,7 @@ model Question {
 
 model Answer {
   id         Int      @id @default(autoincrement())
-  question   Question @relation(fields: [questionId], references: [id])
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId Int
   author     User     @relation(fields: [authorId], references: [id])
   authorId   Int
