@@ -12,7 +12,6 @@ definePageMeta({
   middleware: 'guest'
 })
 
-const config = useRuntimeConfig()
 
 const postLoginForm = async function () {
   await loginWithEmail(email.value, password.value)
@@ -46,7 +45,6 @@ const postLoginForm = async function () {
             </svg>
           </span>
         </div>
-        {{config.private.db}}
         <form v-if="true" v-on:submit.prevent class="mt-8 space-y-6" action="#" method="POST">
           <input type="hidden" name="remember" value="true">
           <div class="rounded-md shadow-sm -space-y-px mb-1">
