@@ -3,7 +3,7 @@ import { handleSubscriptionChange } from '~~/server/services/stripeService';
 
 export default defineEventHandler(async (event) => {
 
-  const stripeEvent = await useBody<Stripe.Event>(event)
+  const stripeEvent = await readBody<Stripe.Event>(event)
 
   let subscription: Stripe.Subscription | undefined
 

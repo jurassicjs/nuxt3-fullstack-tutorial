@@ -6,13 +6,16 @@ import QuestionForm from "~~/components/elements/QuestionForm.vue";
 const questionId = getParam('id')
 const me = await useUser()
 const router = useRouter();
+const route = useRoute();
 const showEditForm = ref(false)
 const showDeleted = ref(false)
 const showAnswerButton = ref(false)
 
 const isLoggedIn = await useLoggedIn()
 
-const { data: question } = await useFetch<IQuestion>(`/api/ask-jack/question?id=${questionId}`, { server: false })
+const { data: question } = await useFetch<IQuestion>(
+  `/api/ask-jack/question?id=${questionId}`, { key: route.fullPath }
+  )
 
 const showAnswerForm = useState('showAnswerForm' + questionId, () => false)
 

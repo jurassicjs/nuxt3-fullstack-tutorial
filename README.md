@@ -27,6 +27,9 @@ check out the Full Stack Jack Youtube Channel here :point_right: ![YouTube Chann
 
 Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
 
+## Demo App
+Check out [FullStackJack.dev](https://fullstackjack.dev) to see this code live in action.
+
 ## Setup
 
 Make sure to install the dependencies:

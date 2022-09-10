@@ -7,7 +7,7 @@ import { makeSession } from '~~/server/services/sessionService';
 import { RegistationRequest } from '~~/types/IRegistration'
 
 export default async (event: CompatibilityEvent) => {
-  const body = await useBody(event)
+  const body = await readBody(event)
   const data = body.data as RegistationRequest
 
   const validation = await validateUser(data)

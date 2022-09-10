@@ -24,9 +24,11 @@ const postLoginForm = async function () {
         <div>
           <div class="h-25 w-25">
           </div>
-          <div class="flex">
+          <div class="lg:flex mt-10">
           <img class="mx-auto h-24 w-auto" src="/img/logo_clear_fsj.png" alt="full stack jack logo" />
-          <h1 class="py-9 text-center text-5xl font-extrabold text-gray-900 dark:text-gray-400">Full Stack Jack</h1>
+          <br>
+          <h1 class="py-9 text-center text-5xl font-extrabold text-gray-900 dark:text-gray-400">
+            Full Stack Jack</h1>
           </div>
           
           <h2 class="mt-6 py-9 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-400">Sign in</h2>
@@ -44,7 +46,6 @@ const postLoginForm = async function () {
             </svg>
           </span>
         </div>
-
         <form v-if="true" v-on:submit.prevent class="mt-8 space-y-6" action="#" method="POST">
           <input type="hidden" name="remember" value="true">
           <div class="rounded-md shadow-sm -space-y-px mb-1">

@@ -3,6 +3,10 @@ import getParam from "~/composables/getParam";
 
 const lessonName = getParam('name') as string
 
+const route =  useRoute()
+
+
+
 interface ILesson {
   title: string,
   name: string,
@@ -16,7 +20,10 @@ interface ITag {
   link: string
 }
 
-const { data: lesson, error, pending } = await useFetch<ILesson>(`/api/lesson/${lessonName}`)
+const { data: lesson, error, pending } = await useFetch<ILesson>(
+  `/api/lesson/${lessonName}`,
+  {key: route.fullPath}
+  )
 </script>
 
 <template>

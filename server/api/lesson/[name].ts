@@ -14,6 +14,17 @@ export default ((event) => {
     }
   }
 
+  if (lessonName == 'nuxt-routing') {
+    return {
+      title: 'Nuxt 3 Routing',
+      message: 'In Nuxt 3 Hands ON, I share some interesting lessons I learned about routing in the Nuxt 3.' +
+        'I cover the different kinds of state and more. ',
+      image: '/img/nuxt3.svg',
+      link: 'https://www.youtube.com/embed/STazlLpEsm4',
+      tags: [{title: 'Front End', link: '/frontend-courses'}, {title: 'Nuxt3', link: '/categories/nuxt3'}]
+    }
+  }
+
   if (lessonName == 'fast-ddd-laravel') {
     return {
       title: 'Fast DDD In Laravel',
@@ -38,7 +49,7 @@ export default ((event) => {
     title: 'Fast DDD In Laravel',
     message: 'In this video I introduce a package to make domain driven design implementation in laravel fast and easy.',
     image: '/img/nuxt3.svg',
-    link: 'https://www.youtube.com/embed/8IOgwHGXqdM',
+    link: 'https://www.youtube.com/embed/nzHp8KREwvo',
     tags: [{title: 'Front End', link: '/frontend-courses'}, {title: 'Nuxt3', link: '/categories/nuxt3'}]
   }
 })
