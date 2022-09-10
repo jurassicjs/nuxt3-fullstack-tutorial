@@ -1,5 +1,6 @@
 import prisma from "~/server/database/client";
 import {IUser} from '~/types/IUser';
+import { ISubscription } from "~~/types/ISubscription";
 
 export async function getUserByEmail(email: string): Promise<IUser> {
   return await prisma.user.findUnique({
@@ -37,4 +38,77 @@ export async function createUser(data: IUser) {
   })
 
   return user
+}
+
+export async function getUserById(id: number): Promise<IUser> {
+  return await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      stripeCustomerId: true,
+    },
+  })
+}
+
+export async function getUserByStripeCustomerId(stripeCustomerId: string): Promise<IUser> {
+  return await prisma.user.findFirst({
+    where: {
+      stripeCustomerId: stripeCustomerId,
+    },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      stripeCustomerId: true,
+    },
+  })
+}
+
+export async function getSubscriptionById(stripeId: string): Promise<ISubscription> {
+  return await prisma.subscription.findFirst({
+    where: {
+      stripeId: stripeId,
+    }
+  })
+}
+
+export async function updateStripeCustomerId(data: IUser) {
+  return await prisma.user.update({
+    where: {email: data.email},
+    data: {
+      stripeCustomerId: data.stripeCustomerId,
+    }
+  })
+}
+
+export async function createOrUpdateSubscription(data: ISubscription) {
+  return await prisma.subscription.upsert({
+    where:{
+    stripeId: data.stripeId
+    },
+    create: {
+      userId: data.userId,
+      stripeId: data.stripeId,
+      stripeStatus: data.stripeStatus,
+      stripePriceId: data.stripePriceId,
+      quantity: data.quantity,
+      trialEndsAt: data.trialEndsAt,
+      endsAt: data.endsAt,
+      lastEventDate: data.lastEventDate,
+      startDate: data.startDate
+    },
+    update: {
+      stripeStatus: data.stripeStatus,
+      stripePriceId: data.stripePriceId,
+      quantity: data.quantity,
+      trialEndsAt: data.trialEndsAt,
+      endsAt: data.endsAt,
+      lastEventDate: data.lastEventDate,
+      startDate: data.startDate
+    }
+  })
 }

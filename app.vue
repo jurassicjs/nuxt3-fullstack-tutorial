@@ -1,6 +1,4 @@
 <script setup lang="ts">
-
-import { IUser } from "~/types/IUser";
 import { useUser } from "~/composables/useAuth";
 
 const nuxtApp = useNuxtApp()
