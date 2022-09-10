@@ -92,10 +92,10 @@ function goToRegister() {
             </ul>
             <p class="text-gray-700">Cancel anytime.</p>
             <div class="mt-6 flex justify-between gap-6">
-              <img class="w-16 lg:w-24" src="img/nuxt3.svg" loading="lazy" alt="airbnb">
-              <img class="w-8 lg:w-16" src="img/laravel.svg" loading="lazy" alt="bissell">
-              <img class="w-6 lg:w-12" src="img/linux.svg" loading="lazy" alt="ge">
-              <img class="w-20 lg:w-28" src="img/docker.svg" loading="lazy" alt="microsoft">
+              <img class="w-16 lg:w-24" src="/img/nuxt3.svg" loading="lazy" alt="airbnb">
+              <img class="w-8 lg:w-16" src="/img/laravel.svg" loading="lazy" alt="bissell">
+              <img class="w-6 lg:w-12" src="/img/linux.svg" loading="lazy" alt="ge">
+              <img class="w-20 lg:w-28" src="/img/docker.svg" loading="lazy" alt="microsoft">
             </div>
           </div>
         </div>

@@ -70,7 +70,7 @@ const setColorTheme = (newTheme: Theme) => {
           </nuxt-link>
 
           <!-- <a class="ml-5" href="https://github.com/jurassicjs/nuxt3-laravel-dev" target="_blank">
-            <img class="h-8 w-auto sm:h-10" src="~/public/img/github-logo.png" />
+            <img class="h-8 w-auto sm:h-10" src="/img/github-logo.png" />
           </a> -->
         </div>
         <button class="hidden md:block" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">
