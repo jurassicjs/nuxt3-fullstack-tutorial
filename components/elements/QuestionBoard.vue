@@ -19,14 +19,13 @@
  <template>
      <div class="w-full md:w-1/3">
          <div>
-             {{ searchInput.length }}
              <div class="flex m-5">
                  <label for="search-dropdown"
                      class="mb-2 text-sm font-medium text-slate-900 sr-only dark:text-gray-300">Search
                      Questions</label>
                  <div class="relative w-full">
                      <input v-model="searchInput" @input="search" type="search" id="search-dropdown"
-                         class="block p-2.5 w-full z-20 text-sm text-slate-900 border-solid  bg-slate-50 rounded-lg border-solid border-2 border-indigo-600 dark:bg-slate-900 dark:text-gray-300"
+                         class="block p-2.5 w-full z-20 text-sm text-slate-900 bg-slate-50 rounded-lg border-solid border-2 border-indigo-600 dark:bg-slate-900 dark:text-gray-300"
                          placeholder="Search Questions...">
                      <button type="submit" class="absolute top-0 right-0 p-2.5 text-sm font-medium dark:text-white"><svg
                              class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"

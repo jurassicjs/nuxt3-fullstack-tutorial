@@ -39,9 +39,9 @@ const setColorTheme = (newTheme: Theme) => {
               Videos
             </span>
           </nuxt-link>
-          <nuxt-link to="/state-examples">
+          <nuxt-link to="/blog">
             <span class="text-base font-medium text-gray-500 hover:text-gray-900">
-              State in Nuxt
+              Blog (coming soon)
             </span>
           </nuxt-link>
           <nuxt-link to="/ask-jack/search">
@@ -70,7 +70,7 @@ const setColorTheme = (newTheme: Theme) => {
           </nuxt-link>
 
           <!-- <a class="ml-5" href="https://github.com/jurassicjs/nuxt3-laravel-dev" target="_blank">
-            <img class="h-8 w-auto sm:h-10" src="/img/github-logo.png" />
+            <img class="h-8 w-auto sm:h-10" src="~/public/img/github-logo.png" />
           </a> -->
         </div>
         <button class="hidden md:block" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">

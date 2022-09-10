@@ -1,12 +1,6 @@
 <script setup lang="ts">
  import QuestionBoard from "~/components/elements/QuestionBoard.vue";
  import AskJackSidebar from "~/components/elements/AskJackSidebar.vue";
- 
- definePageMeta({
-   middleware: 'auth'
- })
- 
- 
  </script>
  
  <template>

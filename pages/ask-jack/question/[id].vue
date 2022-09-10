@@ -4,19 +4,19 @@ import AnswerForm from "~/components/elements/AnswerForm.vue";
 import QuestionForm from "~~/components/elements/QuestionForm.vue";
 
 const questionId = getParam('id')
-
-const me = useUser()
-
+const me = await useUser()
 const router = useRouter();
-
 const showEditForm = ref(false)
 const showDeleted = ref(false)
+const showAnswerButton = ref(false)
 
-const { data: question } = useFetch<IQuestion>(`/api/ask-jack/question?id=${questionId}`, { server: false })
+const isLoggedIn = await useLoggedIn()
+
+const { data: question } = await useFetch<IQuestion>(`/api/ask-jack/question?id=${questionId}`, { server: false })
 
 const showAnswerForm = useState('showAnswerForm' + questionId, () => false)
 
-const isMine = question?.authorId == me.id
+const isMine = question?.value?.authorId == me?.id
 
 async function deleteQuestion() {
   const {data: deleted}  = await useFetch('/api/ask-jack/delete-question', {
@@ -95,7 +95,7 @@ function addAnswer(answer: IAnswer) {
     </div>
 
     <div class="flex justify-end">
-     <button v-if="!showAnswerForm" @click="showAnswerForm = !showAnswerForm" type="button"
+     <button v-if="!showAnswerForm && isLoggedIn" @click="showAnswerForm = !showAnswerForm" type="button"
       class="text-white bg-gradient-to-r from-indigo-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-indigo-200 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
       Answer
      </button>
