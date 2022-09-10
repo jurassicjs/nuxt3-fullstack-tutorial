@@ -16,7 +16,8 @@ colorMode: {
 },
   runtimeConfig: {
     private: {
-      stripeSecretKey: process.env.STRIPE_SECRET_KEY
+      stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+      db: process.env.DATABASE_URL
     },
     public: {
       appDomain: process.env.APP_DOMAIN,
