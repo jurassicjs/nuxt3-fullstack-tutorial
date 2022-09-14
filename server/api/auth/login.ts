@@ -5,7 +5,7 @@ import { CompatibilityEvent, sendError } from "h3"
 import { makeSession } from '~~/server/services/sessionService';
 
 export default async (event: CompatibilityEvent) => {
-  const body = await useBody(event)
+  const body = await readBody(event)
   const email: string = body.email
   const password: string = body.password
   const user = await getUserByEmail(email)

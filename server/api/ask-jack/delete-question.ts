@@ -5,7 +5,7 @@ import { getUserBySessionToken } from '~/server/services/sessionService'
 import { deleteQuestion } from "~/server/database/repositories/askJackRespository";
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
 
     const question =  await findQuestion(parseInt(body.questionId))
 

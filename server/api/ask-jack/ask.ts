@@ -1,9 +1,9 @@
-import { CompatibilityEvent, defineEventHandler, useCookie, useBody } from "h3";
+import { CompatibilityEvent, defineEventHandler, useCookie, readBody } from "h3";
 import { createQuestion } from "~/server/database/repositories/askJackRespository";
 import { getUserBySessionToken } from '~/server/services/sessionService'
 
 export default defineEventHandler(async (event: CompatibilityEvent) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
 
     const authToken = useCookie(event, 'auth_token')  
     const user  = await getUserBySessionToken(authToken)

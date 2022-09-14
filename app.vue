@@ -11,6 +11,9 @@ await useUser()
 </script>
 <template>
   <NuxtLayout>
-    <NuxtPage />
+    <div class="dark:bg-slate-800 min-h-screen dark:text-white">
+      <NuxtPage />
+    </div>
+   
   </NuxtLayout>
 </template>

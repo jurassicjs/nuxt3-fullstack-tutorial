@@ -20,6 +20,15 @@ export async function useUser(): Promise<IUser> {
   return user.value
 }
 
+export async function useLoggedIn() {
+  const user = await useUser()
+  if(user?.id !== null && user !== undefined) {
+   return true
+  }
+
+  return false
+}
+
 export async function userLogout() {
   await useFetch('/api/auth/logout')
   useState('user').value = null

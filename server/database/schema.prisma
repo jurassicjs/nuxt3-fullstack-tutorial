@@ -1,13 +1,14 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "debian-openssl-1.1.x"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://root:Y2mamatambienJack^intDumb@49.12.188.8:3306/fullstackjack"
 }
 
 model User {
@@ -28,7 +29,7 @@ model Session {
   id        Int       @id @default(autoincrement())
   authToken String    @unique
   user      User      @relation(fields: [userId], references: [id])
-  userId    Int       
+  userId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -55,6 +56,8 @@ model Question {
   title       String
   description String
   answers     Answer[]
+
+  @@fulltext([title, description])
 }
 
 model Answer {
@@ -64,4 +67,79 @@ model Answer {
   author     User     @relation(fields: [authorId], references: [id])
   authorId   Int
   text       String
+
+  @@fulltext([text])
+}
+
+model Category {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique
+  url                String               @unique
+  image              String?
+  accentColor        String?
+  CategoryAssignment CategoryAssignment[]
+}
+
+model Topic {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  displayName   String?
+  showName      Boolean?
+  url           String          @unique
+  image         String?
+  accentColor   String?
+  Video         Video[]
+  TagAssignment TagAssignment[]
+  Series        Series[]
+}
+
+model Series {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  displayName String?
+  url         String  @unique
+  topic       Topic?  @relation(fields: [topicId], references: [id])
+  topicId     Int?
+  image       String?
+  accentColor String?
+  Video       Video[]
+}
+
+model Video {
+  id             Int     @id @default(autoincrement())
+  url            String  @unique
+  host_type      String
+  host_id        String
+  title          String
+  subtitle       String
+  description    String?
+  image          String?
+  topic          Topic   @relation(fields: [topicId], references: [id])
+  topicId        Int
+  series         Series? @relation(fields: [seriesId], references: [id])
+  seriesId       Int?
+  seriesPosition Int?
+  accentColor    String?
+}
+
+model Tag {
+  id          Int     @id @default(autoincrement())
+  name        String
+  accentColor String?
+}
+
+model TagAssignment {
+  id          Int    @id @default(autoincrement())
+  entity_type String
+  entity_id   Int
+  tag         Topic  @relation(fields: [tagId], references: [id])
+  tagId       Int
+}
+
+model CategoryAssignment {
+  id          Int      @id @default(autoincrement())
+  entity_type String
+  entity_id   Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
 }

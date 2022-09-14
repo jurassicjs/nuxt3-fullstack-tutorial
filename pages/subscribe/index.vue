@@ -14,7 +14,7 @@ function goToRegister() {
     class="min-h-screen bg-gradient-to-b from-white to-blue-200 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-600">
     <div class="container m-auto px-6 py-20 md:px-12 lg:px-20">
       <div class="m-auto text-center lg:w-8/12 xl:w-7/12">
-        <h2 class="text-2xl text-gray-800 dark:text-gray-200 font-bold md:text-4xl">Premium Full Stack Jack Experience.
+        <h2 class="text-2xl text-gray-800 dark:text-gray-200 font-bold md:text-4xl">Full Stack Jack Pro.
         </h2>
       </div>
       <div class="mt-12 m-auto -space-y-4 items-center justify-center md:flex md:space-y-0 md:-space-x-4 xl:w-10/12">
@@ -23,7 +23,7 @@ function goToRegister() {
             class="absolute top-0 w-full h-full dark:bg-slate-800 border-2  border-indigo-500/50 rounded-2xl bg-white shadow-xl transition duration-500 group-hover:scale-105 lg:group-hover:scale-110">
           </div>
           <div class="relative p-6 space-y-6 lg:p-8">
-            <h3 class="text-3xl text-gray-700 font-semibold text-center">Premium Membership</h3>
+            <h3 class="text-3xl text-gray-700 font-semibold text-center">Pro Membership</h3>
             <div>
               <div class="relative flex justify-around">
                 <div class="flex items-end">
@@ -75,7 +75,7 @@ function goToRegister() {
             <ul role="list" class="space-y-4 py-6 text-gray-600">
               <li class="space-x-2">
                 <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Access to virtual meetups</span>
+                <span>Get Listed as Supporter</span>
               </li>
               <li class="space-x-2">
                 <span class="text-purple-500 font-semibold">&check;</span>
@@ -83,11 +83,7 @@ function goToRegister() {
               </li>
               <li class="space-x-2">
                 <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Fourth, access to all components weekly</span>
-              </li>
-              <li class="space-x-2">
-                <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Show your support</span>
+                <span>Access to virtual meetups</span>
               </li>
             </ul>
             <p class="text-gray-700">Cancel anytime.</p>
