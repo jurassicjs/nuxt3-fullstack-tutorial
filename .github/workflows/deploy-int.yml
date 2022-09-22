@@ -3,7 +3,7 @@ name: Automated Deployment Experiment
 
 on:
   push:
-    branches: [ "feature/deployment-experiments" ]
+    branches: [ "main" ]
 
 jobs:
   # test-application:
