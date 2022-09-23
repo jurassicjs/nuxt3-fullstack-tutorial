@@ -17,7 +17,7 @@ const answer = await useFetch(
   );
 ```
 
-useFetch() is the standard way to fetch data in Nuxt3. You don't need to add any outside depencencies to such as axios to make fetch request. 
+useFetch() is the standard way to fetch data in Nuxt3. You don't need to add any outside depencencies to such as axios to make fetch requests. 
 
 wip
 

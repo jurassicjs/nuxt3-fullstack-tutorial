@@ -1,5 +1,5 @@
 
-import { defineEventHandler, useCookie } from "h3";
+import { defineEventHandler, getCookie } from "h3";
 import { findQuestion } from "~/server/database/repositories/askJackRespository";
 import { getUserBySessionToken } from '~/server/services/sessionService'
 import { editQuestion } from "~/server/database/repositories/askJackRespository";
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     question.description = data.description
     question.title = data.title
 
-    const authToken = useCookie(event, 'auth_token')  
+    const authToken = getCookie(event, 'auth_token')  
     const user  = await getUserBySessionToken(authToken)
     
     return await editQuestion(question)

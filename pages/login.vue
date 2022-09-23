@@ -12,7 +12,6 @@ definePageMeta({
   middleware: 'guest'
 })
 
-
 const postLoginForm = async function () {
   await loginWithEmail(email.value, password.value)
 }
