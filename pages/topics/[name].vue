@@ -21,7 +21,7 @@ const getAccentColor = (video: any) => video.accentColor ? 'shadow-xl shadow-' +
 
 <template>
   <div class="dark:bg-slate-800 min-h-screen" v-if="!pending && data">
-    <div>
+    <!-- <div>
   
       <div class="lg:flex items-center justify-center w-full">
         <div class="px-3 md:lg:xl:px-40 py-20 bg-opacity-10 rounded-bl-lg">
@@ -35,7 +35,7 @@ const getAccentColor = (video: any) => video.accentColor ? 'shadow-xl shadow-' +
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div>
 
 
