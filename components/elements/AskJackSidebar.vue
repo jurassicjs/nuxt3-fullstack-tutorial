@@ -48,8 +48,8 @@ function rehide() {
                 </div>
             </div>
         </dialog-box>
-        <div class="md:w-1/3 pt-5 z-10 boarder flex justify-right fixed">
-            <aside class="w-100 hidden sm:block" aria-label="Sidebar">
+        <div class=" pt-5 z-10 boarder  justify-right sm:fixed">
+            <div class="w-100 sm:block" aria-label="Sidebar">
                 <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
                     <span @click="goToAskForm" type="button"
                         class="w-full px-6 py-3.5 text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
@@ -59,12 +59,12 @@ function rehide() {
                         class="w-full px-6 py-3.5 text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                         Search Questions
                     </nuxt-link>
-                    <button type="button"
+                    <!-- <button type="button"
                         class="w-full px-6 py-3.5 text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                         Tags
-                    </button>
+                    </button> -->
 
-                    <ul class="space-y-2">
+                    <ul class="space-y-2 hidden sm:block">
                         <li>
                             <a href="#"
                                 class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -145,7 +145,7 @@ function rehide() {
                         </li>
                     </ul>
                 </div>
-            </aside>
+            </div>
         </div>
     </div>
 
