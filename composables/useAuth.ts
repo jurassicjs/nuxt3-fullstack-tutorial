@@ -11,7 +11,7 @@ export async function useUser(): Promise<IUser> {
   if (authCookie && !user.value) {
 
     const { data } = await useFetch(`/api/auth/getByAuthToken`, {
-      headers: useRequestHeaders(['cookie'])
+      headers: useRequestHeaders(['cookie']),
     })
 
     user.value = data.value
@@ -45,7 +45,9 @@ export async function registerWithEmail(
   try {
     const { data, error } = await useFetch<ISession>('/api/auth/register', {
       method: 'POST',
-      body: { data: { username, name, email, password } }
+      body: { data: { username, name, email, password } },
+      server:false,
+      key:  username + name + email + password
     })
 
     if (error.value) {

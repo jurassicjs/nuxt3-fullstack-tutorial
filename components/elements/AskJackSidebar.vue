@@ -2,8 +2,11 @@
 import DialogBox from "./DialogBox.vue";
 
 const router = useRouter()
+const route = useRoute()
 const isLoggedIn = await useLoggedIn()
 const hideDialog = ref(true)
+
+console.log(route.path)
 
 function goToAskForm() {
     if (isLoggedIn) {
@@ -51,11 +54,11 @@ function rehide() {
         <div class=" pt-5 z-10 boarder  justify-right sm:fixed">
             <div class="w-100 sm:block" aria-label="Sidebar">
                 <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
-                    <span @click="goToAskForm" type="button"
+                    <span v-if="route.path !== '/ask-jack/ask'" @click="goToAskForm" type="button"
                         class="w-full px-6 py-3.5 text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                         Ask Question
                     </span>
-                    <nuxt-link to="/ask-jack/search" type="button"
+                    <nuxt-link v-if="route.path !== '/ask-jack/search'" to="/ask-jack/search" type="button"
                         class="w-full px-6 py-3.5 text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                         Search Questions
                     </nuxt-link>
