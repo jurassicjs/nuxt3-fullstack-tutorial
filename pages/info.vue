@@ -42,7 +42,11 @@ function getReleaseVersion(): String {
                   </div>
                   <p class="ml-16 text-lg font-medium leading-6 text-gray-900 dark:text-white">Release Version</p>
                 </dt>
-                <dd class="mt-2 ml-16 text-base text-gray-500 dark:text-white">{{getReleaseVersion()}}</dd>
+                <NuxtLink v-if="getReleaseVersion() !== 'not available'" :to="'https://github.com/jurassicjs/nuxt3-fullstack-tutorial/releases/tag/'+ getReleaseVersion()">
+                  <dd class="mt-2 ml-16 text-base text-gray-500 dark:text-white">{{getReleaseVersion()}}</dd>
+                </NuxtLink>
+                <dd v-else class="mt-2 ml-16 text-base text-gray-500 dark:text-white">{{getReleaseVersion()}}</dd>
+              
               </div>
 
               <div class="relative">
@@ -58,11 +62,14 @@ function getReleaseVersion(): String {
                   <p class="ml-16 text-lg font-medium leading-6 text-gray-900 dark:text-white">Git Hash
                   </p>
                 </dt>
-                <NuxtLink :to="'https://github.com/jurassicjs/nuxt3-fullstack-tutorial/commit/'+gitHash">
+                <NuxtLink v-if="gitHash !== 'not available'" :to="'https://github.com/jurassicjs/nuxt3-fullstack-tutorial/commit/'+ gitHash">
                   <dd class="mt-2 ml-16 text-base text-gray-500 dark:text-white">
                     {{gitHash}}
                   </dd>
                 </NuxtLink>
+                <dd v-else class="mt-2 ml-16 text-base text-gray-500 dark:text-white">
+                  {{gitHash}}
+                </dd>
               </div>
             </dl>
           </div>
