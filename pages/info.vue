@@ -2,15 +2,11 @@
 
 const config = useRuntimeConfig()
 
-const releaseVersion = config.public.releaseVersion || undefined
+const releaseVersion = config.public.releaseVersion || 'not available'
 const gitHash = config.public.gitHash || 'not available'
 
-function getReleaseVersion (): String {
-  if(releaseVersion instanceof String) {
-    return releaseVersion.split('refs/tags/')[1]
-  }
-
-  return 'not available'
+function getReleaseVersion(): String {
+  return releaseVersion?.split('refs/tags/')[1] || 'not available'
 }
 
 </script>
