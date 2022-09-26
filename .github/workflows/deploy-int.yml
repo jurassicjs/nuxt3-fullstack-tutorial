@@ -23,7 +23,7 @@ jobs:
       - run: yarn test
 
   create-deployment-artifacts:
-    # needs: test-application
+    needs: test-application
     runs-on: ubuntu-latest
     strategy:
       matrix:
