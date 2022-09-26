@@ -33,7 +33,9 @@ export default defineNuxtConfig({
       db: process.env.DATABASE_URL
     },
     public: {
-      appDomain: process.env.APP_DOMAIN,
+      appDomain: process.env.APP_DOMAIN || 'not available',
+      gitHash: process.env.GITHUB_SHA || 'not available',
+      releaseVersion: process.env.RELEASE_VERSION,
     }
   }
 })
