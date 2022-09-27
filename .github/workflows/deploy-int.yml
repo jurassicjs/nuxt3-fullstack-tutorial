@@ -87,3 +87,24 @@ jobs:
             mkdir -p "/var/www/html/releases/${GITHUB_SHA}"
             tar xzf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz -C "/var/www/html/releases/${GITHUB_SHA}"
             rm -rf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz
+
+  activate-release:
+    name: "Activate release"
+    runs-on: ubuntu-latest
+    needs: prepare-release-on-servers
+    steps:
+      - name: Activate release
+        uses: appleboy/ssh-action@master
+        env:
+          RELEASE_PATH: /var/www/html/releases/${{ github.sha }}
+          ACTIVE_RELEASE_PATH: /var/www/html/live
+        with:
+          host: "49.12.188.8"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          envs: RELEASE_PATH,ACTIVE_RELEASE_PATH
+          script: |
+            ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
+            systemctl restart fullstackjack
+            chown -R www-data:www-data ${RELEASE_PATH}
