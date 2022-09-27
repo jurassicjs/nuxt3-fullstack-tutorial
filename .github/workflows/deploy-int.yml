@@ -20,4 +20,70 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn build
-      - run: yarn test
+
+  create-deployment-artifacts:
+    needs: test-application
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.17.0 ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: |
+          touch .env
+          echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_TEST_KEY }} >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo APP_DOMAIN=https://fullstackjack.dev >> .env
+          echo RELEASE_VERSION=${GITHUB_REF} >> .env
+          echo GITHUB_SHA=${GITHUB_SHA} >> .env
+      - run: yarn
+      - run: yarn build
+      - name: Create deployment artifact
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_TEST_KEY }}
+        run: tar -czf "${GITHUB_SHA}".tar.gz .output
+
+      - name: Store artifact for distribution
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-build
+          path: ${{ github.sha }}.tar.gz
+
+  prepare-release-on-servers:
+    needs: create-deployment-artifacts
+    name: "Prepare release on INT server"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: app-build
+      - name: Upload
+        uses: appleboy/scp-action@master
+        with:
+          host: "49.12.188.8"
+          port: "22"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          source: ${{ github.sha }}.tar.gz
+          target: /var/www/html/artifacts
+
+      - name: Extract archive and create directories
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        with:
+          host: "49.12.188.8"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          envs: GITHUB_SHA
+          script: |
+            mkdir -p "/var/www/html/releases/${GITHUB_SHA}"
+            tar xzf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz -C "/var/www/html/releases/${GITHUB_SHA}"
+            rm -rf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz
