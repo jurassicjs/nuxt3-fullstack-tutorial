@@ -1,8 +1,9 @@
-name: Automated Test
+name: Automated Release Deployment
 
 on:
   push:
-    branches: [ "develop" ]
+    tags:
+      - rc*
 
 jobs:
   test-application:
