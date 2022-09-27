@@ -123,7 +123,7 @@ jobs:
           port: "22"
           script: |
             cd /var/www/html/releases && ls -t -1 | tail -n +4 | xargs rm -rf
-            cd /var/www/html/artifacts &&  rm -rf
+            cd /var/www/html/artifacts && rm -rf *
       # delete-artifact
       - uses: geekyeggo/delete-artifact@v1
         with:
