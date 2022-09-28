@@ -108,6 +108,7 @@ jobs:
             ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
             systemctl restart fullstackjack
             chown -R www-data:www-data ${RELEASE_PATH}
+            npx prisma migrate deploy --schema=/var/www/html/live.output/server/node_modules/.prisma/client/schema.prisma
 
   clean-up:
     name: "Clean up old versions"

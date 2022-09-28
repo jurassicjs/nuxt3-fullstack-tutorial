@@ -1,0 +1,20 @@
+version: '3.6'
+
+services:
+  mysql:
+      image: library/mysql:5.7.36
+      ports:
+        - "127.0.0.1:3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${DATABASE_NAME}
+        MYSQL_USER: ${DATABASE_USER}
+        MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      volumes:
+        - database:/var/lib/mysql
+      networks:
+        - default
+
+volumes:
+  database:
+    driver: local

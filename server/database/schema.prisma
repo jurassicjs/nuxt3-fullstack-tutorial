@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:Y2mamatambienJack^intDumb@49.12.188.8:3306/fullstackjack"
+  url      = env("DATABASE_URL")
 }
 
 model User {
