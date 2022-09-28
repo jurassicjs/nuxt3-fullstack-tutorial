@@ -41,7 +41,7 @@ jobs:
           echo APP_DOMAIN=https://fullstackjack.dev >> .env
           echo RELEASE_VERSION=${GITHUB_REF} >> .env
           echo GITHUB_SHA=${GITHUB_SHA} >> .env
-          cp .env /.env
+          cp .env /data/.env
       - run: yarn
       - run: yarn build
       - name: Create deployment artifact
