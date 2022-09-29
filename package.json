@@ -5,7 +5,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "test": "echo todo"
+    "test": "echo todo",
+    "prisma:generate": "dotenv -e .env -- npx prisma generate",
+    "prisma:migrate": "dotenv -e .env -- npx prisma migrate deploy --name prod"
   },
   "devDependencies": {
     "@nuxt/content": "^2.1.1",
@@ -25,6 +27,7 @@
     "@tailwindcss/typography": "^0.5.7",
     "@vueuse/core": "^9.2.0",
     "bcrypt": "^5.0.1",
+    "dotenv-cli": "^6.0.0",
     "prisma": "^4.3.1",
     "stripe": "^10.8.0",
     "uuid": "^9.0.0"

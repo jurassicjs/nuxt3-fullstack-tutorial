@@ -143,3 +143,11 @@ model CategoryAssignment {
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  Int
 }
+
+model TestMigration {
+  id          Int      @id @default(autoincrement())
+}
+
+model TestAnotherMigration {
+  id          Int      @id @default(autoincrement())
+}
