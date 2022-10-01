@@ -44,15 +44,16 @@ WantedBy=multi-user.target
 
 # /etc/systemd/system/fullstackjack.service
 ```
-Create a service in the **/etc/systemd/system directory**. Name it whatever you like, but be consistent in the rest of your 
+Create a service in the **/etc/systemd/system** directory. Name it whatever you like, but be consistent in the rest of your 
 setup. I'll spare you the details for every little part of the service. 
 
 The interesting parts are:
+
 **ExecStart=/usr/bin/bash -c 'node .output/server/index.mjs'** which starts our Nuxt3 App. 
 
 **Restart=always** ensure systemd will restart the app if it goes down.
 
-Then run **systemctl enable fullstackjack** (keep in mind if you to replace fullstackjack with whatever you named your service)
+Then run **systemctl enable fullstackjack** (keep in mind, you must replace fullstackjack with whatever you named your service)
 
 I'll give you my nginx set up as I have it. But the details are out of the scope of this tutorial. 
 
@@ -114,7 +115,7 @@ server {
 
 ```
 
-If you want SSL, which you most likely will, you can use [certbot]https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) for free.
+If you want SSL, which you most likely will, you can use [certbot](https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) for free.
 
 Note: you can do all of this tutorial without setting up SSL. 
 
