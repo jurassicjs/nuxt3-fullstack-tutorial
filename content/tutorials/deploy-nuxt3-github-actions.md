@@ -14,8 +14,112 @@ Automating deployments is pretty much standard these days. Manually typing in de
 
 One option is GitHub Actions. If your project is open source, like **fullstackjack.dev**,  it's also cost free. 
 
-## Bird's Eye View
+## Prerequisites
 
+1. A linux server
+2. Ability to login via SSH
+3. Install Node LTS
+4. Install Nginx
+
+## Server Setup
+We'll need to set up a service that can start and stop our Nuxt3 App. We use systemd to do this, because it will
+automatically restart the app if it goes down. 
+
+```
+[Unit]
+Description=fullstackjack service
+Documentation=https://fullstackjack.dev
+After=network.target
+
+
+[Service]
+Restart=always
+RestartSec=10
+TimeoutSec=300
+WorkingDirectory=/var/www/html/live
+ExecStart=/usr/bin/bash -c 'node .output/server/index.mjs'
+
+[Install]
+WantedBy=multi-user.target
+
+# /etc/systemd/system/fullstackjack.service
+```
+Create a service in the **/etc/systemd/system directory**. Name it whatever you like, but be consistent in the rest of your 
+setup. I'll spare you the details for every little part of the service. 
+
+The interesting parts are:
+**ExecStart=/usr/bin/bash -c 'node .output/server/index.mjs'** which starts our Nuxt3 App. 
+
+**Restart=always** ensure systemd will restart the app if it goes down.
+
+Then run **systemctl enable fullstackjack** (keep in mind if you to replace fullstackjack with whatever you named your service)
+
+I'll give you my nginx set up as I have it. But the details are out of the scope of this tutorial. 
+
+```
+map $sent_http_content_type $expires {
+    "text/html"                 epoch;
+    "text/html; charset=utf-8"  epoch;
+    default                     off;
+}
+
+server {
+
+    listen 80;
+
+    server_name     fullstackjack.dev;    # setup your domain here
+
+    ssl_certificate       /etc/letsencrypt/live/fullstackjack.dev/fullchain.pem;
+    ssl_certificate_key   /etc/letsencrypt/live/fullstackjack.dev/privkey.pem;
+
+
+    gzip            on;
+    gzip_types      text/plain application/xml text/css application/javascript;
+    gzip_min_length 1000;
+
+    location / {
+        expires $expires;
+
+        proxy_redirect                      off;
+        proxy_set_header Host               $host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto  $scheme;
+        proxy_read_timeout          1m;
+        proxy_connect_timeout       1m;
+        proxy_pass                          http://127.0.0.1:3000; # set the address of the Node.js instance here
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/fullstackjack.dev/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/fullstackjack.dev/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+
+server {
+    if ($host = fullstackjack.dev) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen          80;
+    server_name     fullstackjack.dev;
+    return 404; # managed by Certbot
+
+
+}
+
+```
+
+If you want SSL, which you most likely will, you can use [certbot]https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) for free.
+
+Note: you can do all of this tutorial without setting up SSL. 
+
+
+## Bird's Eye View
 
 ![photo of github jobs flow diagram](https://fullstackjack.dev/img/deployment-jobs-overview.png "https://github.com/jurassicjs/nuxt3-fullstack-tutorial/actions")
 
