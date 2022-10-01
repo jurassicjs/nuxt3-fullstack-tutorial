@@ -24,7 +24,7 @@ One option is GitHub Actions. If your project is open source, like **fullstackja
 A workflow is a document which lists the tasks you'd like to automate. In our case, we'll be automating
 our deployment process. 
 
-You create a workflow by adding a ``yaml`` file a .github/workflows at the root of your project. 
+You create a workflow by adding a **yaml** file a .github/workflows at the root of your project. 
 
 So it will look like this. 
 
@@ -93,15 +93,15 @@ jobs:
 We use Steps to group our deployment commands. 
 
 ::alert{icon=👉}
-every step must define a `uses` or `run` key
+every step must define a **uses** or **run** key
 ::
 
-``uses`` is how you use actions created by others. One of the most common of these external actions is ``actions/checkout@v3``
+**uses** is how you use actions created by others. One of the most common of these external actions is **actions/checkout@v3**
 which simply checks out your code from the repository, so you can run all the other commands against it. 
 
 
-``run`` is where you can write any commands you like. If you need to run a set of commands, you can use the pipe character ```|``` and list each command line by line.
-Alternatively, you could just add one ``run`` statement after another. Do whatever you find more readable. 
+**run** is where you can write any commands you like. If you need to run a set of commands, you can use the pipe character **|** and list each command line by line.
+Alternatively, you could just add one **run** statement after another. Do whatever you find more readable. 
 
 The steps in the **test-application** are pretty straight forward, but as you'll see shortly, things can escalate quickly.
 
@@ -152,7 +152,7 @@ One super cool feature with GitHub Actions is you can break off the entire proce
 accidentally ship broken code.
 ::
 
-We make sure jobs run synchronously by setting ``needs: name-of-job-you-want-to-follow`` on our job
+We make sure jobs run synchronously by setting **needs: name-of-job-you-want-to-follow** on our job
 
 ### Secrets
 The first thing we do here is create a .env file
@@ -166,21 +166,21 @@ Then we fill that .env file with all of our secrets.
 
 You'll need to save those secrets in GitHub before you run the job.
 
-You can set secrets for actions in you repository 
-```settings``` -> ```secrets``` -> ```actions``` or 
-```https://github.com/your-repo-org/name-of-your-repo/settings/secrets/actions```
+You can set secrets for actions in you repository
+**settings** -> **secrets** -> **actions** or
+**https://github.com/your-repo-org/name-of-your-repo/settings/secrets/actions**
 
 ## Build it. Zip it. Ship it. 
-``` yarn ```
-installs dependencies and ```yarn build``` builds the app. Don't like ```yarn``` ?
-You can use whichever package manager you like. ```npm, pnmp``` etc.
+**yarn**
+installs dependencies and **yarn build** builds the app. Don't like **yarn** ?
+You can use whichever package manager you like. **npm, pnmp** etc.
 
 ```bash
 cp .env .output/server/.env
 cp .env server/database/
 ```
 
-If you're using ```Prisma js``` you'll want to copy the .env files where prisma needs them. 
+If you're using **Prisma js** you'll want to copy the .env files where prisma needs them. 
 I tried a bunch of different ways to do this. 
 This the easiest and most straight forward way to do it. 
 
@@ -188,7 +188,7 @@ I'm not intimately familiar with how the compilation in Nuxt 3 works,
 but I do know that by default the compilation process throws out prisma migrations. 
 If you want to use prisma's migrations in your deployment process, 
 you'll need to create an additional artifact from the directory that houses prisma, 
-for fullstackjack.dev it's the ```server/database/``` directory.
+for fullstackjack.dev it's the **server/database/** directory.
 
 ```bash
 tar -czf "${GITHUB_SHA}".tar.gz .output
@@ -196,12 +196,12 @@ tar -czf "${GITHUB_SHA}"-database.tar.gz -C ./server database
 ```
 
 I've found using the git hash is a great way to ensure uniqueness, and to know 
-which version of the code you're looking at later on. GitHub Actions makes this easy, ```"${GITHUB_SHA}"```
+which version of the code you're looking at later on. GitHub Actions makes this easy, **"${GITHUB_SHA}"**
 is available in the workflow automatically. 
 
 tar is how Linux compresses files. 
-The ```-C``` in the second command says start in the directory we specify ```./server``` in this case.
-Then just use the```database``` directory. 
+The **-C** in the second command says start in the directory we specify **./server** in this case.
+Then just use the **database** directory. 
 
 ```yaml
       - name: Store app-artifacts for distribution
@@ -216,7 +216,7 @@ Then just use the```database``` directory.
           name: database-artifacts
           path:  ${{ github.sha }}-database.tar.gz
 ```
-These two actions upload our artifacts so that we can use them in other jobs. ```actions/upload-artifact@v3```
+These two actions upload our artifacts so that we can use them in other jobs. **actions/upload-artifact@v3**
 is also an action created by GitHub. 
 
 ## Getting your code onto the sever
@@ -272,16 +272,16 @@ is also an action created by GitHub.
 ```
 
 Because each job is separate process, we first need to download the artifacts we created in the previous job. 
-We can do  this by using action ``actions/download-artifacts@v3``
+We can do  this by using  **actions/download-artifacts@v3**
 
 Now that we have the artifacts we need, we'll want to log into our server via ssh and upload them.
-One way to do this is by using a widely used action ``appleboy/scp-action@master``
+One way to do this is by using a widely used action **appleboy/scp-action@master**
 
-We need to provide our credentials and the IP Address to our server. If we provide a ```source``` and a ```target``` scp-action will upload the files we specify to the target directory we specify. 
+We need to provide our credentials and the IP Address to our server. If we provide a **source** and a **target** scp-action will upload the files we specify to the target directory we specify. 
 
-``appleboy/ssh-action@master`` Allows up to log into our server and run commands. 
-Once we've got the code on the server we'll unzip it to the ``/var/www/html/releases`` directory. And we'll unzip 
-our database files (prisma) directly in to `/var/www/html`` which will be the ``database`` directory
+**appleboy/ssh-action@master** Allows up to log into our server and run commands. 
+Once we've got the code on the server we'll unzip it to the **/var/www/html/releases** directory. And we'll unzip 
+our database files (prisma) directly in to **/var/www/html** which will be the **database** directory
 
 ## Activate the release
 
@@ -311,11 +311,55 @@ our database files (prisma) directly in to `/var/www/html`` which will be the ``
 
 ```
 
-We use ``appleboy/ssh-action@master`` just as we did in the last job. Here, the script is where the magic happens. 
+We use **appleboy/ssh-action@master** just as we did in the last job. Here, the script is where the magic happens. 
 
-``ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH`` creates a symlink from the release path to the active path.
+**ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH** creates a symlink from the release path to the active path.
 This makes it possible to always have the same directory for our deployment, no matter what the release directory is called (the git hash in our case).
 
-``systemctl restart fullstackjack`` restarts our service, and in doing so make our new release go live. 
+**systemctl restart fullstackjack** restarts our service, and in doing so make our new release go live. 
 
-To ensure ``Nginx`` has
+To ensure **Nginx** has access to our files we make the owner www-data. You may need to adjust this, depending on which user
+make sense on your server. 
+
+**cd /var/www/html/database && npx prisma migrate deploy** runs our migrations if there are any. 
+
+## Clean up
+Every time we deploy we're creating new artifacts and uploading them to our server. Over time, the server will run our of space due to all those 
+old artifacts. So, let's get rid of them every time we deploy. 
+
+```yaml
+  clean-up:
+    name: "Clean up old versions"
+    runs-on: ubuntu-latest
+    needs: activate-release
+    steps:
+      - name: clean up old releases
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          script: |
+            cd /var/www/html/releases && ls -t -1 | tail -n +4 | xargs rm -rf
+            cd /var/www/html/artifacts && rm -rf *
+      - uses: geekyeggo/delete-artifact@v1
+        with:
+          name: app-artifacts
+      - uses: geekyeggo/delete-artifact@v1
+        with:
+          name: database-artifacts
+```
+
+Once again, we use **appleboy/ssh-action@master**
+
+The first command remove all but the youngest three releases. If you want to quickly revert to a previous version, you'll 
+have two to choose from. 
+
+The artifacts have already been unpacked and moved, so we don't need to keep the zipped files. 
+
+Also, GitHub places restrictions on how much space your uploaded artifacts take on their system. 
+We don't need those anymore either. So we'll use **geekyeggo/delete-artifact@v1** to delete them. 
+
+
+I wish you many happy deployments. Enjoy
