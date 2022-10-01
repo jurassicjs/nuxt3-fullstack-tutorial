@@ -49,9 +49,11 @@ setup. I'll spare you the details for every little part of the service.
 
 The interesting parts are:
 
+**WorkingDirectory=/var/www/html/live** which is where we always symlink the current live release
+
 **ExecStart=/usr/bin/bash -c 'node .output/server/index.mjs'** which starts our Nuxt3 App. 
 
-**Restart=always** ensure systemd will restart the app if it goes down.
+**Restart=always** ensures systemd will restart the app if it goes down.
 
 Then run **systemctl enable fullstackjack** (keep in mind, you must replace fullstackjack with whatever you named your service)
 
@@ -129,7 +131,7 @@ Note: you can do all of this tutorial without setting up SSL.
 A workflow is a document which lists the tasks you'd like to automate. In our case, we'll be automating
 our deployment process. 
 
-You create a workflow by adding a **yaml** file a .github/workflows at the root of your project. 
+You create a workflow by adding a **yaml** file in .github/workflows directories at the root of your project. 
 
 So it will look like this. 
 
@@ -304,7 +306,7 @@ I've found using the git hash is a great way to ensure uniqueness, and to know
 which version of the code you're looking at later on. GitHub Actions makes this easy, **"${GITHUB_SHA}"**
 is available in the workflow automatically. 
 
-tar is how Linux compresses files. 
+**tar** is how Linux compresses files. 
 The **-C** in the second command says start in the directory we specify **./server** in this case.
 Then just use the **database** directory. 
 
@@ -464,7 +466,167 @@ have two to choose from.
 The artifacts have already been unpacked and moved, so we don't need to keep the zipped files. 
 
 Also, GitHub places restrictions on how much space your uploaded artifacts take on their system. 
-We don't need those anymore either. So we'll use **geekyeggo/delete-artifact@v1** to delete them. 
+We don't need those anymore either. So we'll use **geekyeggo/delete-artifact@v1** to delete them.
 
+## All together now
+
+```yaml
+name: Automated Release Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/deploy'
+
+env:
+  NODE_VERSION: 16.17.0
+  IP_ADDRESS: "49.12.188.8"
+
+jobs:
+  test-application:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test Application
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{env.NODE_VERSION}}
+          cache: 'yarn'
+      - run: | 
+         yarn
+         yarn build
+         yarn test
+
+  create-deployment-artifacts:
+    needs: test-application
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build App Artifacts
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_TEST_KEY }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{env.NODE_VERSION}}
+          cache: 'yarn'
+      - run: |
+          touch .env
+          echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_TEST_KEY }} >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo APP_DOMAIN=https://fullstackjack.dev >> .env
+          echo RELEASE_VERSION=${GITHUB_REF} >> .env
+          echo GITHUB_SHA=${GITHUB_SHA} >> .env
+          yarn
+          yarn build
+          cp .env .output/server/.env
+          cp .env server/database/
+          tar -czf "${GITHUB_SHA}".tar.gz .output
+          tar -czf "${GITHUB_SHA}"-database.tar.gz -C ./server database
+      - name: Store app-artifacts for distribution
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-artifacts
+          path: ${{ github.sha }}.tar.gz
+
+      - name: Store database-artifacts for distribution
+        uses: actions/upload-artifact@v3
+        with:
+          name: database-artifacts
+          path:  ${{ github.sha }}-database.tar.gz
+
+  prepare-release-on-servers:
+    needs: create-deployment-artifacts
+    name: "Prepare release on INT server"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: app-artifacts
+      - uses: actions/download-artifact@v3
+        with:
+          name: database-artifacts
+      - name: Upload app-artifacts
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          port: "22"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          source: ${{ github.sha }}.tar.gz
+          target: /var/www/html/artifacts
+
+      - name: Upload database-artifacts
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          port: "22"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          source:  ${{ github.sha }}-database.tar.gz
+          target: /var/www/html/artifacts
+
+      - name: Extract archive and create directories
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        with:
+          host: ${{env.IP_ADDRESS}}
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          envs: GITHUB_SHA
+          script: |
+            mkdir -p "/var/www/html/releases/${GITHUB_SHA}"
+            tar xzf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz -C "/var/www/html/releases/${GITHUB_SHA}"
+            tar xzf /var/www/html/artifacts/${GITHUB_SHA}-database.tar.gz -C "/var/www/html"
+            rm -rf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz
+
+  activate-release:
+    name: "Activate release"
+    runs-on: ubuntu-latest
+    needs: prepare-release-on-servers
+    steps:
+      - name: Activate Release
+        uses: appleboy/ssh-action@master
+        env:
+          RELEASE_PATH: /var/www/html/releases/${{ github.sha }}
+          ACTIVE_RELEASE_PATH: /var/www/html/live
+        with:
+          host: ${{env.IP_ADDRESS}}
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          envs: RELEASE_PATH,ACTIVE_RELEASE_PATH
+          script: |
+            ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
+            systemctl restart fullstackjack
+            chown -R www-data:www-data ${RELEASE_PATH}
+            chown -R www-data:www-data  /var/www/html/database
+            cd /var/www/html/database && npx prisma migrate deploy
+
+  clean-up:
+    name: "Clean up old versions"
+    runs-on: ubuntu-latest
+    needs: activate-release
+    steps:
+      - name: clean up old releases
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          script: |
+            cd /var/www/html/releases && ls -t -1 | tail -n +4 | xargs rm -rf
+            cd /var/www/html/artifacts && rm -rf *
+      - uses: geekyeggo/delete-artifact@v1
+        with:
+          name: app-artifacts
+      - uses: geekyeggo/delete-artifact@v1
+        with:
+          name: database-artifacts
+```
 
 I wish you many happy deployments. Enjoy
