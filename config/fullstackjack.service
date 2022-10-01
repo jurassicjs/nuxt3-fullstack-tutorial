@@ -1,0 +1,17 @@
+[Unit]
+Description=fullstackjack service
+Documentation=https://fullstackjack.dev
+After=network.target
+
+
+[Service]
+Restart=always
+RestartSec=10
+TimeoutSec=300
+WorkingDirectory=/var/www/html/live
+ExecStart=/usr/bin/bash -c 'node .output/server/index.mjs'
+
+[Install]
+WantedBy=multi-user.target
+
+# /etc/systemd/system/fullstackjack.service
