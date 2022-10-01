@@ -20,6 +20,18 @@ One option is GitHub Actions. If your project is open source, like **fullstackja
 ![photo of github jobs flow diagram](https://fullstackjack.dev/img/deployment-jobs-overview.png "https://github.com/jurassicjs/nuxt3-fullstack-tutorial/actions")
 
 ### It all begins with a workflow.
+
+A workflow is a document which lists the tasks you'd like to automate. In our case, we'll be automating
+our deployment process. 
+
+You create a workflow by adding a ``yaml`` file a .github/workflows at the root of your project. 
+
+So it will look like this. 
+
+```yaml
+myProject/.github/workflows/deploy.yml
+```
+
 A workflow needs a **trigger**, which can be as simple as pushing to a branch or something slightly more advanced like creating a release.
 
 ```yaml
@@ -84,12 +96,12 @@ We use Steps to group our deployment commands.
 every step must define a `uses` or `run` key
 ::
 
-```uses``` is how you use actions created by others. One of the most common of these external actions is ```actions/checkout@v3```
+``uses`` is how you use actions created by others. One of the most common of these external actions is ``actions/checkout@v3``
 which simply checks out your code from the repository, so you can run all the other commands against it. 
 
 
-```run``` is where you can write any commands you like. If you need to run a set of commands, you can use the pipe character ```|``` and list each command line by line.
-Alternatively, you could just add one ```run``` statement after another. Do whatever you find more readable. 
+``run`` is where you can write any commands you like. If you need to run a set of commands, you can use the pipe character ```|``` and list each command line by line.
+Alternatively, you could just add one ``run`` statement after another. Do whatever you find more readable. 
 
 The steps in the **test-application** are pretty straight forward, but as you'll see shortly, things can escalate quickly.
 
@@ -140,7 +152,7 @@ One super cool feature with GitHub Actions is you can break off the entire proce
 accidentally ship broken code.
 ::
 
-We make sure jobs run synchronously by setting ```needs: name-of-job-you-want-to-follow ``` on our job
+We make sure jobs run synchronously by setting ``needs: name-of-job-you-want-to-follow`` on our job
 
 ### Secrets
 The first thing we do here is create a .env file
@@ -184,10 +196,10 @@ tar -czf "${GITHUB_SHA}"-database.tar.gz -C ./server database
 ```
 
 I've found using the git hash is a great way to ensure uniqueness, and to know 
-which version of the code your looking at later on. GitHub actions makes this easy, ```"${GITHUB_SHA}"```
+which version of the code you're looking at later on. GitHub Actions makes this easy, ```"${GITHUB_SHA}"```
 is available in the workflow automatically. 
 
-tar is how linux compresses files. 
+tar is how Linux compresses files. 
 The ```-C``` in the second command says start in the directory we specify ```./server``` in this case.
 Then just use the```database``` directory. 
 
@@ -206,3 +218,104 @@ Then just use the```database``` directory.
 ```
 These two actions upload our artifacts so that we can use them in other jobs. ```actions/upload-artifact@v3```
 is also an action created by GitHub. 
+
+## Getting your code onto the sever
+
+```yaml
+  prepare-release-on-servers:
+    needs: create-deployment-artifacts
+    name: "Prepare release on INT server"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: app-artifacts
+      - uses: actions/download-artifact@v3
+        with:
+          name: database-artifacts
+      - name: Upload app-artifacts
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          port: "22"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          source: ${{ github.sha }}.tar.gz
+          target: /var/www/html/artifacts
+
+      - name: Upload database-artifacts
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          port: "22"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          source:  ${{ github.sha }}-database.tar.gz
+          target: /var/www/html/artifacts
+
+      - name: Extract archive and create directories
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        with:
+          host: ${{env.IP_ADDRESS}}
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          envs: GITHUB_SHA
+          script: |
+            mkdir -p "/var/www/html/releases/${GITHUB_SHA}"
+            tar xzf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz -C "/var/www/html/releases/${GITHUB_SHA}"
+            tar xzf /var/www/html/artifacts/${GITHUB_SHA}-database.tar.gz -C "/var/www/html"
+            rm -rf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz
+
+```
+
+Because each job is separate process, we first need to download the artifacts we created in the previous job. 
+We can do  this by using action ``actions/download-artifacts@v3``
+
+Now that we have the artifacts we need, we'll want to log into our server via ssh and upload them.
+One way to do this is by using a widely used action ``appleboy/scp-action@master``
+
+We need to provide our credentials and the IP Address to our server. If we provide a ```source``` and a ```target``` scp-action will upload the files we specify to the target directory we specify. 
+
+``appleboy/ssh-action@master`` Allows up to log into our server and run commands. 
+Once we've got the code on the server we'll unzip it to the ``/var/www/html/releases`` directory. And we'll unzip 
+our database files (prisma) directly in to `/var/www/html`` which will be the ``database`` directory
+
+## Activate the release
+
+```yaml
+  activate-release:
+    name: "Activate release"
+    runs-on: ubuntu-latest
+    needs: prepare-release-on-servers
+    steps:
+      - name: Activate Release
+        uses: appleboy/ssh-action@master
+        env:
+          RELEASE_PATH: /var/www/html/releases/${{ github.sha }}
+          ACTIVE_RELEASE_PATH: /var/www/html/live
+        with:
+          host: ${{env.IP_ADDRESS}}
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          envs: RELEASE_PATH,ACTIVE_RELEASE_PATH
+          script: |
+            ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
+            systemctl restart fullstackjack
+            chown -R www-data:www-data ${RELEASE_PATH}
+            chown -R www-data:www-data  /var/www/html/database
+            cd /var/www/html/database && npx prisma migrate deploy
+
+```
+
+We use ``appleboy/ssh-action@master`` just as we did in the last job. Here, the script is where the magic happens. 
+
+``ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH`` creates a symlink from the release path to the active path.
+This makes it possible to always have the same directory for our deployment, no matter what the release directory is called (the git hash in our case).
+
+``systemctl restart fullstackjack`` restarts our service, and in doing so make our new release go live. 
+
+To ensure ``Nginx`` has
