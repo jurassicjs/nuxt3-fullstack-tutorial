@@ -128,4 +128,26 @@ jobs:
             systemctl restart fullstackjack
             chown -R www-data:www-data ${RELEASE_PATH}
             chown -R root:root  /var/www/html/database
-            cd /var/www/html/database && npx prisma migrate deploy          
+            cd /var/www/html/database && npx prisma migrate deploy
+
+  clean-up:
+    name: "Clean up old versions"
+    runs-on: ubuntu-latest
+    needs: activate-release
+    steps:
+      - name: clean up old releases
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          script: |
+            cd /var/www/html/releases && ls -t -1 | tail -n +4 | xargs rm -rf
+            cd /var/www/html/artifacts && rm -rf *
+      - uses: geekyeggo/delete-artifact@v1
+        with:
+          name: app-artifacts
+      - uses: geekyeggo/delete-artifact@v1
+        with:
+          name: database-artifacts            
