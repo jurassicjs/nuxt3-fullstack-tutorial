@@ -38,7 +38,7 @@ jobs:
       - run: |
           touch .env
           echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_TEST_KEY }} >> .env
-          echo DATABASE_URL=${{ secrets.STRIPE_SECRET_TEST_KEY }} >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
           echo APP_DOMAIN=https://fullstackjack.dev >> .env
           echo RELEASE_VERSION=${GITHUB_REF} >> .env
           echo GITHUB_SHA=${{ github.sha }} >> .env
@@ -127,5 +127,5 @@ jobs:
             ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
             systemctl restart fullstackjack
             chown -R www-data:www-data ${RELEASE_PATH}
-            chown -R www-data:www-data  /var/www/html/database
+            chown -R root:root  /var/www/html/database
             cd /var/www/html/database && npx prisma migrate deploy          
