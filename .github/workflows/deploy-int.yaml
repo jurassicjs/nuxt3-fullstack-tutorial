@@ -59,3 +59,50 @@ jobs:
         with:
           name: database-artifacts
           path:  ${{ github.sha }}-database.tar.gz
+
+  prepare-release-on-servers:
+    needs: create-deployment-artifacts
+    name: "Prepare release on INT server"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: app-artifacts
+      - uses: actions/download-artifact@v3
+        with:
+          name: database-artifacts
+      - name: Upload app-artifacts
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          port: "22"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          source: ${{ github.sha }}.tar.gz
+          target: /var/www/html/artifacts
+
+      - name: Upload database-artifacts
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{env.IP_ADDRESS}}
+          port: "22"
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          source:  ${{ github.sha }}-database.tar.gz
+          target: /var/www/html/artifacts
+
+      - name: Extract archive and create directories
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        with:
+          host: ${{env.IP_ADDRESS}}
+          username: "root"
+          key: ${{ secrets.SSH_KEY }}
+          port: "22"
+          envs: GITHUB_SHA
+          script: |
+            mkdir -p "/var/www/html/releases/${GITHUB_SHA}"
+            tar xzf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz -C "/var/www/html/releases/${GITHUB_SHA}"
+            tar xzf /var/www/html/artifacts/${GITHUB_SHA}-database.tar.gz -C "/var/www/html"
+            rm -rf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz
