@@ -15,9 +15,6 @@ export default defineNuxtConfig({
   },
   content: {
     highlight: {
-      // Theme used in all color schemes.
-
-      // OR
       theme: 'github-dark',
       preload: [
         'vue',
