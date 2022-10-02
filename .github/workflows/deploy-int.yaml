@@ -31,9 +31,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build App Artifacts
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_TEST_KEY }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{env.NODE_VERSION}}
@@ -41,14 +38,14 @@ jobs:
       - run: |
           touch .env
           echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_TEST_KEY }} >> .env
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo DATABASE_URL=${{ secrets.STRIPE_SECRET_TEST_KEY }} >> .env
           echo APP_DOMAIN=https://fullstackjack.dev >> .env
           echo RELEASE_VERSION=${GITHUB_REF} >> .env
-          echo GITHUB_SHA=${GITHUB_SHA} >> .env
+          echo GITHUB_SHA=${{ github.sha }} >> .env
           yarn
           yarn build
           cp .env .output/server/.env
-          cp .env server/database/
+          cp .env server/database/.env
           tar -czf "${GITHUB_SHA}".tar.gz .output
           tar -czf "${GITHUB_SHA}"-database.tar.gz -C ./server database
       - name: Store app-artifacts for distribution
