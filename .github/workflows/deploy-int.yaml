@@ -2,9 +2,8 @@ name: Automated Release Deployment
 
 on:
   push:
-    branches:
-      - main
-      - 'feature/deploy'
+    tags:
+      - rc*
 
 env:
   NODE_VERSION: 16.17.1
