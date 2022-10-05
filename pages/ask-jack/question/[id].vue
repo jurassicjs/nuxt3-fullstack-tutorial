@@ -2,6 +2,7 @@
 import AskJackSidebar from "~/components/elements/AskJackSidebar.vue";
 import AnswerForm from "~/components/elements/AnswerForm.vue";
 import QuestionForm from "~~/components/elements/QuestionForm.vue";
+import Tiptap from "~~/components/elements/Tiptap.vue";
 
 const questionId = getParam('id')
 const me = await useUser()
@@ -68,7 +69,9 @@ function addAnswer(answer: IAnswer) {
        </div>
 
        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-300">{{ question.title }}</h2>
-       <p class="dark:text-gray-300">{{ question.description }}</p>
+       <!-- <p class="dark:text-gray-300">{{ question.description }}</p> -->
+
+       <Tiptap v-if="!showEditForm" v-model="question.description" label="" :editable="false" />
        
        <div class="mt-5" v-if="isMine && showEditForm == false">
         <button @click="showEditForm = true" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">

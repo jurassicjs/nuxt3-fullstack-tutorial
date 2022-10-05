@@ -4,6 +4,7 @@
 
   <ContentList path="/tutorials" v-slot="{ list }">
 
+    {{list.article}}
    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:my-20 lg:ml-20 dark:bg-slate-800 dark:bg-text-white">
     <div v-for="article in list" :key="article._path" class="max-w-xl rounded overflow-hidden shadow-xl shadow-green-400 mb-10 p-10 dark:bg-text-white">
      <NuxtLink :to="article._path">

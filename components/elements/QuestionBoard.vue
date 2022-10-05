@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import Tiptap from "~~/components/elements/Tiptap.vue";
 
  const searchInput = ref("");
  
- const { data: questions, pending, refresh, error } = await useFetch<IQuestion[]>(
-     () => `/api/ask-jack/search?search=${searchInput.value}`
- )
+ const { data: questions, pending, refresh, error } = await useFetch<IQuestion[]>(() => `/api/ask-jack/search?search=${searchInput.value}`, {server:false})
 
  refresh()
 
@@ -41,12 +40,14 @@
  
          <Transition name="fade" v-if="!pending" v-for="question in questions">
              <NuxtLink v-if="question"
-                 class="flex flex-column justify-center hover:scale-110 tranition duration-500"
+                 class="flex flex-column justify-cente hover:scale-110 tranition duration-500"
                  :to="`/ask-jack/question/${question.id}`">
                  <div class="max-w-xxl w-full p-4">
-                     <div class="p-8 bg-white dark:bg-slate-800 rounded shadow-md">
-                         <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-300">{{ question.title }}</h2>
-                         <p class="dark:text-gray-300">{{ question.description }}</p>
+                     <div class="p-8 bg-white dark:bg-slate-800 rounded-lg shadow-md">
+                        <div class="flex justify-end dark:text-gray-300">
+                            {{ question.authName }}
+                           </div>
+                         <Tiptap v-model="question.description" label="" :editable="false" />
                      </div>
                  </div>
              </NuxtLink>

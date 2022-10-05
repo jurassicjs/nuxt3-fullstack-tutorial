@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Tiptap from './Tiptap.vue';
 
  definePageMeta({
   middleware: 'auth'
@@ -13,6 +14,8 @@ const props = defineProps<Props>()
 const data = props.data
 const router = useRouter()
 
+const isEditable = ref(true) //todo: implement logic
+
 
 async function postQuestion() {
   const { data: question } = await useFetch<IQuestion>(
@@ -26,19 +29,7 @@ async function postQuestion() {
   
   <template>
   <form @submit.preventDefault="postQuestion">
-    <div class="mb-6">
-      <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Short
-        Description</label>
-      <input v-model="data.title" type="title" id="title"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-        placeholder="short description">
-    </div>
-
-    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Question</label>
-    <textarea v-model="data.description" id="message" rows="4"
-      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-      placeholder="Be specific and kind">
-          </textarea>
+    <Tiptap v-model="data.description" label="Provide any information you think would help get your question answered" :editable="isEditable" />
     <div>
     </div>
     <div class="flex justify-end">

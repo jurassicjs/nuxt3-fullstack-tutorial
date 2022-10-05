@@ -1,6 +1,7 @@
 <script setup lang="ts">
  import QuestionBoard from "~/components/elements/QuestionBoard.vue";
  import AskJackSidebar from "~/components/elements/AskJackSidebar.vue";
+ import Tiptap from "~~/components/elements/Tiptap.vue";
  </script>
  
  <template>
