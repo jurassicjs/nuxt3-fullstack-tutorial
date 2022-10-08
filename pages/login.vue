@@ -2,7 +2,7 @@
 import { ref } from "@vue/reactivity";
 import {loginWithEmail} from "~/composables/useAuth";
 
-const email = ref(null)
+const usernameOrEmail = ref(null)
 const password = ref(null)
 const hasError = ref(null)
 const errorMessage = ref(null)
@@ -13,7 +13,7 @@ definePageMeta({
 })
 
 const postLoginForm = async function () {
-  await loginWithEmail(email.value, password.value)
+  await loginWithEmail(usernameOrEmail.value, password.value)
 }
 </script>
 
@@ -50,10 +50,10 @@ const postLoginForm = async function () {
           <input type="hidden" name="remember" value="true">
           <div class="rounded-md shadow-sm -space-y-px mb-1">
             <div>
-              <label for="email-address" class="sr-only">Email address</label>
-              <input v-model="email" id="email-address" name="email" type="email" autocomplete="email" required
+              <label for="email-address" class="sr-only">Username or Email</label>
+              <input v-model="usernameOrEmail" id="email-address" name="email" type="email" autocomplete="email" required
                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address">
+                placeholder="Username or Email">
             </div>
           </div>
           <div>

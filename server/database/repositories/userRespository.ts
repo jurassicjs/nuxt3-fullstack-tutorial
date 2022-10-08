@@ -1,15 +1,20 @@
 import prisma from "~/server/database/client";
-import {IUser} from '~/types/IUser';
+import { IUser } from '~/types/IUser';
 import { ISubscription } from "~~/types/ISubscription";
 
-export async function getUserByEmail(email: string): Promise<IUser> {
-  return await prisma.user.findUnique({
+export async function getUserByEmail(emailOrEmail: string): Promise<IUser> {
+  return await prisma.user.findFirst({
     where: {
-      email: email,
+      OR:
+        [
+          { email: emailOrEmail },
+          { username: emailOrEmail },
+        ]
     },
     select: {
       id: true,
       username: true,
+      password: true
     },
   })
 }
@@ -78,7 +83,7 @@ export async function getSubscriptionById(stripeId: string): Promise<ISubscripti
 
 export async function updateStripeCustomerId(data: IUser) {
   return await prisma.user.update({
-    where: {email: data.email},
+    where: { email: data.email },
     data: {
       stripeCustomerId: data.stripeCustomerId,
     }
@@ -87,8 +92,8 @@ export async function updateStripeCustomerId(data: IUser) {
 
 export async function createOrUpdateSubscription(data: ISubscription) {
   return await prisma.subscription.upsert({
-    where:{
-    stripeId: data.stripeId
+    where: {
+      stripeId: data.stripeId
     },
     create: {
       userId: data.userId,

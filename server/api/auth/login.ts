@@ -6,9 +6,10 @@ import { makeSession } from '~~/server/services/sessionService';
 
 export default async (event: CompatibilityEvent) => {
   const body = await readBody(event)
-  const email: string = body.email
+  const usernameOrEmail: string = body.usernameOrEmail
   const password: string = body.password
-  const user = await getUserByEmail(email)
+  
+  const user = await getUserByEmail(usernameOrEmail)
 
   if (user === null) {
     sendError(event, createError({ statusCode: 401, statusMessage: 'Unauthenticated' }))
