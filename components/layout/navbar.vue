@@ -5,14 +5,29 @@ const showSideDrawer = ref(false)
 const logout = userLogout
 const router = useRouter()
 
+const user = useState('user')
+const initalCheck = await useLoggedIn()
+const isLoggedIn = ref(initalCheck)
+
 router.afterEach(() => {
   showSideDrawer.value = false
 })
 
-const user = useState('user')
 const setColorTheme = (newTheme: Theme) => {
   useColorMode().preference = newTheme
 }
+
+async function checkIfLoggedIn() {
+  const check = await useLoggedIn()
+  isLoggedIn.value = check
+}
+
+watch(user, async () => {
+  await checkIfLoggedIn()
+}, { deep: true });
+
+
+
 </script>
 
 <template>
@@ -130,7 +145,7 @@ const setColorTheme = (newTheme: Theme) => {
             </svg>
           </span>
 
-          <User class="hidden md:block" />
+          <User :isLoggedIn="isLoggedIn" class="hidden md:block" />
 
           <span class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <!-- <nuxt-link v-if="!user" to="/login"
@@ -288,7 +303,7 @@ const setColorTheme = (newTheme: Theme) => {
               <span class="flex-1 ml-3 whitespace-nowrap">Ask Jack</span>
             </NuxtLink>
           </li>
-          <li  v-if="!user">
+          <li  v-if="!isLoggedIn">
             <NuxtLink to="/login"
               class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -299,7 +314,7 @@ const setColorTheme = (newTheme: Theme) => {
               <span class="flex-1 ml-3 whitespace-nowrap">Sign In</span>
             </NuxtLink>
           </li>
-          <li v-if="!user">
+          <li v-if="!isLoggedIn">
             <NuxtLink to="/register"
               class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -311,7 +326,7 @@ const setColorTheme = (newTheme: Theme) => {
               <span class="flex-1 ml-3 whitespace-nowrap">Sign Up</span>
             </NuxtLink>
           </li>
-          <li @click="logout" v-if="user">
+          <li @click="logout" v-if="isLoggedIn">
             <span to="/register"
               class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

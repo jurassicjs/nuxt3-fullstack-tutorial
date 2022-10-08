@@ -1,25 +1,16 @@
 <script setup lang="ts">
-import { IUser } from "~/types/IUser";
 import { ref } from "@vue/reactivity";
 import { userLogout } from "~/composables/useAuth";
 import { onClickOutside } from '@vueuse/core'
 
-const user = useState('user')
-const initalCheck = await useLoggedIn()
-const isLoggedIn = ref(initalCheck)
+
 const logout = userLogout
 const hideActions = ref(true)
 const userActions = ref(null)
 
-async function checkIfLoggedIn() {
-  const check = await useLoggedIn()
-  isLoggedIn.value = check
-}
-
-watch(user, async () => {
-  await checkIfLoggedIn()
-}, { deep: true });
-
+defineProps({
+  isLoggedIn: Boolean
+})
 
 onClickOutside(userActions, () => hideActions.value = true)
 
