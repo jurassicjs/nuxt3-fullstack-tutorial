@@ -1,6 +1,7 @@
 import { useRouter, useState } from "#app";
 import { ISession } from "~~/types/ISession";
 import { IUser } from "~/types/IUser";
+import consolaGlobalInstance from "consola";
 
 export const useAuthCookie = () => useCookie('auth_token')
 
@@ -22,11 +23,16 @@ export async function useUser(): Promise<IUser> {
 
 export async function useLoggedIn() {
   const user = await useUser()
-  if(user?.id !== null && user !== undefined) {
-   return true
+
+  if (!user) {
+    return false
   }
 
-  return false
+  if (user?.id == null) {
+    return false
+  }
+
+  return true
 }
 
 export async function userLogout() {
@@ -46,8 +52,8 @@ export async function registerWithEmail(
     const { data, error } = await useFetch<ISession>('/api/auth/register', {
       method: 'POST',
       body: { data: { username, name, email, password } },
-      server:false,
-      key:  username + name + email + password
+      server: false,
+      key: username + name + email + password
     })
 
     if (error.value) {
@@ -60,7 +66,7 @@ export async function registerWithEmail(
       const res = JSON.parse(errors)
       const errorMap = new Map<string, { check: InputValidation; }>(Object.entries(res));
 
-      return {hasErrors: true, errors: errorMap}
+      return { hasErrors: true, errors: errorMap }
     }
 
     if (data) {

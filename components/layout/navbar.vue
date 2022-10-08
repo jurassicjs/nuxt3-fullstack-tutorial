@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import BackButton from "~/components/elements/BackButton.vue";
 import { userLogout } from "~/composables/useAuth";
 
 const showSideDrawer = ref(false)
 const logout = userLogout
-
 const router = useRouter()
-
 
 router.afterEach(() => {
   showSideDrawer.value = false
