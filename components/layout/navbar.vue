@@ -26,8 +26,6 @@ watch(user, async () => {
   await checkIfLoggedIn()
 }, { deep: true });
 
-
-
 </script>
 
 <template>
@@ -53,12 +51,8 @@ watch(user, async () => {
                 src="/img/logo_clear_fsj.png" />
             </nuxt-link>
           </div>
-
         </div>
-
-
         <nav class="hidden md:flex justify-between space-x-10 align-bottom mt-14">
-
           <div class="hidden md:flex space-x-10 align-bottom">
             <nuxt-link to="/subscribe">
               <span
@@ -127,11 +121,6 @@ watch(user, async () => {
             </svg>
           </NuxtLink>
 
-      
-
-        
-       
-
           <span class="hidden md:block " @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">
             <svg v-if="$colorMode.value == 'dark'" xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-gray-50 hidden lg:block" viewBox="0 0 20 20" fill="currentColor">
@@ -146,27 +135,8 @@ watch(user, async () => {
           </span>
 
           <User :isLoggedIn="isLoggedIn" class="hidden md:block" />
-
-          <span class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            <!-- <nuxt-link v-if="!user" to="/login"
-              class="whitespace-nowrap text-base font-medium text-gray-500 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-300 "> Sign
-              in
-            </nuxt-link> -->
-
-            <!-- <User v-if="user" :user="user" /> -->
-
-            <!-- <nuxt-link v-if="!user" to="/register"
-              class="transition duration-500 hover:scale-110 ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-              Sign up
-            </nuxt-link> -->
-          </span>
         </div>
-
-
-
-
       </div>
-      <!-- <BackButton /> -->
     </div>
 
 
@@ -190,9 +160,7 @@ watch(user, async () => {
       </button>
 
       <div class="py-4 overflow-y-auto">
-
         <ul class="space-y-2">
-         
           <li>
 
             <button class="ml-2" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">
@@ -208,8 +176,6 @@ watch(user, async () => {
               </svg>
             </button>
           </li>
-
-
           <NuxtLink to="https://github.com/jurassicjs/nuxt3-fullstack-tutorial">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
               role="img" class="text-gray-500 dark:text-gray-200 h-6 w-6 ml-2 mt-2 " width="0.97em" height="1em"
@@ -219,7 +185,6 @@ watch(user, async () => {
               </path>
             </svg>
           </NuxtLink>
-
           <NuxtLink to="https://discord.gg/tFGTQBdT" class="text-gray-800">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
               class="text-gray-500 dark:text-gray-200 h-6 w-6 ml-2 mt-2" viewBox="0 -28.5 256 256" version="1.1"
@@ -231,7 +196,6 @@ watch(user, async () => {
               </g>
             </svg>
           </NuxtLink>
-
           <NuxtLink to="https://twitter.com/jack_fullstack">
             <svg class="text-gray-500 dark:text-gray-200 h-6 w-6 ml-2 mt-2" fill="none" viewBox="0 0 24 24">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -239,7 +203,6 @@ watch(user, async () => {
                 fill="currentColor"></path>
             </svg>
           </NuxtLink>
-
           <li>
             <NuxtLink to="/dashboard"
               class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -303,7 +266,7 @@ watch(user, async () => {
               <span class="flex-1 ml-3 whitespace-nowrap">Ask Jack</span>
             </NuxtLink>
           </li>
-          <li  v-if="!isLoggedIn">
+          <li v-if="!isLoggedIn">
             <NuxtLink to="/login"
               class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

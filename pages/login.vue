@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
-import {loginWithEmail} from "~/composables/useAuth";
+import { loginWithEmail } from "~/composables/useAuth";
 
 const usernameOrEmail = ref(null)
 const password = ref(null)
@@ -13,24 +13,32 @@ definePageMeta({
 })
 
 const postLoginForm = async function () {
-  await loginWithEmail(usernameOrEmail.value, password.value)
+  const res = await loginWithEmail(usernameOrEmail.value, password.value)
+  if (!res) {
+    errorMessage.value = 'Invalid Credentials'
+    hasError.value = true
+    setTimeout(() => {
+      hasError.value = false
+    }, 3000)
+  }
 }
 </script>
 
 <template>
-  <div class="h-screen bg-gradient-to-b from-white to-blue-200 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-400">
+  <div
+    class="h-screen bg-gradient-to-b from-white to-blue-200 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-400">
     <div class="flex items-center justify-center  px-4 sm:px-6 lg:px-8">
       <div class="max-w-md w-full space-y-8">
         <div>
           <div class="h-25 w-25">
           </div>
           <div class="lg:flex mt-10">
-          <img class="mx-auto h-24 w-auto" src="/img/logo_clear_fsj.png" alt="full stack jack logo" />
-          <br>
-          <h1 class="py-9 text-center text-5xl font-extrabold text-gray-900 dark:text-gray-400">
-            Full Stack Jack</h1>
+            <img class="mx-auto h-24 w-auto" src="/img/logo_clear_fsj.png" alt="full stack jack logo" />
+            <br>
+            <h1 class="py-9 text-center text-5xl font-extrabold text-gray-900 dark:text-gray-400">
+              Full Stack Jack</h1>
           </div>
-          
+
           <h2 class="mt-6 py-9 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-400">Sign in</h2>
         </div>
 
@@ -51,7 +59,8 @@ const postLoginForm = async function () {
           <div class="rounded-md shadow-sm -space-y-px mb-1">
             <div>
               <label for="email-address" class="sr-only">Username or Email</label>
-              <input v-model="usernameOrEmail" id="email-address" name="email" type="email" autocomplete="email" required
+              <input v-model="usernameOrEmail" id="email-address" name="email" type="email" autocomplete="email"
+                required
                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Username or Email">
             </div>
@@ -72,7 +81,8 @@ const postLoginForm = async function () {
             </div>
 
             <div class="text-sm">
-              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-white"> Forgot your password? </a>
+              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-white"> Forgot your
+                password? </a>
             </div>
           </div>
 

@@ -78,8 +78,16 @@ export async function registerWithEmail(
   }
 }
 
-export async function loginWithEmail(usernameOrEmail: string, password: string) {
-  const user = await $fetch<IUser>('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
-  useState('user').value = user
-  await useRouter().push('/dashboard')
+export async function loginWithEmail(usernameOrEmail: string, password: string): Promise<boolean> {
+
+  try{
+    const user = await $fetch<IUser>('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
+    console.log(user)
+    useState('user').value = user
+    await useRouter().push('/dashboard')
+    return true
+  } catch(e) {
+     return false
+  }
+ 
 }
