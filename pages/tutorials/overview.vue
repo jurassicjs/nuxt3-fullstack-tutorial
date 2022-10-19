@@ -1,3 +1,12 @@
+<script setup lang="ts">
+
+definePageMeta({
+  pageTransition: {
+    name: 'rotate'
+  }
+})
+</script>
+
 <template>
  <main class="dark:bg-slate-800">
 
