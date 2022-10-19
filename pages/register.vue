@@ -86,7 +86,6 @@ async function postRegisterForm() {
             </div>
           </div>
 
-          <div></div>
         </form>
         <button @click.prevent="postRegisterForm"
           class="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -99,7 +98,7 @@ async function postRegisterForm() {
                 clip-rule="evenodd" />
             </svg>
           </span>
-          register
+          Register
         </button>
       </div>
     </div>
