@@ -1,7 +1,7 @@
 type InputValidation = {
  key: string
  isBlank: boolean
- lenghtMin8: boolean
+ lengthMin8: boolean
  hasError: boolean
  value: string
  emailTaken?: boolean
