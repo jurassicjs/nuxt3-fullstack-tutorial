@@ -8,17 +8,17 @@ definePageMeta({
 </script>
 
 <template>
- <main class="dark:bg-slate-800">
+ <main class="flex justify-center w-100 my-10">
 
 
   <ContentList path="/tutorials" v-slot="{ list }">
 
     {{list.article}}
-   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:my-20 lg:ml-20 dark:bg-slate-800 dark:bg-text-white">
+   <div class="flex flex-col justify-center w-100">
     <div v-for="article in list" :key="article._path" class="max-w-xl rounded overflow-hidden shadow-xl shadow-green-400 mb-10 p-10 dark:bg-text-white">
      <NuxtLink :to="article._path">
       <img class="w-full" src="/img/nuxt3.svg" alt="nuxt 3 logo">
-      <div class="px-6 py-4">
+      <div class=" py-4">
        <div class="font-bold text-xl mb-2 dark:text-white">{{ article.title }}</div>
        <p class="text-gray-700 dark:text-white text-base">
         {{ article.description }}

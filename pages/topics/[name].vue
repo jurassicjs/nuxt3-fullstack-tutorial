@@ -2,8 +2,6 @@
 import {Series, Video} from ".prisma/client";
 import getParam from "~/composables/getParam";
 
-
-
 const route = useRoute()
 const videoElements = ref([])
 
