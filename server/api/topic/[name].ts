@@ -6,8 +6,11 @@ export default defineEventHandler(async event => {
   const topicId = await getTopicIdByName(topicName)
 
   const series = await getSeriesByTopicId(topicId)
-  const videos = await getVideosByTopicId(topicId)
+  const videos =  await getVideosByTopicId(topicId)
+
+  if(topicId == 2) {
+    videos.reverse()
+  }
 
   return { series, videos }
-
 })

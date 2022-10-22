@@ -1,4 +1,4 @@
-import { CompatibilityEvent, sendError } from 'h3'
+import {H3Event, sendError } from 'h3'
 import bcrypt from 'bcrypt'
 import { IUser } from '~/types/IUser';
 import { validateUser } from '~/server/services/userService'
@@ -6,7 +6,7 @@ import { createUser } from '~/server/database/repositories/userRespository'
 import { makeSession } from '~~/server/services/sessionService';
 import { RegistationRequest } from '~~/types/IRegistration'
 
-export default async (event: CompatibilityEvent) => {
+export default async (event: H3Event) => {
   const body = await readBody(event)
   const data = body.data as RegistationRequest
 
