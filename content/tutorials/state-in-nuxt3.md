@@ -25,9 +25,11 @@ Every time we visit or refresh **localhost:3000/api/counter**  the count will in
 You may be tempted to believe that if the count survived a browser refresh, it must must persistent, right?
 We must keep in mind, the browser is not the only thing that can restart. The server can as well. 
 
-::alert{type=danger icon=🚨}
+::alert{background=bg-purple-800 icon=🚨}
  Don't let this fool you into thinking this is persistent state. As soon as you restart the server, the count will be back to 0!
 ::
+
+
 
  ```js [/api/counter.ts]
   let count = 0
