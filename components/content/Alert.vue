@@ -6,8 +6,9 @@
        :component="icon"
        class="inline-flex mr-2 w-5 h-5 justify-center items-center text-1.2rem"
      >
-       {{ icon }} 
-      
+       <!-- {{ icon }}  -->
+       <!-- <Icon class="w-5 h-5 text-yellow-400" aria-hidden="true" :name="icon" /> -->
+       <Icon class="w-5 h-5 text-yellow-400" aria-hidden="true" name="carbon:ai-status-complete" />
      </div>
      <slot/>
      <div class="flex-grow alert-content">
@@ -20,23 +21,19 @@
    </div>
  </div>
 </template>
-
-<script>
-
-export default defineComponent({
- props: {
-   icon: {
-     type: String,
-     default: ''
-   },
-   type: {
+<script setup lang="ts">
+defineProps({
+  icon: {
+    type: String,
+    default: 'heroicons-outline:exclamation'
+  },
+  type: {
      type: String,
      default: 'info',
-     validator (value) {
+     validator (value: string) {
        return ['info', 'success', 'warning', 'danger'].includes(value)
      }
    }
- }
 })
 </script>
 

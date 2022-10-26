@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --trace-warnings",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "test": "vitest",

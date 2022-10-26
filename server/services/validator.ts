@@ -1,7 +1,6 @@
 import { RegistationRequest } from '~~/types/IRegistration';
 import { getUserByEmail, getUserByUserName } from '~/server/database/repositories/userRespository';
 
-
 export async function validate(data: RegistationRequest) {
 
     const errors = new Map<string, { check: InputValidation }>()
@@ -46,7 +45,7 @@ async function runChecks(key: string, value: string): Promise<InputValidation> {
         const isValidEmail = validateEmail(value)
 
         if (!isValidEmail) {
-            check.emailTaken = true
+            check.emailTaken = null
             check.hasError = true
             check.errorMessage = `${value}, is not a valid email!`
             return check
