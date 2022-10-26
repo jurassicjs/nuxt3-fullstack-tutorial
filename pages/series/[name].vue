@@ -23,31 +23,23 @@ const activeVideo = ref(data.value.videos[0])
 function setActive(video: Video) {
   activeVideo.value = video
 
-  const videoWrapper = this.videoWrapper.value
-
-  const htmlString = `
-                  <div class="video__youtube" :id="${activeVideo.value.host_id}">
-                  <img :src="https://i.ytimg.com/vi/${activeVideo.value.host_id}/maxresdefault.jpg"
-                    class="block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0"
-                    alt="video thumbnail" />
-                  <img src="/img/youtube_social_icon_red.png"
-                    class="absolute text-5xl text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                    alt="youtube play button">
-                  </div>`
-
-  // youtubePlaceholder.style.display = 'none';
-  videoWrapper.innerHTML = htmlString;
+  const htmlString = `<div class="video__youtube" :id="${activeVideo.value.host_id}">
+                        <img src="https://i.ytimg.com/vi/${activeVideo.value.host_id}/maxresdefault.jpg"
+                          class="block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0"
+                          alt="video thumbnail" />
+                          <img src="/img/youtube_social_icon_red.png"
+                          class="absolute text-5xl text-white top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                          alt="youtube play button">
+                      </div>
+                    `
+  videoWrapper.value.innerHTML = htmlString;
 }
 
 function createIframe(vidId: string) {
-
-  const youtubePlaceholder = videoPlaceholderElement.value
   const url = 'https://www.youtube.com/embed/' + vidId + '?autoplay=1'
   const htmlString = `<iframe class="mt-5 block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0" src="${url}" allowfullscreen allow="autoplay"></iframe>`
 
-  youtubePlaceholder.style.display = 'none';
-  youtubePlaceholder.insertAdjacentHTML('beforebegin', htmlString);
-  youtubePlaceholder.parentNode.removeChild(youtubePlaceholder);
+  videoWrapper.value.innerHTML = htmlString;
 }
 
 </script>
@@ -62,8 +54,11 @@ function createIframe(vidId: string) {
       <div class="text-gray-100 text-xl">
         <div class="p-2.5 mt-1 flex items-center">
 
-          <img class="h-20" src="/img/logo_clear_fsj.png" alt="full stack jack logo">
-          <h1 class="font-bold text-gray-200 text-[15px] ml-3">Full Stack Jack</h1>
+          <NuxtLink to="/">
+            <img class="h-20" src="/img/logo_clear_fsj.png" alt="full stack jack logo">
+            <h1 class="font-bold text-gray-200 text-[15px] ml-3">Full Stack Jack</h1>
+          </NuxtLink>
+          
 
         </div>
         <div class="my-2 bg-gray-600 h-[1px]"></div>
@@ -104,14 +99,15 @@ function createIframe(vidId: string) {
       <div>
         <section class="overflow-hidden text-gray-700 p-0">
           <div class="container px-0 py-2 mx-auto lg:pt-12 lg:px-32">
-            <div class="flex flex-wrap -m-1 md:-m-2 xxxxx" ref="videoWrapper">
-              <div class="mt-5" @click="createIframe(activeVideo?.host_id)" ref="videoPlaceholderElement">
-                <div class="video__youtube" :id="activeVideo?.host_id">
+            <div class="flex flex-wrap -m-1 md:-m-2 xxxxx" @click="createIframe(activeVideo?.host_id)"
+              ref="videoWrapper">
+              <div class="mt-5" ref="videoPlaceholderElement">
+                <div class="video__youtube container" :id="activeVideo?.host_id">
                   <img :src="'https://i.ytimg.com/vi/' + activeVideo?.host_id + '/maxresdefault.jpg'"
                     class="block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0"
                     alt="video thumbnail" />
                   <img src="/img/youtube_social_icon_red.png"
-                    class="absolute text-5xl text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    class="absolute text-5xl text-white top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     alt="youtube play button">
                 </div>
               </div>
@@ -121,17 +117,5 @@ function createIframe(vidId: string) {
       </div>
     </div>
   </div>
-  <!-- <script type="text/javascript">
-      function dropdown() {
-        document.querySelector("#submenu").classList.toggle("hidden");
-        document.querySelector("#arrow").classList.toggle("rotate-0");
-      }
-      dropdown();
-
-      function openSidebar() {
-        document.querySelector(".sidebar").classList.toggle("hidden");
-      }
-    </script> -->
-
 
 </template>
