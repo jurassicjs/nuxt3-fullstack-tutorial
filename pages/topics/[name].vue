@@ -3,7 +3,7 @@ import { Series, Video } from ".prisma/client";
 import getParam from "~/composables/getParam";
 
 definePageMeta({
-  layout: false,
+  layout: 'mobile-only',
 });
 
 const setColorTheme = (newTheme: Theme) => {
@@ -48,14 +48,14 @@ function createIframe(vidId: string) {
 
 <template>
 
-  <div class="md:flex">
-    <aside class=" hidden lg:block h-screen pl-10 pr-10 text-left w-1/4 dark:bg-slate-900">
+  <div class="md:flex  dark:bg-slate-900">
+    <aside class=" hidden md:block  pl-10 pr-10 text-left h-screen w-1/4 dark:bg-slate-900">
       <div class="text-gray-800 dark:text-gray-100 text-xl">
         <div class="p-2.5 mt-1 flex items-center">
 
           <NuxtLink to="/">
             <img class="h-20" src="/img/logo_clear_fsj.png" alt="full stack jack logo">
-            <h1 class="font-bold text-gray-800 dark:text-gray-200 text-[15px] ml-3">Full Stack Jack</h1>
+            <h1 class="font-bold text-gray-800 dark:text-gray-200 text-[15px]">Full Stack Jack</h1>
           </NuxtLink>
           
           
@@ -97,13 +97,13 @@ function createIframe(vidId: string) {
         </li>
       </ul>
     </aside>
-    <div class="w-screen" v-if="!pending && data">
+    <div class="w-screen pt-0 mt-0" v-if="!pending && data">
 
-        <section class="overflow-hidden text-gray-700 p-0">
-          <div class="container px-0 py-2 mx-auto lg:pt-12 lg:px-32">
-            <div class="flex flex-wrap -m-1 md:-m-2 clickable" @click="createIframe(activeVideo?.host_id)"
+        <section class="overflow-hidden text-gray-700">
+          <div class="container ">
+            <div class="clickable" @click="createIframe(activeVideo?.host_id)"
               ref="videoWrapper">
-              <div class="mt-5" ref="videoPlaceholderElement align-center justify-center">
+              <div ref="videoPlaceholderElement align-center justify-center">
                 <div class="video__youtube container flex" :id="activeVideo?.host_id">
                   <img :src="'https://i.ytimg.com/vi/' + activeVideo?.host_id + '/maxresdefault.jpg'"
                     class=""
@@ -119,28 +119,6 @@ function createIframe(vidId: string) {
   
     </div>
     <div class="md:hidden">
-      <div>
-        <img class="pr-5 pl-5" src="/img/nuxt3.svg" alt="">
-      </div>
-      <div class="p-5 flex align-center justify-between">
-        <NuxtLink to="/">
-          <img class="h-20" src="/img/logo_clear_fsj.png" alt="full stack jack logo">
-        </NuxtLink>
-        <span class="" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">
-          <svg v-if="$colorMode.value == 'dark'" xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-gray-50" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-          </svg>
-          <svg v-if="$colorMode.value == 'light'" xmlns="http://www.w3.org/2000/svg" class="h-6"
-            viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-              clip-rule="evenodd" />
-          </svg>
-        </span>
-      </div>
-
-
       <ul class="mx-auto  text-left mx-auto text-gray-800 dark:text-gray-200 font-bold">
         <li class="cursor-pointer p-2 hover:bg-green-600 rounded-md mt-1" @click="setActive(video)"
           v-for="video in data.videos">
