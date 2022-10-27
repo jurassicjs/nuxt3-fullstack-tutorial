@@ -36,16 +36,15 @@ export async function getVideosByTopicId(topicId: number): Promise<Video[]> {
  })
 }
 
-export async function getTopicIdByName(topicName: string): Promise<number> {
+export async function getTopicIdByName(topicName: string): Promise<Topic> {
  const res = await prisma.topic.findFirst(
   {
    where: {
     name: {
      equals: topicName
     }
-   },
-   select: { id: true }
+   }
   })
 
- return res.id
+ return res
 }
