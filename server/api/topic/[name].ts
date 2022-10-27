@@ -3,14 +3,14 @@ import { getTopicIdByName, getSeriesByTopicId, getVideosByTopicId } from "~~/ser
 export default defineEventHandler(async event => {
   const topicName = event.context.params.name
 
-  const topicId = await getTopicIdByName(topicName)
+  const topic = await getTopicIdByName(topicName)
 
-  const series = await getSeriesByTopicId(topicId)
-  const videos =  await getVideosByTopicId(topicId)
+  const series = await getSeriesByTopicId(topic.id)
+  const videos =  await getVideosByTopicId(topic.id)
 
-  if(topicId == 2) {
+  if(topic.id == 2) {
     videos.reverse()
   }
 
-  return { series, videos }
+  return { series, videos, topic }
 })
