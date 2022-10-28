@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { validate } from '../server/services/validator'
+import { validate } from '../../server/services/validator'
 
 
 describe('test email validation', async () => {
