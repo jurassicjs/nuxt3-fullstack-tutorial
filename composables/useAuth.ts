@@ -71,7 +71,7 @@ export async function registerWithEmail(
 
     if (data) {
       useState('user').value = data
-      await useRouter().push('/dashboard')
+      await useRouter().push('/topics')
     }
   } catch (e) {
     console.log('error: ' + e.toString())
@@ -84,7 +84,7 @@ export async function loginWithEmail(usernameOrEmail: string, password: string):
     const user = await $fetch<IUser>('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
     console.log(user)
     useState('user').value = user
-    await useRouter().push('/dashboard')
+    await useRouter().push('/topics')
     return true
   } catch(e) {
      return false
