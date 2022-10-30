@@ -15,7 +15,7 @@ definePageMeta({
 
     {{list.article}}
    <div class="flex flex-col justify-center w-100">
-    <div v-for="article in list" :key="article._path" class="max-w-xl rounded overflow-hidden shadow-xl shadow-green-400 mb-10 p-10 dark:bg-text-white">
+    <div v-for="article in list" :key="article._path" class="max-w-xl rounded overflow-hidden shadow-xl transition duration-500 hover:scale-110 hover:shadow-green-400 mb-10 p-10 dark:bg-text-white">
      <NuxtLink :to="article._path">
       <img class="w-full" src="/img/nuxt3.svg" alt="nuxt 3 logo">
       <div class=" py-4">

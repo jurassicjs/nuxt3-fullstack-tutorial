@@ -12,7 +12,7 @@ import SiteMapGrid from "~~/components/elements/SiteMapGrid.vue";
         <div class="text-center ">
           <img class="w-auto" src="/img/dude-type.png" alt="dude image">
           <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight md:text-7xl dark:text-white">
-            Full Stack <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-teal-400">Step by
+            Full Stack <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-teal-400 hover:from-green-500 hover:to-teal-400">Step by
               Step</span>
           </p>
           

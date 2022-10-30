@@ -30,7 +30,7 @@
         <nuxt-link to="/ask-jack/search">
           <div class="relative mb-5">
             <dt>
-              <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+              <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white bg-gradient-to-r hover:from-green-500 hover:to-teal-400 md:hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd"
                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
@@ -48,7 +48,7 @@
         <nuxt-link to="/">
           <div class="relative mb-5">
             <dt>
-              <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+              <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white bg-gradient-to-r hover:from-green-500 hover:to-teal-400 md:hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                   stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -66,14 +66,14 @@
         <a href="mailto:info@fullstackjack.dev">
           <div class="mb-5">
             <dt>
-              <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+              <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white bg-gradient-to-r hover:from-green-500 hover:to-teal-400 md:hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                   stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <p class="ml-16 text-lg leading-6 font-medium dark:text-white text-gray-900">Connect</p>
+              <p class="ml-16 text-lg leading-6 font-medium dark:text-white text-gray-900 md:hover:scale-110 duration-500">Connect</p>
             </dt>
             <dd class="mt-2 ml-16 text-base text-gray-500">
               Sponorships, Offers, etc.
