@@ -29,13 +29,6 @@ jobs:
           node-version: ${{env.NODE_VERSION}}
           cache: 'yarn'
       - run: | 
-         touch .env
-         echo DATABASE_URL=mysql://root:pw@localhost:3306/fullstackjack >> .env
-         echo DATABASE_ROOT_PASSWORD=pw >> .env
-         echo DATABASE_NAME=fullstackjack >> .env
-         echo DATABASE_USER=jack >> .env
-         echo DATABASE_PASSWORD=12345678 >> .env
          yarn
          yarn build
-         cp .env .output/server/.env
          yarn ci:test
