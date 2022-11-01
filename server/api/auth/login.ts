@@ -1,14 +1,14 @@
 import { sanitizeUserForFrontend } from '~~/server/services/userService';
 import bcrypt from 'bcrypt'
 import { getUserByEmail } from '~/server/database/repositories/userRespository';
-import { CompatibilityEvent, sendError } from "h3"
+import { sendError, H3Event } from "h3"
 import { makeSession } from '~~/server/services/sessionService';
 
-export default async (event: CompatibilityEvent) => {
+export default eventHandler(async (event: H3Event) => {
   const body = await readBody(event)
   const usernameOrEmail: string = body.usernameOrEmail
   const password: string = body.password
-  
+
   const user = await getUserByEmail(usernameOrEmail)
 
   if (user === null) {
@@ -25,4 +25,4 @@ export default async (event: CompatibilityEvent) => {
   await makeSession(user, event)
 
   return sanitizeUserForFrontend(user)
-}
+})

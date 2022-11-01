@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SiteMapGrid from "~~/components/elements/SiteMapGrid.vue";
-
+const show = ref(true)
 </script>
 
 <template>
@@ -15,15 +15,16 @@ import SiteMapGrid from "~~/components/elements/SiteMapGrid.vue";
             Full Stack <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-teal-400">Step by
               Step</span>
           </p>
-          
+         
         </div>
+      </div>
+      <div class="flex justify-center my-20">
+        <button @click="show = !show">Toggle Slide + Fade</button>
       </div>
 
     </div>
     <div class="flex justify-center">
       <site-map-grid />
     </div>
-
-
   </div>
 </template>

@@ -5,7 +5,10 @@
     "dev": "nuxt dev --trace-warnings",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "test": "vitest",
+
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "test": "yarn docker:up && yarn prisma migrate deploy && vitest",
     "prisma:generate": "dotenv -e .env -- npx prisma generate",
     "prisma:migrate": "dotenv -e .env -- npx prisma migrate deploy --name prod"
   },
@@ -14,7 +17,7 @@
     "@nuxt/postcss8": "^1.1.3",
     "@nuxt/test-utils-edge": "^3.0.0-rc.13-27777092.59d8c51",
     "@nuxtjs/color-mode": "^3.1.8",
-    "@nuxtjs/tailwindcss": "^6.0.1",
+    "@nuxtjs/tailwindcss": "^6.1.2",
     "@types/bcrypt": "^5.0.0",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.12",

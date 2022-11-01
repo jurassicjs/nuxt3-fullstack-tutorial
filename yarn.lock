@@ -658,10 +658,10 @@
     lodash.template "^4.5.0"
     pathe "^0.3.5"
 
-"@nuxtjs/tailwindcss@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/tailwindcss/-/tailwindcss-6.0.1.tgz#420654f3ec5bc15f293b0315586706b007b0f98e"
-  integrity sha512-C6wdGq6CJDfHWGpDf5PNon1elJMFzMbb/x5mA2Zr9854Xq8e6DgfTMMM7H5x5RpqFV61CfFDMKNPyFrNXdAj0g==
+"@nuxtjs/tailwindcss@^6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/tailwindcss/-/tailwindcss-6.1.2.tgz#c2e90110837f2a8de55fa541830ec99416277cc0"
+  integrity sha512-cIyqbyvceZS9DGiDYwwBlUS7vB6gOlBnvQ2QAAvrL2VzK0MA4AH2yaqCLJuHrzvLUp1v3uRw22KLvY6w2t8pCQ==
   dependencies:
     "@nuxt/kit" "^3.0.0-rc.12"
     "@nuxt/postcss8" "^1.1.3"
