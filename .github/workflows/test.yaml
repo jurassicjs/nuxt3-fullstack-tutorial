@@ -25,4 +25,5 @@ jobs:
          echo DATABASE_PASSWORD=12345678 >> .env
          yarn
          yarn build
+         cp .env .output/server/.env
          yarn test
