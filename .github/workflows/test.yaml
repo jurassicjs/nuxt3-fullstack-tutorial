@@ -9,6 +9,18 @@ env:
 jobs:
   test-application:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0.30
+        ports:
+          - "3306:3306"
+        env:
+          MYSQL_ROOT_PASSWORD: pw
+          MYSQL_DATABASE: fullstackjack
+          MYSQL_USER: jack
+          MYSQL_PASSWORD: 12345678
+    env: 
+      DATABASE_URL: mysql://root:pw@localhost:3306/fullstackjack
     steps:
       - uses: actions/checkout@v3
       - name: Test Application
@@ -26,4 +38,4 @@ jobs:
          yarn
          yarn build
          cp .env .output/server/.env
-         yarn test
+         yarn ci:test
