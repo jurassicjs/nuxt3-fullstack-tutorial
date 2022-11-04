@@ -13,7 +13,7 @@ export async function useUser(): Promise<IUser|null> {
 
     const cookieHeaders = useRequestHeaders(['cookie'])
 
-    const { data } = await useFetch(`/api/auth/getByAuthToken`, {
+    const { data } = await useFetch<IUser>(`/api/auth/getByAuthToken`, {
       headers: cookieHeaders as HeadersInit,
     })
 
@@ -48,7 +48,7 @@ export async function registerWithEmail(
   name: string,
   email: string,
   password: string
-): Promise<FormValidation> {
+): Promise<FormValidation|undefined> {
 
   try {
     const { data, error } = await useFetch<ISession>('/api/auth/register', {
@@ -75,7 +75,7 @@ export async function registerWithEmail(
       useState('user').value = data
       await useRouter().push('/topics')
     }
-  } catch (e) {
+  } catch (e: any) {
     console.log('error: ' + e.toString())
   }
 }

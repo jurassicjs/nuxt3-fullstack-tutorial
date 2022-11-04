@@ -101,7 +101,7 @@ watch(user, async () => {
             </svg>
           </NuxtLink>
 
-          <NuxtLink to="https://discord.gg/tFGTQBdT" class="text-gray-800 hidden lg:block">
+          <NuxtLink to="https://discord.gg/9XXEvE43pG" class="text-gray-800 hidden lg:block">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
               class="text-black dark:text-gray-200 h-6 w-6 ml-2 hover:dark:text-purple-400 hover:text-purple-400" viewBox="0 -28.5 256 256" version="1.1"
               preserveAspectRatio="xMidYMid">
