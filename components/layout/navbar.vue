@@ -135,7 +135,6 @@ watch(user, async () => {
                 clip-rule="evenodd" />
             </svg>
           </span>
-
           <User :isLoggedIn="isLoggedIn" class="hidden md:block" />
         </div>
       </div>

@@ -17,7 +17,7 @@ export async function validateUser(data: RegistationRequest): Promise<FormValida
     return { hasErrors: false }
 }
 
-export function sanitizeUserForFrontend(user: IUser | undefined): IUser {
+export function sanitizeUserForFrontend(user: IUser | undefined): IUser | undefined {
 
     if (!user) {
         return user

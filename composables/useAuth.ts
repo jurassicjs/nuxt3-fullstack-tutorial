@@ -5,14 +5,16 @@ import consolaGlobalInstance from "consola";
 
 export const useAuthCookie = () => useCookie('auth_token')
 
-export async function useUser(): Promise<IUser> {
+export async function useUser(): Promise<IUser|null> {
   const authCookie = useAuthCookie().value
-  const user = useState<IUser>('user')
+  const user = useState<IUser|null>('user')
 
   if (authCookie && !user.value) {
 
+    const cookieHeaders = useRequestHeaders(['cookie'])
+
     const { data } = await useFetch(`/api/auth/getByAuthToken`, {
-      headers: useRequestHeaders(['cookie']),
+      headers: cookieHeaders as HeadersInit,
     })
 
     user.value = data.value
