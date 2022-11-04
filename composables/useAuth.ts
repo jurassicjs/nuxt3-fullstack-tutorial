@@ -5,14 +5,16 @@ import consolaGlobalInstance from "consola";
 
 export const useAuthCookie = () => useCookie('auth_token')
 
-export async function useUser(): Promise<IUser> {
+export async function useUser(): Promise<IUser|null> {
   const authCookie = useAuthCookie().value
-  const user = useState<IUser>('user')
+  const user = useState<IUser|null>('user')
 
   if (authCookie && !user.value) {
 
-    const { data } = await useFetch(`/api/auth/getByAuthToken`, {
-      headers: useRequestHeaders(['cookie']),
+    const cookieHeaders = useRequestHeaders(['cookie'])
+
+    const { data } = await useFetch<IUser>(`/api/auth/getByAuthToken`, {
+      headers: cookieHeaders as HeadersInit,
     })
 
     user.value = data.value
@@ -46,7 +48,7 @@ export async function registerWithEmail(
   name: string,
   email: string,
   password: string
-): Promise<FormValidation> {
+): Promise<FormValidation|undefined> {
 
   try {
     const { data, error } = await useFetch<ISession>('/api/auth/register', {
@@ -71,9 +73,9 @@ export async function registerWithEmail(
 
     if (data) {
       useState('user').value = data
-      await useRouter().push('/dashboard')
+      await useRouter().push('/topics')
     }
-  } catch (e) {
+  } catch (e: any) {
     console.log('error: ' + e.toString())
   }
 }
@@ -84,7 +86,7 @@ export async function loginWithEmail(usernameOrEmail: string, password: string):
     const user = await $fetch<IUser>('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
     console.log(user)
     useState('user').value = user
-    await useRouter().push('/dashboard')
+    await useRouter().push('/topics')
     return true
   } catch(e) {
      return false
