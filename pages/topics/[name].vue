@@ -22,7 +22,7 @@ const topicName = getParam('name') as string
 const { data, pending } = await useFetch<topicData>(`/api/topic/${topicName}`, { key: route.fullPath })
 const videoPlaceholderElement = ref(null)
 const videoWrapper = ref(null)
-
+const loading = ref(true)
 const activeVideo = ref(data.value?.videos[0])
 
 function setActive(video: Video) {
@@ -47,6 +47,14 @@ function createIframe(vidId: string) {
 
   videoWrapper.value.innerHTML = htmlString;
 }
+
+onMounted(() => {
+  if(data.value?.videos[0]) {
+    setActive(data.value?.videos[0])
+    loading.value = false
+    console.log('is loading: ',loading.value)
+  }
+})
 
 </script>
 
@@ -120,18 +128,20 @@ function createIframe(vidId: string) {
     </aside>
     <div class="w-screen pt-0 mt-0" v-if="!pending && data">
 
-      <section class="overflow-hidden text-gray-700">
-        <div class="container ">
-          <div class="clickable" @click="createIframe(activeVideo?.host_id)" ref="videoWrapper">
-            <div ref="videoPlaceholderElement align-center justify-center">
-              <div class="video__youtube container flex" :id="activeVideo?.host_id">
-                <img :src="'https://i.ytimg.com/vi/' + activeVideo?.host_id + '/maxresdefault.jpg'" class=""
-                  alt="video thumbnail" />
-              </div>
-            </div>
+      <section v-if="activeVideo"  class="overflow-hidden text-gray-700">
+        <div class=" w-full min-w-200 ">
+          <div class="clickable" @click="createIframe(activeVideo.host_id)" ref="videoWrapper">
+            <div class="video__youtube" :id="activeVideo.host_id">
+                        <img src="https://i.ytimg.com/vi/${activeVideo.value.host_id}/maxresdefault.jpg"
+                          class="block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0"
+                          alt="video thumbnail" />
+                      </div>
           </div>
         </div>
       </section>
+      <!-- <section v-else>
+        loading. . . . {{loading}}
+      </section> -->
 
     </div>
     <div class="md:hidden">

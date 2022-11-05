@@ -2,6 +2,8 @@ import { describe, expect, test, vi } from 'vitest'
 import { setup, $fetch } from '@nuxt/test-utils-edge'
 import { v4 as uuidv4 } from 'uuid'
 
+
+
 // testing this way is neither fast or intuitive. Revisit when . . . 
 // useFetch and other composeables are availble within this context
 
@@ -26,7 +28,10 @@ describe('Test Registration', async () => {
                     }
                 },
             }).catch(error => {
-                console.log('EEEEEEE 1 >>>', error)
+                const res = JSON.parse(error.data.data)
+                const userError: InputValidation = res.username.check
+
+                expect(userError.usernameTaken).toBe(true)
                 expect(error.message).toContain(`422 Unprocessable Entity`)
             })
     })
