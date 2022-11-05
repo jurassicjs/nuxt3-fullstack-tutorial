@@ -11,7 +11,7 @@ definePageMeta({
  <main class="flex justify-center w-100 my-10">
 
 
-  <ContentList path="/tutorials" v-slot="{ list }">
+  <ContentList path="/articles" v-slot="{ list }">
 
     {{list.article}}
    <div class="flex flex-col justify-center w-100">

@@ -6,7 +6,7 @@
   <div>
    <nuxt-link
    class="block cursor-pointer max-w-2xl "
-   href="/tutorials/overview"
+   href="/articles/overview"
  >
    <svg
      xmlns="http://www.w3.org/2000/svg"
