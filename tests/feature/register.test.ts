@@ -29,9 +29,11 @@ describe('Test Registration', async () => {
                 },
             }).catch(error => {
                 const res = JSON.parse(error.data.data)
-                const userError: InputValidation = res.username.check
 
-                expect(userError.usernameTaken).toBe(true)
+                console.log('/////////////////////////////--->>>',res)
+                const emailError: InputValidation = res.email.check
+
+                expect(emailError.hasError).toBe(true)
                 expect(error.message).toContain(`422 Unprocessable Entity`)
             })
     })
