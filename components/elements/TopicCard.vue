@@ -9,13 +9,13 @@ defineProps({
 </script>
 
 <template>
-  <nuxt-link :to="topic.url">
+  <nuxt-link v-if="topic" :to="topic.url">
     <div class="flex justify-center  pb-12 mb-10 min-h-content mr-5" :class="{
       'hover:border-green-700 hover:dark:border-green-700': topic.accentColor == 'green',
       'hover:border-red-700 hover:dark:border-red-700': topic.accentColor == 'red',
       'hover:border-indigo-700 hover:dark:border-indigo-700': topic.accentColor == 'indigo'
     }">
-      <img class="h-16 md:h-96" :src="topic.image" v-if="topic.image !== '/img/nuxt3.svg'" alt="nuxt 3 logo">
+      <img class="h-16 md:h-96" :src="topic.image ?? ''" v-if="topic.image !== '/img/nuxt3.svg'" alt="nuxt 3 logo">
       <svg v-if="topic.image == '/img/nuxt3.svg'" viewBox="0 0 221 65" fill="none" xmlns="http://www.w3.org/2000/svg"
         class="h-26 md:h-96 mr-5">
         <g clip-path="url(#a)">

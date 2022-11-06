@@ -1,7 +1,9 @@
 <script setup lang="ts">
 
 const props = defineProps(['questionId'])
-const emit = defineEmits<{(e: 'addAnswer', answer: IAnswer)}>()
+
+const addAnswer = 'addAnswer';
+const emit = defineEmits<{(e: typeof addAnswer, answer: IAnswer): void}>()
 
 const questionId = props.questionId
 
@@ -9,7 +11,6 @@ const data: IAnswerPost = reactive({
   text: '',
   questionId: parseInt(questionId)
 })
-
 
 const showAnswerForm = useState('showAnswerForm' + questionId)
 

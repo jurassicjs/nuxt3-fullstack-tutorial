@@ -1,13 +1,12 @@
 import { useRouter, useState } from "#app";
 import { ISession } from "~~/types/ISession";
 import { IUser } from "~/types/IUser";
-import consolaGlobalInstance from "consola";
 
 export const useAuthCookie = () => useCookie('auth_token')
 
-export async function useUser(): Promise<IUser|null> {
+export async function useUser(): Promise<IUser | null> {
   const authCookie = useAuthCookie().value
-  const user = useState<IUser|null>('user')
+  const user = useState<IUser | null>('user')
 
   if (authCookie && !user.value) {
 
@@ -48,7 +47,7 @@ export async function registerWithEmail(
   name: string,
   email: string,
   password: string
-): Promise<FormValidation|undefined> {
+): Promise<FormValidation | undefined> {
 
   try {
     const { data, error } = await useFetch<ISession>('/api/auth/register', {
@@ -82,14 +81,14 @@ export async function registerWithEmail(
 
 export async function loginWithEmail(usernameOrEmail: string, password: string): Promise<boolean> {
 
-  try{
+  try {
     const user = await $fetch<IUser>('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
     console.log(user)
     useState('user').value = user
     await useRouter().push('/topics')
     return true
-  } catch(e) {
-     return false
+  } catch (e) {
+    return false
   }
- 
+
 }

@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import { registerWithEmail } from "~/composables/useAuth";
+import type {Ref} from "vue"
 
-const email = ref(null);
-const password = ref(null);
-const username = ref(null);
-const name = ref(null);
-const errors = ref(new Map())
-let response = ref<FormValidation>({ hasErrors: false })
+const email: Ref<string> = ref('');
+const password: Ref<string> = ref('');
+const username: Ref<string> = ref('');
+const name: Ref<string> = ref('');
+const errors: Ref<Map<string, { check: InputValidation; }> | undefined> = ref(new Map<string, { check: InputValidation }>())
+let response: Ref<FormValidation|undefined> = ref({ hasErrors: false })
 
 async function postRegisterForm() {
   response.value = await registerWithEmail(username.value, name.value, email.value, password.value);
-  errors.value = response.value.errors
+  errors.value = response?.value?.errors
 };
 
 </script>
@@ -31,7 +32,7 @@ async function postRegisterForm() {
             Sign Up
           </h2>
         </div>
-        <div v-if="response.hasErrors && errors"
+        <div v-if="response?.hasErrors && errors"
           class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3" role="alert">
           <strong class="font-bold">Oops, try again! </strong>
 
@@ -50,7 +51,7 @@ async function postRegisterForm() {
               <label for="name" class="sr-only">Name</label>
               <input v-model="name" id="name" name="name" required
                 class="appearance-none dark:bg-slate-500 dark:text-white dark:placeholder-white rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                :class="errors.has('name') ? ' border-red-500' : ''" placeholder="Name" />
+                :class="errors?.has('name') ? ' border-red-500' : ''" placeholder="Name" />
             </div>
           </div>
           <div class="rounded-md shadow-sm -space-y-px mb-1">
@@ -58,7 +59,7 @@ async function postRegisterForm() {
               <label for="email-address" class="sr-only">Username</label>
               <input type="email" v-model="username" id="username" name="username" required
                 class="dark:bg-slate-500 dark:text-white dark:placeholder-white appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                :class="errors.has('username') ? ' border-red-500' : ''" placeholder="username" />
+                :class="errors?.has('username') ? ' border-red-500' : ''" placeholder="username" />
             </div>
           </div>
 
@@ -67,7 +68,7 @@ async function postRegisterForm() {
               <label for="email-address" class="sr-only">Email address</label>
               <input v-model="email" id="email-address" name="email" type="email" autocomplete="email" required
                 class="dark:bg-slate-500 dark:text-white dark:placeholder-white appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                :class="errors.has('email') ? ' border-red-500' : ''" placeholder="Email address" />
+                :class="errors?.has('email') ? ' border-red-500' : ''" placeholder="Email address" />
             </div>
           </div>
           <div>
@@ -75,7 +76,7 @@ async function postRegisterForm() {
             <input v-model="password" id="password" name="password" type="password" autocomplete="current-password"
               required
               class="dark:bg-slate-500 dark:text-white dark:placeholder-white appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              :class="errors.has('password') ? ' border-red-500' : ''" placeholder="Password" />
+              :class="errors?.has('password') ? ' border-red-500' : ''" placeholder="Password" />
           </div>
 
           <div class="flex items-center justify-between">
