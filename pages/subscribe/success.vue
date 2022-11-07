@@ -6,7 +6,7 @@ const sessionId = ref(route.query.session_id ? route.query.session_id : '')
 <template>
   <div>
     <div v-if="sessionId" class="flex py-60 flex-col h-screen my-auto items-center bgimg bg-cover">
-      <button class="mt-2 bg-white font-bold py-1 px-8 rounded m-2 dark:bg-slate-800 dark:text-white">
+      <button class="mt-2 bg-white font-bold py-1 px-8 rounded m-2 dark:bg-black dark:text-white">
         You are subscribed!
       </button>
       <form action="/api/stripe/createPortalSession" method="POST">

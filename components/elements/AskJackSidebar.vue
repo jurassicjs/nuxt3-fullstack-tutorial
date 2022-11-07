@@ -53,7 +53,7 @@ function rehide() {
         </dialog-box>
         <div class=" pt-5 z-10 boarder  justify-right sm:fixed">
             <div class="w-100 sm:block" aria-label="Sidebar">
-                <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
+                <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-900">
                     <span v-if="route.path !== '/ask-jack/ask'" @click="goToAskForm" type="button"
                         class="w-full px-6 py-3.5 text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                         Ask Question

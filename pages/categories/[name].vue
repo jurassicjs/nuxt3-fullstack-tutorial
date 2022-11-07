@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Series, Video } from ".prisma/client";
 import getParam from "~/composables/getParam";
+import type { Ref } from "vue"
 
 definePageMeta({
   layout: 'mobile-only',
@@ -21,9 +22,9 @@ type topicData = {
 const topicName = getParam('name') as string
 const { data, pending } = await useFetch<topicData>(`/api/topic/${topicName}`, { key: route.fullPath })
 const videoPlaceholderElement = ref(null)
-const videoWrapper = ref(null)
+const videoWrapper: Ref<HTMLElement | null> = ref(null)
 
-const activeVideo = ref(data.value.videos[0])
+const activeVideo = ref(data?.value?.videos[0])
 
 function setActive(video: Video) {
   activeVideo.value = video
@@ -34,14 +35,19 @@ function setActive(video: Video) {
                           alt="video thumbnail" />
                       </div>
                     `
-  videoWrapper.value.innerHTML = htmlString;
+  if (videoWrapper.value) {
+    videoWrapper.value.innerHTML = htmlString;
+  }
+
 }
 
 function createIframe(vidId: string) {
   const url = 'https://www.youtube.com/embed/' + vidId + '?autoplay=1'
   const htmlString = `<iframe class="mt-5 block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0" src="${url}" allowfullscreen allow="autoplay"></iframe>`
 
-  videoWrapper.value.innerHTML = htmlString;
+  if (videoWrapper.value) {
+    videoWrapper.value.innerHTML = htmlString;
+  }
 }
 
 </script>
@@ -57,11 +63,11 @@ function createIframe(vidId: string) {
             <img class="h-20" src="/img/logo_clear_fsj.png" alt="full stack jack logo">
             <h1 class="font-bold text-gray-800 dark:text-gray-200 text-[15px]">Full Stack Jack</h1>
           </NuxtLink>
-          
-          
+
+
         </div>
         <div>
-          
+
           <span class="hidden md:block " @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">
             <svg v-if="$colorMode.value == 'dark'" xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-gray-50 hidden lg:block" viewBox="0 0 20 20" fill="currentColor">
@@ -81,7 +87,8 @@ function createIframe(vidId: string) {
       <div>
         <img src="/img/nuxt3.svg" alt="">
       </div>
-      <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-green-600 text-white"
+      <div
+        class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-green-600 text-white"
         onclick="dropdown()">
         <i class="bi bi-chat-left-text-fill"></i>
         <div class="flex justify-between w-full items-center">
@@ -92,36 +99,34 @@ function createIframe(vidId: string) {
       </div>
       <ul class="text-left mx-auto text-gray-800 dark:text-gray-200 font-bold">
         <li class="cursor-pointer p-2 hover:bg-green-600 rounded-md mt-1" @click="setActive(video)"
-          v-for="video in data.videos">
+          v-for="video in data?.videos">
           {{ video.title }}
         </li>
       </ul>
     </aside>
     <div class="w-screen pt-0 mt-0" v-if="!pending && data">
 
-        <section class="overflow-hidden text-gray-700">
-          <div class="container ">
-            <div class="clickable" @click="createIframe(activeVideo?.host_id)"
-              ref="videoWrapper">
-              <div ref="videoPlaceholderElement align-center justify-center">
-                <div class="video__youtube container flex" :id="activeVideo?.host_id">
-                  <img :src="'https://i.ytimg.com/vi/' + activeVideo?.host_id + '/maxresdefault.jpg'"
-                    class=""
-                    alt="video thumbnail" />
-                    <!-- <img src="/img/youtube_social_icon_red.png"
+      <section v-if="activeVideo" class="overflow-hidden text-gray-700">
+        <div class="container ">
+          <div class="clickable" @click="createIframe(activeVideo?.host_id ?? '')" ref="videoWrapper">
+            <div ref="videoPlaceholderElement align-center justify-center">
+              <div class="video__youtube container flex" :id="activeVideo?.host_id">
+                <img :src="'https://i.ytimg.com/vi/' + activeVideo?.host_id + '/maxresdefault.jpg'" class=""
+                  alt="video thumbnail" />
+                <!-- <img src="/img/youtube_social_icon_red.png"
                     class="center"
                     alt="youtube play button"> -->
-                </div>
               </div>
             </div>
           </div>
-        </section>
-  
+        </div>
+      </section>
+
     </div>
     <div class="md:hidden">
       <ul class="mx-auto  text-left mx-auto text-gray-800 dark:text-gray-200 font-bold">
         <li class="cursor-pointer p-2 hover:bg-green-600 rounded-md mt-1" @click="setActive(video)"
-          v-for="video in data.videos">
+          v-for="video in data?.videos">
           {{ video.title }}
         </li>
       </ul>

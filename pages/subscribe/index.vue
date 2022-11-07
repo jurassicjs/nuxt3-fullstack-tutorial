@@ -23,7 +23,7 @@ function goToRegister() {
       <div class="mt-12 m-auto -space-y-4 items-center justify-center md:flex md:space-y-0 md:-space-x-4 xl:w-10/12">
         <div class="relative -mx-4 group md:w-6/12 md:mx-0 lg:w-5/12 z-20">
           <div aria-hidden="true"
-            class="absolute top-0 w-full h-full dark:bg-slate-800 border-2  border-indigo-500/50 rounded-2xl bg-white shadow-xl transition duration-500 group-hover:scale-105 lg:group-hover:scale-110">
+            class="absolute top-0 w-full h-full dark:bg-black border-2  border-indigo-500/50 rounded-2xl bg-white shadow-xl transition duration-500 group-hover:scale-105 lg:group-hover:scale-110">
           </div>
           <div class="relative p-6 space-y-6 lg:p-8">
             <h3 class="text-3xl text-gray-700 font-semibold text-center">Pro Membership</h3>
@@ -72,7 +72,7 @@ function goToRegister() {
 
         <div class="relative group md:w-6/12 lg:w-7/12 z-10">
           <div aria-hidden="true"
-            class="absolute top-0 w-full h-full dark:bg-slate-800 border-2 border-indigo-500/50 rounded-2xl bg-white shadow-lg transition duration-500 group-hover:scale-105">
+            class="absolute top-0 w-full h-full dark:bg-black border-2 border-indigo-500/50 rounded-2xl bg-white shadow-lg transition duration-500 group-hover:scale-105">
           </div>
           <div class="relative p-6 pt-16 md:p-8 md:pl-12  md:rounded-r-2xl lg:pl-20 lg:p-16">
             <ul role="list" class="space-y-4 py-6 text-gray-600">

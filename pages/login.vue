@@ -26,7 +26,7 @@ const postLoginForm = async function () {
 
 <template>
   <div
-    class="h-screen bg-gradient-to-b from-white to-blue-200 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-400">
+    class="h-screen bg-white dark:bg-black">
     <div class="flex items-center justify-center  px-4 sm:px-6 lg:px-8">
       <div class="max-w-md w-full space-y-8">
         <div>

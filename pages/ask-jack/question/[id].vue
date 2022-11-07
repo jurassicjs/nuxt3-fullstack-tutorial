@@ -58,12 +58,12 @@ function addAnswer(answer: IAnswer) {
    <AskJackSidebar />
    <div class="md:w-1/3 z-1 flex justify-right relative"></div>
    <div class="w-full md:w-1/3">
-    <div class="p-8 text-white bg-lime-600 dark:bg-slate-800 rounded shadow-md" v-if="showDeleted">
+    <div class="p-8 text-white bg-lime-600 dark:bg-black rounded shadow-md" v-if="showDeleted">
      question deleted
     </div>
     <div v-if="question" class="flex flex-column justify-center hover:scale-110 transition duration-500">
      <div class="max-w-xxl w-full p-4">
-      <div class="p-8 bg-white dark:bg-slate-800 rounded shadow-md">
+      <div class="p-8 bg-white dark:bg-black rounded shadow-md">
        <div class="flex justify-end dark:text-gray-300">
         {{ question.authName }}
        </div>

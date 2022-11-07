@@ -7,7 +7,7 @@ const show = ref(true)
 
   <div class="">
     <div
-      class="py-12 theme-mode bg-gradient-to-b from-white to-blue-200 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-900">
+      class="py-12 theme-mode dark:bg-black">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center ">
           <img class="w-auto" src="/img/dude-type.png" alt="dude image">
@@ -19,7 +19,7 @@ const show = ref(true)
         </div>
       </div>
       <div class="flex justify-center my-20">
-        <button @click="show = !show">Toggle Slide + Fade</button>
+        <!-- <button @click="show = !show">Toggle Slide + Fade</button> -->
       </div>
 
     </div>

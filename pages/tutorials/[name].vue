@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Series, Video, Topic } from ".prisma/client";
 import getParam from "~/composables/getParam";
+import type { Ref } from "vue"
 
 definePageMeta({
   layout: 'mobile-only',
@@ -20,8 +21,7 @@ type topicData = {
 
 const topicName = getParam('name') as string
 const { data, pending } = await useFetch<topicData>(`/api/topic/${topicName}`, { key: route.fullPath })
-const videoPlaceholderElement = ref(null)
-const videoWrapper = ref(null)
+const videoWrapper: Ref<HTMLElement | null> = ref(null)
 const loading = ref(true)
 const activeVideo = ref(data.value?.videos[0])
 
@@ -34,25 +34,29 @@ function setActive(video: Video) {
                           alt="video thumbnail" />
                       </div>
                     `
-  videoWrapper.value.innerHTML = htmlString;
+  if (videoWrapper.value) {
+    videoWrapper.value.innerHTML = htmlString;
+  }
 }
 
 function isActive(video: Video) {
-  return video.host_id == activeVideo.value.host_id
+  return video.host_id == activeVideo?.value?.host_id
 }
 
 function createIframe(vidId: string) {
   const url = 'https://www.youtube.com/embed/' + vidId + '?autoplay=1'
   const htmlString = `<iframe class="mt-5 block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0" src="${url}" allowfullscreen allow="autoplay"></iframe>`
 
-  videoWrapper.value.innerHTML = htmlString;
+  if (videoWrapper.value) {
+    videoWrapper.value.innerHTML = htmlString;
+  }
 }
 
 onMounted(() => {
-  if(data.value?.videos[0]) {
+  if (data.value?.videos[0]) {
     setActive(data.value?.videos[0])
     loading.value = false
-    console.log('is loading: ',loading.value)
+    console.log('is loading: ', loading.value)
   }
 })
 
@@ -88,7 +92,7 @@ onMounted(() => {
         <div class="my-2 bg-gray-600 h-[1px]"></div>
       </div>
       <div>
-        <img class="h-16" :src="data?.topic.image" v-if="data?.topic.image !== '/img/nuxt3.svg'" alt="nuxt 3 logo">
+        <img class="h-16" :src="data?.topic.image ?? undefined" v-if="data?.topic.image !== '/img/nuxt3.svg'" alt="nuxt 3 logo">
         <svg v-if="data?.topic.image == '/img/nuxt3.svg'" viewBox="0 0 221 65" fill="none"
           xmlns="http://www.w3.org/2000/svg" class="h-26 mr-5">
           <g clip-path="url(#a)">
@@ -128,14 +132,14 @@ onMounted(() => {
     </aside>
     <div class="w-screen pt-0 mt-0" v-if="!pending && data">
 
-      <section v-if="activeVideo"  class="overflow-hidden text-gray-700">
+      <section v-if="activeVideo" class="overflow-hidden text-gray-700">
         <div class=" w-full min-w-200 ">
-          <div class="clickable" @click="createIframe(activeVideo.host_id)" ref="videoWrapper">
+          <div class="clickable" @click="createIframe(activeVideo?.host_id ?? '')" ref="videoWrapper">
             <div class="video__youtube" :id="activeVideo.host_id">
-                        <img src="https://i.ytimg.com/vi/${activeVideo.value.host_id}/maxresdefault.jpg"
-                          class="block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0"
-                          alt="video thumbnail" />
-                      </div>
+              <img src="https://i.ytimg.com/vi/${activeVideo.value.host_id}/maxresdefault.jpg"
+                class="block object-cover object-center lg:rounded-lg w-full min-w-200 aspect-video mb-10 p-0"
+                alt="video thumbnail" />
+            </div>
           </div>
         </div>
       </section>

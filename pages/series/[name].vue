@@ -16,9 +16,9 @@ type topicData = {
 const topicName = getParam('name') as string
 const { data, pending } = await useFetch<topicData>(`/api/topic/${topicName}`, { key: route.fullPath })
 const videoPlaceholderElement = ref(null)
-const videoWrapper = ref(null)
+const videoWrapper = ref(new HTMLElement)
 
-const activeVideo = ref(data.value.videos[0])
+const activeVideo = ref(data?.value?.videos[0])
 
 function setActive(video: Video) {
   activeVideo.value = video
@@ -95,7 +95,7 @@ function createIframe(vidId: string) {
         </li>
       </ul>
     </div>
-    <div class="dark:bg-slate-800 min-h-screen" v-if="!pending && data">
+    <div class="dark:bg-black min-h-screen" v-if="!pending && data">
       <div>
         <section class="overflow-hidden text-gray-700 p-0">
           <div class="container px-0 py-2 mx-auto lg:pt-12 lg:px-32">

@@ -19,7 +19,7 @@ const endpoint = '/api/ask-jack/ask'
  <template>
 
  <div
-  class="min-h-full theme-mode bg-gradient-to-b from-white to-indigo-200 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-600">
+  class="min-h-full theme-mode bg-white dark:bg-black">
 
   <div class="h-32 flex justify-center">
    <div class="flex m-5">

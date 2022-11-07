@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-  <nuxt-link :to="category.link">
+  <nuxt-link v-if="category" :to="category.link">
     <div class="flex items-center border-b border-gray-200 dark:border-gray-700  pb-12 mr-5">
       <img class="h-16" :src="category.image" alt="nuxt 3 logo">
       <div class="flex items-start justify-between w-full">

@@ -22,7 +22,7 @@ async function postQuestion() {
     () => `${props.endpoint}`, { method: 'post', body: { data }, pick: ['id'] }
   );
 
-  router.push(`/ask-jack/question/${question.value.id}`)
+  router.push(`/ask-jack/question/${question?.value?.id}`)
 }
 
 </script>

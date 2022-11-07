@@ -7,11 +7,16 @@ nuxtApp.hook("page:finish", () => {
   window.scrollTo(0, 0)
 })
 
+onBeforeMount(() => {
+  useHead({script:[{"src": "http://localhost:3000/scripts/nuxt-nation.js"}]})
+})
+// "https://nuxtnation.com/banners/main.js
+
 await useUser()
 </script>
 <template>
   <NuxtLayout>
-    <div class="dark:bg-slate-800 min-h-screen dark:text-white">
+    <div class="dark:bg-black min-h-screen dark:text-white">
       <NuxtPage />
     </div>
 

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { defineProps, PropType } from "@vue/runtime-core";
-import { ITag } from "~/types/ITag";
 import { ICategory } from "~/types/ICategory";
 
 defineProps({
@@ -10,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-  <div>
+  <div v-if="lesson">
     <div class="flex items-center border-b border-gray-200 dark:border-gray-700  pb-12 mr-5">
       <nuxt-link :to="lesson.link">
         <slot name="icon"></slot>

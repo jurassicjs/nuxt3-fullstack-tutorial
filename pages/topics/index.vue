@@ -10,7 +10,7 @@ const { data: rows } = await useFetch('/api/topics', { key: route.fullPath })
       <div aria-label="group of cards" tabindex="0" class="py-8 w-full ">
         <div v-for="row in rows" class="lg:flex items-center justify-center w-full">
           <div v-for="topic in row" aria-label=""
-            class="lg:w-4/12 lg:m-7 md:h-108  lg:mb-0 mb-7 dark:bg-gray-800 bg-white  
+            class="lg:w-4/12 lg:m-7 md:h-108  lg:mb-0 mb-7 dark:bg-gray-900 bg-white  
                 p-6 shadow rounded  transition duration-500 hover:scale-110   dark:hover:shadow-xl hover:shadow-xl" :class="
                 {
                   'hover:dark:shadow-green-400  hover:shadow-green-400': topic.accentColor == 'green',

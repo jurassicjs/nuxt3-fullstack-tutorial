@@ -18,7 +18,7 @@ async function postRegisterForm() {
 </script>
 
 <template>
-  <div class="dark:bg-slate-800 h-screen">
+  <div class="dark:bg-black h-screen">
     <div class="flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div class="max-w-md w-full">
         <div class="lg:flex mt-10">
