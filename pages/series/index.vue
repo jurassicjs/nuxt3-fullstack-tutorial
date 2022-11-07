@@ -5,7 +5,7 @@ const {data: rows} = await useFetch('/api/categories', {key: route.fullPath})
 </script>
 
 <template>
-  <div class="bg-gradient-to-b from-white to-blue-200 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-400 ">
+  <div class="bg-white dark:bg-black">
     <div v-if="rows">
       <div aria-label="group of cards" tabindex="0" class="focus:outline-none py-8 w-full " >
         <div v-for="row in rows" class="lg:flex items-center justify-center w-full" >

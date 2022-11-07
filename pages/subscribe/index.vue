@@ -14,7 +14,7 @@ function goToRegister() {
   <div>
     <TestingPhaseDialog class="z-30"/>
     <div
-    class="min-h-screen bg-gradient-to-b from-white to-blue-200 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-600">
+    class="min-h-screen bg-white dark:bg-black">
     <div class="container m-auto px-6 py-20 md:px-12 lg:px-20">
       <div class="m-auto text-center lg:w-8/12 xl:w-7/12">
         <h2 class="text-2xl text-gray-800 dark:text-gray-200 font-bold md:text-4xl">Full Stack Jack Pro.

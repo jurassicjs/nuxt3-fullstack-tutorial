@@ -33,7 +33,7 @@ watch(user, async () => {
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
       <div class="flex justify-between  border-b-2 border-gray-100">
         <div class="flex justify-between min-w-full md:min-w-0">
-          <div class="md:hidden mt-4 bg-slate-800">
+          <div class="md:hidden mt-4 bg-black">
             <button @click="showSideDrawer = true" type="button"
               class="bg-white rounded-md p-2 inline-flex  text-gray-400 hover:text-gray-500 dark:bg-black dark:text-gray-200 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
               aria-expanded="false">
@@ -88,7 +88,7 @@ watch(user, async () => {
               <nuxt-link to="/topics/news">
                 <span
                   class="text-base font-medium text-gray-500 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-300 ">
-                  News
+                  News 
                 </span>
               </nuxt-link>
             </span>
@@ -148,15 +148,15 @@ watch(user, async () => {
 
 
     <!-- drawer component -->
-    <div id="drawer-navigation" :class="{ hidden: !showSideDrawer }"
-      class="fixed z-40 top-0 h-screen  transition-all duration-700   p-4 overflow-y-auto bg-white w-80 dark:bg-gray-800"
+    <div id="drawer-navigation my-12" :class="{ hidden: !showSideDrawer }"
+      class="fixed z-40 top-0 h-screen  transition-all duration-700   p-4 overflow-y-auto bg-white w-80 dark:bg-black"
       tabindex="-1" aria-labelledby="drawer-navigation-label">
       <h5 id="drawer-navigation-label" class="text-base font-semibold text-gray-500 dark:text-gray-200 uppercase hover:dark:text-green-400 hover:text-green-400">Menu
       </h5>
 
       <button @click="showSideDrawer = false" type="button" data-drawer-dismiss="drawer-navigation"
         aria-controls="drawer-navigation"
-        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-500 dark:text-gray-200 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-500 dark:text-gray-200 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-black dark:hover:text-white">
         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd"
@@ -166,7 +166,7 @@ watch(user, async () => {
         <span class="sr-only">Close menu</span>
       </button>
 
-      <div class="py-4 overflow-y-auto">
+      <div class="py-4 overflow-y-auto my-12">
         <ul class="space-y-2">
           <li>
 

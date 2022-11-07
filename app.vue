@@ -10,7 +10,6 @@ nuxtApp.hook("page:finish", () => {
 onBeforeMount(() => {
   useHead({script:[{"src": "http://localhost:3000/scripts/nuxt-nation.js"}]})
 })
-// "https://nuxtnation.com/banners/main.js
 
 await useUser()
 </script>

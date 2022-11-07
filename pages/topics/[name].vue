@@ -60,7 +60,7 @@ onMounted(() => {
 
 <template>
 
-  <div v-if="data" class="md:flex  dark:bg-slate-900">
+  <div v-if="data" class="md:flex  dark:bg-black">
     <aside class=" hidden md:block  pl-10 pr-10 text-left h-screen w-1/4 dark:bg-slate-900">
       <div class="text-gray-800 dark:text-gray-100 text-xl">
         <div class="p-2.5 mt-1 flex items-center">

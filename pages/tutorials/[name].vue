@@ -64,8 +64,8 @@ onMounted(() => {
 
 <template>
 
-  <div v-if="data" class="md:flex  dark:bg-slate-900">
-    <aside class=" hidden md:block  pl-10 pr-10 text-left h-screen w-1/4 dark:bg-slate-900">
+  <div v-if="data" class="md:flex  dark:bg-black">
+    <aside class=" hidden md:block  pl-10 pr-10 text-left h-screen w-1/4 dark:bg-black">
       <div class="text-gray-800 dark:text-gray-100 text-xl">
         <div class="p-2.5 mt-1 flex items-center">
           <NuxtLink to="/">
@@ -89,7 +89,7 @@ onMounted(() => {
           </span>
 
         </div>
-        <div class="my-2 bg-gray-600 h-[1px]"></div>
+        <div class="my-2 bg-black h-[1px]"></div>
       </div>
       <div>
         <img class="h-16" :src="data?.topic.image ?? undefined" v-if="data?.topic.image !== '/img/nuxt3.svg'" alt="nuxt 3 logo">

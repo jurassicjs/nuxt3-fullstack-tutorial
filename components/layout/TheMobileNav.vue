@@ -141,8 +141,8 @@ watch(user, async () => {
 
 
     <!-- drawer component -->
-    <div id="drawer-navigation" :class="{ hidden: !showSideDrawer }"
-      class="fixed z-40 top-0 h-screen  transition-all duration-700   p-4 overflow-y-auto bg-white w-80 dark:bg-gray-800"
+    <div id="drawer-navigation my-14" :class="{ hidden: !showSideDrawer }"
+      class="fixed z-40 top-0 h-screen  transition-all duration-700   p-4 overflow-y-auto bg-white w-80 dark:bg-black my-14"
       tabindex="-1" aria-labelledby="drawer-navigation-label">
       <h5 id="drawer-navigation-label" class="text-base font-semibold text-gray-500 dark:text-gray-200 uppercase">Menu
       </h5>
@@ -161,6 +161,7 @@ watch(user, async () => {
 
       <div class="py-4 overflow-y-auto">
         <ul class="space-y-2">
+          
           <li>
 
             <button class="ml-2" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">

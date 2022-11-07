@@ -20,7 +20,8 @@ window.BitterBrainsBanner = window.BitterBrainsBanner || {
     allowList: {
       'masteringnuxt.com': path => path === '/' || path === '/nuxt2' || path === '/nuxt3',
       'vueschool.io': path => path === '/' || path.startsWith('/courses') || path.startsWith('/articles'),
-      'staging.vueschool.io': path => path === '/' || path.startsWith('/courses') || path.startsWith('/articles')
+      'staging.vueschool.io': path => path === '/' || path.startsWith('/courses') || path.startsWith('/articles'),
+      'fullstackjack.dev': path => path === '/' || path.startsWith('/topics') || path.startsWith('/articles'),
     },
     setActivePhase () {
       const now = new Date()
