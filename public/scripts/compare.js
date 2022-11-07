@@ -17,11 +17,19 @@ window.BitterBrainsBanner = window.BitterBrainsBanner || {
       }
     ],
     activePhase: null,
+    affiliateKeys: {
+      'nuxtjs.org': 'nuxt',
+      'v3.nuxtjs.org': 'nuxt',
+      'vueschool.io': 'vueschool',
+      'vuejsdevelopers.com': 'vuejsdevelopers',
+      'michaelnthiessen.com': 'michaelnthiessen',
+      'vuejsfeed.com': 'vuejsfeed',
+      'masteringnuxt.com': 'masteringnuxt'
+    },
     allowList: {
       'masteringnuxt.com': path => path === '/' || path === '/nuxt2' || path === '/nuxt3',
       'vueschool.io': path => path === '/' || path.startsWith('/courses') || path.startsWith('/articles'),
-      'staging.vueschool.io': path => path === '/' || path.startsWith('/courses') || path.startsWith('/articles'),
-      'fullstackjack.dev': path => path === '/' || path.startsWith('/topics') || path.startsWith('/articles'),
+      'staging.vueschool.io': path => path === '/' || path.startsWith('/courses') || path.startsWith('/articles')
     },
     setActivePhase () {
       const now = new Date()
@@ -30,6 +38,7 @@ window.BitterBrainsBanner = window.BitterBrainsBanner || {
     },
     setAffiliateKey () {
       const host = window.location.host
+      this.affiliateKey = this.affiliateKeys[host] || ''
     },
     render () {
       const { title, subtitle, cta, link, name, showCountdown } = this.activePhase
@@ -54,7 +63,7 @@ window.BitterBrainsBanner = window.BitterBrainsBanner || {
       const el = document.createElement('a')
       el.setAttribute('id', 'bb-banner')
       el.setAttribute('target', '_blank')
-      el.setAttribute('href', `${link}?utm_source=FullStackJack&utm_medium=website&utm_campaign=community&utm_content=top_banner`)
+      el.setAttribute('href', `${link}?friend=${this.affiliateKey}&utm_source=${this.affiliateKey}&utm_medium=website&utm_campaign=affiliate&utm_content=top_banner`)
       el.classList.add(name)
       el.innerHTML = template
       this.addBodyClasses()
@@ -87,7 +96,7 @@ window.BitterBrainsBanner = window.BitterBrainsBanner || {
       const host = window.location.host || ''
       const path = window.location.pathname || '/'
   
-      root.classList.add('fullstackjack_dev')
+      root.classList.add(window.location.host.replaceAll('.', '_'))
   
       if (!this.allowList[host] || this.allowList[host](path)) {
         root.classList.remove('bb-banner-hidden')
@@ -450,16 +459,16 @@ window.BitterBrainsBanner = window.BitterBrainsBanner || {
   
   /* Nuxt 3 Website */
   
-  html.has-bb-banner.fullstackjack_dev header {
+  html.has-bb-banner.v3_nuxtjs_org header {
     top: 72px;
   }
   
-  html.has-bb-banner.fullstackjack_dev .top-header {
+  html.has-bb-banner.v3_nuxtjs_org .top-header {
     top: calc(var(--header-height) + 72px);
   }
   
   @media (min-width: 1024px) {
-    html.has-bb-banner.fullstackjack_dev .lg\\:top-header {
+    html.has-bb-banner.v3_nuxtjs_org .lg\\:top-header {
       top: calc(var(--header-height) + 72px);
     }
   }
