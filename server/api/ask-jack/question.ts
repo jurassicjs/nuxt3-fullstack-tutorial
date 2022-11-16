@@ -4,7 +4,7 @@ import { findQuestion } from "~/server/database/repositories/askJackRespository"
 import { getUserById } from "~/server/database/repositories/userRespository";
 
 export default defineEventHandler(async (event) => {
-    const queries = useQuery(event)
+    const queries = getQuery(event)
     const questionId = parseInt(queries.id as string)
 
     const question =  await findQuestion(questionId)

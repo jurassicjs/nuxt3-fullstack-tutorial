@@ -3,7 +3,7 @@ import { searchQuestions } from "~/server/database/repositories/askJackResposito
 import { getUserById } from "~/server/database/repositories/userRespository";
 
 export default defineEventHandler(async (event: CompatibilityEvent) => {
-    const queries = useQuery(event)
+    const queries = getQuery(event)
 
     const questions =  await searchQuestions(queries.search as string)
 

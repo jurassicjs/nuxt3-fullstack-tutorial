@@ -584,7 +584,7 @@
     rc9 "^2.0.0"
     std-env "^3.3.1"
 
-"@nuxt/test-utils-edge@^3.0.0":
+"@nuxt/test-utils-edge@3.0.1-rc.0-27810184.d991a55":
   version "3.0.1-rc.0-27810184.d991a55"
   resolved "https://registry.yarnpkg.com/@nuxt/test-utils-edge/-/test-utils-edge-3.0.1-rc.0-27810184.d991a55.tgz#dc2e53f722204b09eb777fc2b19c64082437299b"
   integrity sha512-AuuERwx2lZ2GJWELV57TjRzxeosdJnPufwwoVy5VZuGcaeGt9RP1o/Q1eJZ3RQDJb5XetZNaVjs+lflBfre61A==
