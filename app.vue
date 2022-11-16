@@ -7,10 +7,6 @@ nuxtApp.hook("page:finish", () => {
   window.scrollTo(0, 0)
 })
 
-onBeforeMount(() => {
-  useHead({script:[{"src": "http://localhost:3000/scripts/nuxt-nation.js"}]})
-})
-
 await useUser()
 </script>
 <template>

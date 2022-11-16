@@ -4,6 +4,7 @@ import { userLogout } from "~/composables/useAuth";
 const showSideDrawer = ref(false)
 const logout = userLogout
 const router = useRouter()
+const colorMode = useColorMode()
 
 const user = useState('user')
 const initalCheck = await useLoggedIn()
@@ -14,7 +15,7 @@ router.afterEach(() => {
 })
 
 const setColorTheme = (newTheme: Theme) => {
-  useColorMode().preference = newTheme
+  colorMode.preference = newTheme
 }
 
 async function checkIfLoggedIn() {
