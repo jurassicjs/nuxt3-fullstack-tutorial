@@ -36,6 +36,7 @@ async function deleteQuestion() {
 
 const editEndpoint = '/api/ask-jack/edit-question'
 function addAnswer(answer: IAnswer) {
+ console.log('&&&&&&&&& add answer')
  question.value?.answers.push(answer)
  showAnswerForm.value = false
 }

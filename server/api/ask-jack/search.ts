@@ -1,8 +1,8 @@
-import { CompatibilityEvent, defineEventHandler } from "h3";
+
 import { searchQuestions } from "~/server/database/repositories/askJackRespository";
 import { getUserById } from "~/server/database/repositories/userRespository";
 
-export default defineEventHandler(async (event: CompatibilityEvent) => {
+export default eventHandler(async (event) => {
     const queries = getQuery(event)
 
     const questions =  await searchQuestions(queries.search as string)

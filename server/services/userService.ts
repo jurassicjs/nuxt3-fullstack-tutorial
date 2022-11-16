@@ -4,6 +4,7 @@ import { validate } from '~~/server/services/validator';
 import { H3Event } from 'h3';
 import { getUserBySessionToken } from './sessionService';
 import { isString } from '@vueuse/core';
+import { User } from '@prisma/client';
 
 export async function validateUser(data: RegistationRequest): Promise<FormValidation> {
 
@@ -17,7 +18,7 @@ export async function validateUser(data: RegistationRequest): Promise<FormValida
     return { hasErrors: false }
 }
 
-export function sanitizeUserForFrontend(user: IUser | undefined): IUser | undefined {
+export function sanitizeUserForFrontend(user: User | undefined): User | undefined {
 
     if (!user) {
         return user

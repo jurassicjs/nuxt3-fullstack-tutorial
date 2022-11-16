@@ -1,7 +1,7 @@
-import { IUser } from "./IUser";
+import { User } from "@prisma/client";
 
 export interface ISession {
     authToken?: string;
-    user?: IUser
+    user?: User
     userId?: number
 }
