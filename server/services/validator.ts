@@ -1,12 +1,13 @@
 import { RegistationRequest } from '~~/types/IRegistration';
 import { getUserByEmail, getUserByUserName } from '~/server/database/repositories/userRespository';
+import { LoginRequest } from '~~/types/ILogin';
 
 export async function validate(data: RegistationRequest) {
 
     const errors = new Map<string, { check: InputValidation }>()
 
     for (const [key, value] of Object.entries(data)) {
-        let val = await runChecks(key, value)
+        let val = await validateRegistration(key, value)
 
         if (val.hasError) {
             errors.set(key, { 'check': val })
@@ -16,7 +17,22 @@ export async function validate(data: RegistationRequest) {
     return errors
 }
 
-async function runChecks(key: string, value: string): Promise<InputValidation> {
+export async function validateSignIn(data: LoginRequest) {
+
+    const errors = new Map<string, { check: InputValidation }>()
+
+    for (const [key, value] of Object.entries(data)) {
+        let val = await validateLogin(key, value)
+
+        if (val.hasError) {
+            errors.set(key, { 'check': val })
+        }
+    }
+
+    return errors
+}
+
+async function validateRegistration(key: string, value: string): Promise<InputValidation> {
     const check: InputValidation = {
         value,
         isBlank: false,
@@ -74,4 +90,32 @@ async function runChecks(key: string, value: string): Promise<InputValidation> {
 function validateEmail(email: string): boolean {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
+}
+
+async function validateLogin(key: string, value: string): Promise<InputValidation> {
+    const check: InputValidation = {
+        value,
+        isBlank: false,
+        lenghtMin8: true,
+        key,
+        hasError: false
+    }
+
+    if (value == '' || value == null) {
+        check.isBlank = true
+        check.hasError = true
+        check.errorMessage = `${key} is required`
+        return check
+    }
+
+    if (key == 'password') {
+        if (value.length < 8) {
+            check.hasError = true
+            check.errorMessage = `password must be at least 8 characters`
+        }
+        check.lenghtMin8 = false
+    }
+
+
+    return check
 }

@@ -1,14 +1,27 @@
 import { IUser } from '~~/types/IUser';
 import { RegistationRequest } from '~~/types/IRegistration';
-import { validate } from '~~/server/services/validator';
+import { validate, validateSignIn } from '~~/server/services/validator';
 import { H3Event } from 'h3';
 import { getUserBySessionToken } from './sessionService';
 import { isString } from '@vueuse/core';
 import { User } from '@prisma/client';
+import { LoginRequest } from '~~/types/ILogin';
 
 export async function validateUser(data: RegistationRequest): Promise<FormValidation> {
 
     const errors = await validate(data)
+
+    if (errors.size > 0) {
+
+        return { hasErrors: true, errors }
+    }
+
+    return { hasErrors: false }
+}
+
+export async function validateLogin(data: LoginRequest): Promise<FormValidation> {
+
+    const errors = await validateSignIn(data)
 
     if (errors.size > 0) {
 

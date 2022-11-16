@@ -41,8 +41,6 @@ async function postRegisterForm() {
               {{ value.check.errorMessage }}
             </li>
           </ul>
-
-    
         </div>
         <form v-on:submit.prevent class="mt-8 space-y-6" action="#" method="POST">
           <input type="hidden" name="remember" value="true" />

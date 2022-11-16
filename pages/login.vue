@@ -1,32 +1,37 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import { loginWithEmail } from "~/composables/useAuth";
-import type {Ref} from "vue"
+import type { Ref } from "vue"
 
 const usernameOrEmail = ref('')
 const password = ref('')
-const hasError: Ref<boolean|null> = ref(null)
-const errorMessage: Ref<string|null> = ref(null)
+const hasError: Ref<boolean | null> = ref(null)
+const errorMessage: Ref<string | null> = ref(null)
+const errors: Ref<Map<string, { check: InputValidation; }> | undefined> = ref(new Map<string, { check: InputValidation }>())
+let response: Ref<FormValidation | undefined> = ref({ hasErrors: false })
 
 definePageMeta({
   middleware: 'guest'
 })
 
 const postLoginForm = async function () {
-  const res = await loginWithEmail(usernameOrEmail.value, password.value)
-  if (!res) {
+  response.value = await loginWithEmail(usernameOrEmail.value, password.value)
+  if (!response.value) {
     errorMessage.value = 'Invalid Credentials'
     hasError.value = true
     setTimeout(() => {
       hasError.value = false
     }, 3000)
   }
+
+  errors.value = response?.value?.errors
+
+
 }
 </script>
 
 <template>
-  <div
-    class="h-screen bg-white dark:bg-black">
+  <div class="h-screen bg-white dark:bg-black">
     <div class="flex items-center justify-center  px-4 sm:px-6 lg:px-8">
       <div class="max-w-md w-full space-y-8">
         <div>
@@ -40,6 +45,17 @@ const postLoginForm = async function () {
           </div>
 
           <h2 class="mt-6 py-9 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-400">Sign in</h2>
+        </div>
+
+        <div v-if="response?.hasErrors && errors"
+          class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3" role="alert">
+          <strong class="font-bold">Oops, try again! </strong>
+
+          <ul class="block sm:inline">
+            <li v-for="[key, value] in errors">
+              {{ value.check.errorMessage }}
+            </li>
+          </ul>
         </div>
 
         <div v-if="hasError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
@@ -67,8 +83,8 @@ const postLoginForm = async function () {
           </div>
           <div>
             <label for="password" class="sr-only">Password</label>
-            <input v-model="password" id="password" name="password" type="password" autocomplete="current-password"
-              required
+            <input v-model="password" id="password" name="password" required type="password"
+              autocomplete="current-password"
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="Password">
           </div>
