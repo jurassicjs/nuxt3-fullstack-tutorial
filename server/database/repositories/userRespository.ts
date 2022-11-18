@@ -1,8 +1,9 @@
+import { User } from "@prisma/client";
 import prisma from "~/server/database/client";
 import { IUser } from '~/types/IUser';
 import { ISubscription } from "~~/types/ISubscription";
 
-export async function getUserByEmail(emailOrEmail: string): Promise<IUser> {
+export async function getUserByEmail(emailOrEmail: string): Promise<User|null> {
   return await prisma.user.findFirst({
     where: {
       OR:
@@ -10,12 +11,7 @@ export async function getUserByEmail(emailOrEmail: string): Promise<IUser> {
           { email: emailOrEmail },
           { username: emailOrEmail },
         ]
-    },
-    select: {
-      id: true,
-      username: true,
-      password: true
-    },
+    }
   })
 }
 

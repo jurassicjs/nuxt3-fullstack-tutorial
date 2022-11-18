@@ -763,6 +763,14 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
+"@sidebase/nuxt-parse@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@sidebase/nuxt-parse/-/nuxt-parse-0.3.0.tgz#755b486fd1bf9f9155a738117f02723022649ea0"
+  integrity sha512-WZLLwuQKarFo9p/4mUgdy6W6zPcin4Uvw2laCv0bwsOFDk/YaSmrtxmjGAm4RwJV3ZqJ1GFrYnwFl/dD3C7J0Q==
+  dependencies:
+    h3 "^0.8.0"
+    zod "^3.19.0"
+
 "@socket.io/component-emitter@~3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
@@ -3057,7 +3065,7 @@ gzip-size@^7.0.0:
   dependencies:
     duplexer "^0.1.2"
 
-h3@^0.8.5:
+h3@^0.8.0, h3@^0.8.5:
   version "0.8.6"
   resolved "https://registry.yarnpkg.com/h3/-/h3-0.8.6.tgz#8095ef998fe14769b87170b7c8b68ba9c54973d5"
   integrity sha512-CSWNOKa3QGo67rFU2PhbFTp0uPJtilNji2Z0pMiSRQt3+OkIW0u3E1WMJqIycLqaTgb9JyFqH/S4mcTyyGtvyQ==
@@ -7176,6 +7184,11 @@ zip-stream@^4.1.0:
     archiver-utils "^2.1.0"
     compress-commons "^4.1.0"
     readable-stream "^3.6.0"
+
+zod@^3.19.0, zod@^3.19.1:
+  version "3.19.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.19.1.tgz#112f074a97b50bfc4772d4ad1576814bd8ac4473"
+  integrity sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==
 
 zwitch@^2.0.0:
   version "2.0.4"

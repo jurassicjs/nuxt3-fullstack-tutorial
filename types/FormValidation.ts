@@ -1,9 +1,10 @@
 type FormValidation = {
  hasErrors: boolean
- errors?: Map<string, { check: InputValidation; }>
+ errors?: Map<string, { message: InputValidation; }>
+ loggedIn?: boolean
 };
 
 type FormErrors = {
  field: string
- check: InputValidation
+ message: InputValidation
 }

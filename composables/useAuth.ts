@@ -79,32 +79,21 @@ export async function registerWithEmail(
   }
 }
 
-export async function loginWithEmail(usernameOrEmail: string, password: string): Promise<FormValidation|undefined> {
-
+export async function loginWithEmail(usernameOrEmail: string, password: string): Promise<FormValidation> {
   try {
-    const {data: user, error} = await useFetch<IUser>('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
+    const result = await $fetch<IUser>('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
 
-
-    if (error.value) {
-      type ErrorData = {
-        data: ErrorData
-      }
-
-      const errorData = error.value as unknown as ErrorData
-      const errors = errorData.data.data as unknown as string
-      const res = JSON.parse(errors)
-      const errorMap = new Map<string, { check: InputValidation; }>(Object.entries(res));
-
-      return { hasErrors: true, errors: errorMap }
+    if (!result?.id) {
+      throw Error('something went wrong')
     }
-
-
-    console.log(user)
-    useState('user').value = user
+    useState('user').value = result
     await useRouter().push('/topics')
-    return undefined
-  } catch (e) {
-    return undefined
+
+    return { hasErrors: false, loggedIn: true }
+  } catch (error: any) {
+    const parsedErrors = JSON.parse(error.data.data)
+    const errorMap = new Map<string, { message: InputValidation; }>(Object.entries(parsedErrors))
+    return { hasErrors: true, errors: errorMap }
   }
 
 }

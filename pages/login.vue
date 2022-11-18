@@ -7,26 +7,15 @@ const usernameOrEmail = ref('')
 const password = ref('')
 const hasError: Ref<boolean | null> = ref(null)
 const errorMessage: Ref<string | null> = ref(null)
-const errors: Ref<Map<string, { check: InputValidation; }> | undefined> = ref(new Map<string, { check: InputValidation }>())
-let response: Ref<FormValidation | undefined> = ref({ hasErrors: false })
+const errors: Ref<Map<string, { message: InputValidation; }> | undefined> = ref(new Map<string, { message: InputValidation }>())
 
 definePageMeta({
   middleware: 'guest'
 })
 
 const postLoginForm = async function () {
-  response.value = await loginWithEmail(usernameOrEmail.value, password.value)
-  if (!response.value) {
-    errorMessage.value = 'Invalid Credentials'
-    hasError.value = true
-    setTimeout(() => {
-      hasError.value = false
-    }, 3000)
-  }
-
-  errors.value = response?.value?.errors
-
-
+  const response = await loginWithEmail(usernameOrEmail.value, password.value)
+  errors.value = response.errors
 }
 </script>
 
@@ -53,7 +42,7 @@ const postLoginForm = async function () {
 
           <ul class="block sm:inline">
             <li v-for="[key, value] in errors">
-              {{ value.check.errorMessage }}
+              {{ value.message }}
             </li>
           </ul>
         </div>
