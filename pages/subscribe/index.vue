@@ -4,10 +4,39 @@ import TestingPhaseDialog from '~~/components/elements/TestingPhaseDialog.vue';
 const router = useRouter();
 const user = await useUser()
 
-function goToRegister() {
-  router.push('/register')
+function goToRegister(routeto :String) {
+  router.push(routeto)
 }
 
+const membershipProgram = ref([
+  {
+    idmp: 'gold2022',
+    title: 'Gold MemberShip',
+    pricatag: '20',
+    earlytag: ['Early access to content','Access to newsletter','Support Full Stack Jack'],
+    detailtag: ['Get Listed as Supporter','Influence future content','Access to virtual meetups'],
+    canCancelAnytime: true,
+    to: '/register?gold2022',
+  },
+  {
+    idmp: 'pro2022',
+    title: 'Pro MemberShip',
+    pricatag: '10',
+    earlytag: ['Early access to content','Access to newsletter','Support Full Stack Jack'],
+    detailtag: ['Get Listed as Supporter','Influence future content','Access to virtual meetups'],
+    canCancelAnytime: true,
+    to: '/register?pro2022',
+  },
+  {
+    idmp: 'lite',
+    title: 'Lite MemberShip',
+    pricatag: '5',
+    earlytag: ['Early access to content','Access to newsletter','Support Full Stack Jack'],
+    detailtag: ['Get Listed as Supporter','Influence future content','Access to virtual meetups'],
+    canCancelAnytime: false,
+    to: '/register?lite2022',
+  },
+])
 </script>
 
 <template>
@@ -20,17 +49,18 @@ function goToRegister() {
         <h2 class="text-2xl text-gray-800 dark:text-gray-200 font-bold md:text-4xl">Full Stack Jack Pro.
         </h2>
       </div>
-      <div class="mt-12 m-auto -space-y-4 items-center justify-center md:flex md:space-y-0 md:-space-x-4 xl:w-10/12">
+      <div v-for="program in membershipProgram" :key="program.idmp"
+      class="mt-12 m-auto -space-y-4 items-center justify-center md:flex md:space-y-0 md:-space-x-4 xl:w-10/12">
         <div class="relative -mx-4 group md:w-6/12 md:mx-0 lg:w-5/12 z-20">
           <div aria-hidden="true"
             class="absolute top-0 w-full h-full dark:bg-black border-2  border-indigo-500/50 rounded-2xl bg-white shadow-xl transition duration-500 group-hover:scale-105 lg:group-hover:scale-110">
           </div>
           <div class="relative p-6 space-y-6 lg:p-8">
-            <h3 class="text-3xl text-gray-700 font-semibold text-center">Pro Membership</h3>
+            <h3 class="text-3xl text-gray-700 font-semibold text-center">{{ program.title}}</h3>
             <div>
               <div class="relative flex justify-around">
                 <div class="flex items-end">
-                  <span class="text-8xl text-gray-800 dark:text-gray-500 font-bold leading-0">10</span>
+                  <span class="text-8xl text-gray-800 dark:text-gray-500 font-bold leading-0">{{ program.pricatag}}</span>
                   <div class="pb-2">
                     <span class="block text-2xl text-gray-700 dark:text-gray-500 font-bold">&euro;</span>
                   </div>
@@ -38,20 +68,13 @@ function goToRegister() {
               </div>
             </div>
             <ul role="list" class="w-max space-y-4 py-6 m-auto text-gray-600">
-              <li class="space-x-2">
+              <li v-for="early in program.earlytag" :key="early" class="space-x-2">
                 <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Early access to content</span>
+                <span>{{ early }}</span>
               </li>
-              <li class="space-x-2">
-                <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Access to newsletter</span>
-              </li>
-              <li class="space-x-2">
-                <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Support Full Stack Jack</span>
-              </li>
+              
             </ul>
-            <button v-if="user == null" @click="goToRegister"
+            <button v-if="user == null" @click="goToRegister(program.to)"
               class="block w-full py-3 px-6 text-center rounded-xl transition duration-500 hover:scale-110  bg-purple-600 hover:bg-purple-700 active:bg-purple-800 focus:bg-indigo-600">
               <span class="text-white font-semibold">
                 Sign Up and Subscribe
@@ -76,20 +99,12 @@ function goToRegister() {
           </div>
           <div class="relative p-6 pt-16 md:p-8 md:pl-12  md:rounded-r-2xl lg:pl-20 lg:p-16">
             <ul role="list" class="space-y-4 py-6 text-gray-600">
-              <li class="space-x-2">
+              <li v-for="detailtag in program.detailtag" :key="detailtag" class="space-x-2">
                 <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Get Listed as Supporter</span>
-              </li>
-              <li class="space-x-2">
-                <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Influence future content</span>
-              </li>
-              <li class="space-x-2">
-                <span class="text-purple-500 font-semibold">&check;</span>
-                <span>Access to virtual meetups</span>
+                <span>{{ detailtag}}</span>
               </li>
             </ul>
-            <p class="text-gray-700">Cancel anytime.</p>
+            <p v-if="program.canCancelAnytime" class="text-gray-700">Cancel anytime.</p>
             <div class="mt-6 flex justify-between gap-6">
               <svg class="" viewBox="0 0 132 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_1264_7346)">
