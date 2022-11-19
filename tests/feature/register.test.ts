@@ -36,7 +36,7 @@ describe('Test Registration', async () => {
         const givenUsername = uuidv4().replaceAll('-', '')
         const givenName = uuidv4().replaceAll('-', '')
         const givenName2 = uuidv4().replaceAll('-', '')
-       
+
         await $fetch('/api/auth/register',
             {
                 method: 'POST',
@@ -47,8 +47,7 @@ describe('Test Registration', async () => {
                     email: 'testDublicate@fullstackjack.dev',
                     password: '12345678'
                 },
-            }).catch(error => {
-            })
+            }).catch(error => {})
 
         await $fetch('/api/auth/register',
             {
@@ -69,13 +68,12 @@ describe('Test Registration', async () => {
             })
     })
 
-
     test('already used name returns error', async () => {
         const givenEmail = uuidv4().replaceAll('-', '') + '@fullstackjack.dev'
         const givenEmail2 = uuidv4().replaceAll('-', '') + '@fullstackjack.dev'
         const givenName = uuidv4().replaceAll('-', '')
         const givenName2 = uuidv4().replaceAll('-', '')
-        
+
         await $fetch('/api/auth/register',
             {
                 method: 'POST',
@@ -107,7 +105,6 @@ describe('Test Registration', async () => {
                 expect(error.message).toContain(`422 Unprocessable Entity`)
             })
     })
-
 
     test('vaild data registers new user', async () => {
         const givenEmail = uuidv4().replaceAll('-', '') + '@fullstackjack.dev'
