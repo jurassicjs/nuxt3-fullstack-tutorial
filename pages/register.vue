@@ -7,14 +7,14 @@ const email: Ref<string> = ref('');
 const password: Ref<string> = ref('');
 const username: Ref<string> = ref('');
 const name: Ref<string> = ref('');
+
+  
 const errors: Ref<Map<string, { message: InputValidation; }> | undefined> = ref(new Map<string, { message: InputValidation }>())
 let response: FormValidation
 
 async function postRegisterForm() {
   response = await registerWithEmail(username.value, name.value, email.value, password.value);
   errors.value = response.errors
-  const test = errors.value
-  debugger
 };
 
 </script>

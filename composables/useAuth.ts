@@ -1,6 +1,7 @@
 import { useRouter, useState } from "#app";
 import { ISession } from "~~/types/ISession";
 import { IUser } from "~/types/IUser";
+import useErrorMapper from "./useErrorMapper";
 
 export const useAuthCookie = () => useCookie('auth_token')
 
@@ -62,9 +63,7 @@ export async function registerWithEmail(
 
     return { hasErrors: false, loggedIn: true }
   } catch (error: any) {
-    const parsedErrors = JSON.parse(error.data.data)
-    const errorMap = new Map<string, { message: InputValidation; }>(Object.entries(parsedErrors))
-    return { hasErrors: true, errors: errorMap }
+    return useErrorMapper(error.data.data)
   }
 }
 
@@ -73,7 +72,6 @@ export async function loginWithEmail(usernameOrEmail: string, password: string):
     const result = await $fetch('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
 
     if (!result?.id) {
-      debugger
       throw Error('something went wrong')
     }
     useState('user').value = result
@@ -81,8 +79,6 @@ export async function loginWithEmail(usernameOrEmail: string, password: string):
 
     return { hasErrors: false, loggedIn: true }
   } catch (error: any) {
-    const parsedErrors = JSON.parse(error.data.data)
-    const errorMap = new Map<string, { message: InputValidation; }>(Object.entries(parsedErrors))
-    return { hasErrors: true, errors: errorMap }
+    return useErrorMapper(error.data.data)
   }
 }
