@@ -1,5 +1,5 @@
 import { H3Event } from "h3"
-import { getMappedZodErrors } from "~/server/app/helpers/errorMapper"
+import { getMappedZodErrors } from "../errorMapper"
 
 export default async function sendZodErrorResponse(event: H3Event, errorData: any) {
     const parsedErrors = getMappedZodErrors(errorData)

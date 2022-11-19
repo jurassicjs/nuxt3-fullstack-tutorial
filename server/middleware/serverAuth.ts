@@ -1,5 +1,5 @@
 import { H3Event } from "h3"
-import { authCheck } from "../services/userService"
+import { authCheck } from "~/server/app/services/userService"
 
 export default eventHandler(async (event) => {
 

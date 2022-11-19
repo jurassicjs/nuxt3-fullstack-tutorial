@@ -1,5 +1,6 @@
-import { RegistationRequest } from '~~/types/IRegistration';
-import { getUserByEmail, getUserByUserName } from '~/server/database/repositories/userRespository';
+import { getUserByEmail, getUserByUserName } from "~/server/database/repositories/userRespository"
+import { RegistationRequest } from "~/types/IRegistration"
+
 
 export async function validate(data: RegistationRequest) {
 
