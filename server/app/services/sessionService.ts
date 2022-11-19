@@ -1,4 +1,4 @@
-import { sanitizeUserForFrontend } from '~~/server/services/userService';
+import { sanitizeUserForFrontend } from '~~/server/app/services/userService';
 import { H3Event } from "h3"
 import { createSession, getSessionByAuthToken } from "~~/server/database/repositories/sessionRepository"
 import { v4 as uuidv4 } from 'uuid'

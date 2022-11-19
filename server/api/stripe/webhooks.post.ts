@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
-import { handleSubscriptionChange } from '~~/server/services/stripeService';
+import sendDefaultErrorResponse from '~~/server/app/errors/responses/DefaultErrorsResponse';
+import { handleSubscriptionChange } from '~~/server/app/services/stripeService';
 
 export default defineEventHandler(async (event) => {
 
@@ -9,14 +10,10 @@ export default defineEventHandler(async (event) => {
 
   const isSubscriptionEvent = stripeEvent.type.startsWith('customer.subscription')
 
-  if(isSubscriptionEvent){
+  if (isSubscriptionEvent) {
     handleSubscriptionChange(subscription, stripeEvent.created);
     return `handled ${stripeEvent.type}.`
   }
 
-  console.log(`Unhandled event type ${stripeEvent.type}`);
-
-  event.res.statusCode = 400
-  
-  return `could not handle ${stripeEvent.type}. No functionality set.`
+  return sendDefaultErrorResponse(event, 'oops', 400, `could not handle ${stripeEvent.type}. No functionality set.`)
 })

@@ -2,12 +2,12 @@ import { H3Event, sendError } from 'h3'
 import bcrypt from 'bcrypt'
 import { IUser } from '~/types/IUser';
 import { createUser } from '~/server/database/repositories/userRespository'
-import { makeSession } from '~/server/services/sessionService';
 import { ZodError } from "zod"
-import { validateUser } from '~/server/services/userService';
-import sendZodErrorResponse from '~/server/App/responses/ZodErrorsResponse';
-import sendDefaultErrorResponse from '~/server/App/responses/DefaultErrorsResponse';
-import registerRequest from '~/server/App/formRequests/RegisterRequest';
+import sendDefaultErrorResponse from '~~/server/app/errors/responses/DefaultErrorsResponse';
+import registerRequest from '~/server/app/formRequests/RegisterRequest';
+import { validateUser } from '~/server/app/services/userService';
+import { makeSession } from '~~/server/app/services/sessionService';
+import sendZodErrorResponse from '~~/server/app/errors/responses/ZodErrorsResponse';
 
 export default eventHandler(async (event: H3Event) => {
   try {
@@ -38,6 +38,6 @@ export default eventHandler(async (event: H3Event) => {
       return await sendZodErrorResponse(event, error.data)
     }
 
-    return await sendDefaultErrorResponse(event, 'oops', error)
+    return await sendDefaultErrorResponse(event, 'oops', 500, error)
   }
 })

@@ -8,7 +8,6 @@ const password: Ref<string> = ref('');
 const username: Ref<string> = ref('');
 const name: Ref<string> = ref('');
 
-  
 const errors: Ref<Map<string, { message: InputValidation; }> | undefined> = ref(new Map<string, { message: InputValidation }>())
 let response: FormValidation
 

@@ -1,12 +1,12 @@
 import { RegistationRequest } from '~~/types/IRegistration';
-import { validate } from '~~/server/services/validator';
 import { H3Event } from 'h3';
 import { getUserBySessionToken } from './sessionService';
 import { isString } from '@vueuse/core';
 import { User } from '@prisma/client';
 import { IUser } from '~~/types/IUser';
+import { validate } from './validator';
 
-export async function validateUser(data: RegistationRequest): Promise<FormValidation> {
+export async function validateUser(data: RegistationRequest) {
 
     const errors = await validate(data)
 

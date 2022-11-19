@@ -1,6 +1,6 @@
-import {CompatibilityEvent, setCookie} from "h3";
+import { deleteCookie } from "h3";
 
-export default async (event: CompatibilityEvent) => {
-  setCookie(event, 'auth_token', null)
+export default eventHandler((event) => {
+  deleteCookie(event, 'auth_token')
   return 'successfully logged out'
-}
+})

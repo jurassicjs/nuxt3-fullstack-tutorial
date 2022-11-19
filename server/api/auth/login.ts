@@ -1,13 +1,13 @@
-import { sanitizeUserForFrontend } from '~/server/services/userService';
 import bcrypt from 'bcrypt'
 import { getUserByEmail } from '~/server/database/repositories/userRespository';
 import { sendError, H3Event } from "h3"
-import { makeSession } from '~/server/services/sessionService';
 import { ZodError } from "zod"
-import { getMappedError } from '~/server/helpers/errorMapper';
-import loginRequest from '~/server/App/formRequests/LoginRequest';
-import sendZodErrorResponse from '~/server/App/responses/ZodErrorsResponse';
-import sendDefaultErrorResponse from '~/server/App/responses/DefaultErrorsResponse';
+import loginRequest from '~~/server/app/formRequests/LoginRequest';
+import sendDefaultErrorResponse from '~~/server/app/errors/responses/DefaultErrorsResponse';
+import { getMappedError } from '~~/server/app/errors/errorMapper';
+import { makeSession } from '~~/server/app/services/sessionService';
+import { sanitizeUserForFrontend } from '~~/server/app/services/userService';
+import sendZodErrorResponse from '~~/server/app/errors/responses/ZodErrorsResponse';
 
 const standardAuthError = getMappedError('Authentication', 'Invalid Credentials')
 
@@ -39,6 +39,6 @@ export default eventHandler(async (event: H3Event) => {
       return await sendZodErrorResponse(event, error.data)
     }
 
-    return await sendDefaultErrorResponse(event, 'Unauthenticated', error)
+    return await sendDefaultErrorResponse(event, 'Unauthenticated', 401, error)
   }
 })
