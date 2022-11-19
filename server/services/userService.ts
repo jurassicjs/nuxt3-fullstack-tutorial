@@ -1,11 +1,10 @@
-import { IUser } from '~~/types/IUser';
 import { RegistationRequest } from '~~/types/IRegistration';
-import { validate, validateSignIn } from '~~/server/services/validator';
+import { validate } from '~~/server/services/validator';
 import { H3Event } from 'h3';
 import { getUserBySessionToken } from './sessionService';
 import { isString } from '@vueuse/core';
 import { User } from '@prisma/client';
-import { LoginRequest } from '~~/types/ILogin';
+import { IUser } from '~~/types/IUser';
 
 export async function validateUser(data: RegistationRequest): Promise<FormValidation> {
 
@@ -19,19 +18,7 @@ export async function validateUser(data: RegistationRequest): Promise<FormValida
     return { hasErrors: false }
 }
 
-export async function validateLogin(data: LoginRequest): Promise<FormValidation> {
-
-    const errors = await validateSignIn(data)
-
-    if (errors.size > 0) {
-
-        return { hasErrors: true, errors }
-    }
-
-    return { hasErrors: false }
-}
-
-export function sanitizeUserForFrontend(user: User | undefined): User | undefined {
+export function sanitizeUserForFrontend(user: IUser | undefined): User | undefined {
 
     if (!user) {
         return user
@@ -41,7 +28,7 @@ export function sanitizeUserForFrontend(user: User | undefined): User | undefine
     delete user.loginType;
     delete user.stripeCustomerId;
 
-    return user
+    return user as User
 }
 
 export async function authCheck(event: H3Event): Promise<boolean> {
@@ -56,7 +43,7 @@ export async function authCheck(event: H3Event): Promise<boolean> {
 
     const user  = await getUserBySessionToken(authToken)
 
-    if(user.id) {
+    if(user?.id) {
         return true
     }
 

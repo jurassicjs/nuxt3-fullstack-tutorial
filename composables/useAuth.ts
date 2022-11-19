@@ -47,43 +47,33 @@ export async function registerWithEmail(
   name: string,
   email: string,
   password: string
-): Promise<FormValidation | undefined> {
+): Promise<FormValidation> {
 
   try {
-    const { data, error } = await useFetch<ISession>('/api/auth/register', {
+    const data = await $fetch<ISession>('/api/auth/register', {
       method: 'POST',
-      body: { data: { username, name, email, password } },
-      server: false,
-      key: username + name + email + password
+      body:  { username, name, email, password }
     })
-
-    if (error.value) {
-      type ErrorData = {
-        data: ErrorData
-      }
-
-      const errorData = error.value as unknown as ErrorData
-      const errors = errorData.data.data as unknown as string
-      const res = JSON.parse(errors)
-      const errorMap = new Map<string, { check: InputValidation; }>(Object.entries(res));
-
-      return { hasErrors: true, errors: errorMap }
-    }
 
     if (data) {
       useState('user').value = data
       await useRouter().push('/topics')
     }
-  } catch (e: any) {
-    console.log('error: ' + e.toString())
+
+    return { hasErrors: false, loggedIn: true }
+  } catch (error: any) {
+    const parsedErrors = JSON.parse(error.data.data)
+    const errorMap = new Map<string, { message: InputValidation; }>(Object.entries(parsedErrors))
+    return { hasErrors: true, errors: errorMap }
   }
 }
 
 export async function loginWithEmail(usernameOrEmail: string, password: string): Promise<FormValidation> {
   try {
-    const result = await $fetch<IUser>('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
+    const result = await $fetch('/api/auth/login', { method: 'POST', body: { usernameOrEmail: usernameOrEmail, password: password } })
 
     if (!result?.id) {
+      debugger
       throw Error('something went wrong')
     }
     useState('user').value = result
@@ -95,5 +85,4 @@ export async function loginWithEmail(usernameOrEmail: string, password: string):
     const errorMap = new Map<string, { message: InputValidation; }>(Object.entries(parsedErrors))
     return { hasErrors: true, errors: errorMap }
   }
-
 }

@@ -1,4 +1,4 @@
-export function getMappedZodErrors(zodError: any) {
+export function mapZodError(zodError: any) {
   const errors = new Map<string, { message: string }>()
   JSON.parse(zodError).forEach((zodError: any) => {
     errors.set(zodError.path[0], { 'message': zodError.message })

@@ -1,31 +1,15 @@
 import { RegistationRequest } from '~~/types/IRegistration';
 import { getUserByEmail, getUserByUserName } from '~/server/database/repositories/userRespository';
-import { LoginRequest } from '~~/types/ILogin';
 
 export async function validate(data: RegistationRequest) {
 
-    const errors = new Map<string, { check: InputValidation }>()
+    const errors = new Map<string, { message: string | undefined }>()
 
     for (const [key, value] of Object.entries(data)) {
         let val = await validateRegistration(key, value)
 
         if (val.hasError) {
-            errors.set(key, { 'check': val })
-        }
-    }
-
-    return errors
-}
-
-export async function validateSignIn(data: LoginRequest) {
-
-    const errors = new Map<string, { check: InputValidation }>()
-
-    for (const [key, value] of Object.entries(data)) {
-        let val = await validateLogin(key, value)
-
-        if (val.hasError) {
-            errors.set(key, { 'check': val })
+            errors.set(key, { 'message': val.errorMessage })
         }
     }
 
@@ -41,13 +25,6 @@ async function validateRegistration(key: string, value: string): Promise<InputVa
         hasError: false
     }
 
-    if (value == '' || value == null) {
-        check.isBlank = true
-        check.hasError = true
-        check.errorMessage = `${key} is required`
-        return check
-    }
-
     if (key == 'password') {
         if (value.length < 8) {
             check.hasError = true
@@ -57,21 +34,11 @@ async function validateRegistration(key: string, value: string): Promise<InputVa
     }
 
     if (key == 'email') {
-
-        const isValidEmail = validateEmail(value)
-
-        if (!isValidEmail) {
-            check.emailTaken = null
-            check.hasError = true
-            check.errorMessage = `${value}, is not a valid email!`
-            return check
-        }
-
         const email = await getUserByEmail(value)
         if (email) {
             check.emailTaken = true
             check.hasError = true
-            check.errorMessage = `This email, ${value}, is already registered!`
+            check.errorMessage = `Email is invalid or already taken`
         }
     }
 
@@ -80,42 +47,9 @@ async function validateRegistration(key: string, value: string): Promise<InputVa
         if (username) {
             check.usernameTaken = true
             check.hasError = true
-            check.errorMessage = `The username, ${value}, is already registered!`
+            check.errorMessage = `Username is invalid or already taken`
         }
     }
-
-    return check
-}
-
-function validateEmail(email: string): boolean {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-}
-
-async function validateLogin(key: string, value: string): Promise<InputValidation> {
-    const check: InputValidation = {
-        value,
-        isBlank: false,
-        lenghtMin8: true,
-        key,
-        hasError: false
-    }
-
-    if (value == '' || value == null) {
-        check.isBlank = true
-        check.hasError = true
-        check.errorMessage = `${key} is required`
-        return check
-    }
-
-    if (key == 'password') {
-        if (value.length < 8) {
-            check.hasError = true
-            check.errorMessage = `password must be at least 8 characters`
-        }
-        check.lenghtMin8 = false
-    }
-
 
     return check
 }

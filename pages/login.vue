@@ -7,15 +7,20 @@ const usernameOrEmail = ref('')
 const password = ref('')
 const hasError: Ref<boolean | null> = ref(null)
 const errorMessage: Ref<string | null> = ref(null)
-const errors: Ref<Map<string, { message: InputValidation; }> | undefined> = ref(new Map<string, { message: InputValidation }>())
+const errors: Ref<Map<string, { message: InputValidation }> | undefined> = ref(new Map<string, { message: InputValidation }>())
 
-definePageMeta({
-  middleware: 'guest'
-})
+// definePageMeta({
+//   middleware: 'guest'
+// })
 
-const postLoginForm = async function () {
-  const response = await loginWithEmail(usernameOrEmail.value, password.value)
+let response: FormValidation
+
+async function postLoginForm() {
+  response = await loginWithEmail(usernameOrEmail.value, password.value)
   errors.value = response.errors
+  const test = errors.value
+  debugger
+  console.log('errors', errors.value)
 }
 </script>
 
@@ -38,8 +43,6 @@ const postLoginForm = async function () {
 
         <div v-if="response?.hasErrors && errors"
           class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3" role="alert">
-          <strong class="font-bold">Oops, try again! </strong>
-
           <ul class="block sm:inline">
             <li v-for="[key, value] in errors">
               {{ value.message }}
