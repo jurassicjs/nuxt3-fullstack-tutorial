@@ -43,7 +43,8 @@
     "prisma": "^4.5.0",
     "stripe": "^10.15.0",
     "uuid": "^9.0.0",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "zod": "^3.19.1"
   },
   "prisma": {
     "schema": "server/database/schema.prisma"
