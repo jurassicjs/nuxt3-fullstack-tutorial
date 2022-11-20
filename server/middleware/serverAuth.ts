@@ -1,7 +1,7 @@
 import { H3Event } from "h3"
-import { authCheck } from "../services/userService"
+import { authCheck } from "~/server/app/services/userService"
 
-export default defineEventHandler(async (event) => {
+export default eventHandler(async (event) => {
 
  const isAllowed = await protectAuthRoute(event)
 
@@ -18,7 +18,7 @@ async function protectAuthRoute(event: H3Event): Promise<boolean> {
   'api/ask-jack/delete-question'
  ]
 
- if (!protectedRoutes.includes(event.req.url)) {
+ if (!event?.path || !protectedRoutes.includes(event.path)) {
   return true
  }
 

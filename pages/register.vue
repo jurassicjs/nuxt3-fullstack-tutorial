@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import { registerWithEmail } from "~/composables/useAuth";
-import type {Ref} from "vue"
+import type { Ref } from "vue"
 
 const email: Ref<string> = ref('');
 const password: Ref<string> = ref('');
 const username: Ref<string> = ref('');
 const name: Ref<string> = ref('');
-const errors: Ref<Map<string, { check: InputValidation; }> | undefined> = ref(new Map<string, { check: InputValidation }>())
-let response: Ref<FormValidation|undefined> = ref({ hasErrors: false })
+
+const errors: Ref<Map<string, { message: InputValidation; }> | undefined> = ref(new Map<string, { message: InputValidation }>())
+let response: FormValidation
 
 async function postRegisterForm() {
-  response.value = await registerWithEmail(username.value, name.value, email.value, password.value);
-  errors.value = response?.value?.errors
+  response = await registerWithEmail(username.value, name.value, email.value, password.value);
+  errors.value = response.errors
 };
 
 </script>
@@ -34,11 +35,9 @@ async function postRegisterForm() {
         </div>
         <div v-if="response?.hasErrors && errors"
           class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3" role="alert">
-          <strong class="font-bold">Oops, try again! </strong>
-
           <ul class="block sm:inline">
             <li v-for="[key, value] in errors">
-              {{ value.check.errorMessage }}
+              {{ value.message }}
             </li>
           </ul>
         </div>

@@ -1,5 +1,5 @@
 import { getUserById } from "~/server/database/repositories/userRespository"
-import { getSubscribeUrl } from "~/server/services/stripeService"
+import { getSubscribeUrl } from "~/server/app/services/stripeService"
 import { updateStripeCustomerId } from "~/server/database/repositories/userRespository"
 
 export default defineEventHandler(async (event) => {

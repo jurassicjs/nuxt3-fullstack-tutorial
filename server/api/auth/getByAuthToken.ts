@@ -1,8 +1,7 @@
-import { IUser } from '~/types/IUser';
 import { getCookie } from 'h3'
-import { getUserBySessionToken } from '~~/server/services/sessionService'
+import { getUserBySessionToken } from '~~/server/app/services/sessionService'
 
-export default defineEventHandler<IUser|null>(async (event) => {
+export default defineEventHandler(async (event) => {
   const authToken = getCookie(event, 'auth_token')  
 
   if(!authToken) {

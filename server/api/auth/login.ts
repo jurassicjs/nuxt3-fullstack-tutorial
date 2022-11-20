@@ -1,56 +1,44 @@
-import { sanitizeUserForFrontend } from '~~/server/services/userService';
 import bcrypt from 'bcrypt'
 import { getUserByEmail } from '~/server/database/repositories/userRespository';
 import { sendError, H3Event } from "h3"
-import { makeSession } from '~~/server/services/sessionService';
-import { validateLogin } from '~/server/services/userService'
+import { ZodError } from "zod"
+import loginRequest from '~~/server/app/formRequests/LoginRequest';
+import sendDefaultErrorResponse from '~~/server/app/errors/responses/DefaultErrorsResponse';
+import { getMappedError } from '~~/server/app/errors/errorMapper';
+import { makeSession } from '~~/server/app/services/sessionService';
+import { sanitizeUserForFrontend } from '~~/server/app/services/userService';
+import sendZodErrorResponse from '~~/server/app/errors/responses/ZodErrorsResponse';
+
+const standardAuthError = getMappedError('Authentication', 'Invalid Credentials')
 
 export default eventHandler(async (event: H3Event) => {
-  const body = await readBody(event)
-  const usernameOrEmail: string = body.usernameOrEmail
-  const password: string = body.password
 
-  const data = body
+  try {
+    const data = await loginRequest(event)
+    const user = await getUserByEmail(data.usernameOrEmail)
 
-  const validation = await validateLogin(data)
+    if (user === null) {
+      return sendError(event, createError({ statusCode: 401, data: standardAuthError }))
+    }
 
-  if (validation.hasErrors === true) {
-    const errors = JSON.stringify(Object.fromEntries(validation.errors))
-    return sendError(event, createError({ statusCode: 422, data: errors }))
+    if (user.password == undefined) {
+      return sendError(event, createError({ statusCode: 401, data: standardAuthError }))
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(data.password, user.password)
+
+    if (!isPasswordCorrect) {
+      sendError(event, createError({ statusCode: 401, data: standardAuthError }))
+    }
+
+    await makeSession(user, event)
+    return sanitizeUserForFrontend(user)
+  } catch (error: any) {
+
+    if (error.data instanceof ZodError) {
+      return await sendZodErrorResponse(event, error.data)
+    }
+
+    return await sendDefaultErrorResponse(event, 'Unauthenticated', 401, error)
   }
-
-  const user = await getUserByEmail(usernameOrEmail)
-
-  if (user === null) {
-    sendError(event, createError({ statusCode: 401, statusMessage: 'Unauthenticated' }))
-  }
-
-  if(user.password == undefined) {
-    sendError(event, createError({ statusCode: 401, statusMessage: 'Unauthenticated' }))
-  }
-
-  const isPasswordCorrect = await bcrypt.compare(password, user.password)
-
-  if (!isPasswordCorrect) {
-
-    const check: InputValidation = {
-      value: '',
-      isBlank: false,
-      lenghtMin8: true,
-      key: 'Authentication',
-      hasError: false
-  }
-
-    const errors = new Map<string, { check: InputValidation }>()
-    errors.set('Authentication', { 'check': check })
-
-
-    const errorsRes = JSON.stringify(Object.fromEntries(new Map()))
-    sendError(event, createError({ statusCode: 401, data: 'Unauthenticated' }))
-  }
-
-
-  await makeSession(user, event)
-
-  return sanitizeUserForFrontend(user)
 })

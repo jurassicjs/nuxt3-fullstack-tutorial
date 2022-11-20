@@ -1,8 +1,18 @@
 import { describe, expect, it, vi } from 'vitest'
-import { validate } from '../../server/services/validator'
+import { getUserByUserName } from '~~/server/database/repositories/userRespository'
+import { validate } from '../../server/app/services/validator'
 
 
 describe('test email validation', async () => {
+
+  vi.mock('~/server/database/repositories/userRespository', () => {
+    return {
+      getUserByEmail: vi.fn(() => ({ email: 'test@fullstackjack.com' })),
+      getUserByUserName: vi.fn(() => ({ email: 'test@fullstackjack.com' }))
+    }
+  })
+
+
   it('should return error if email missing', async () => {
     const res = await validate({
       username: '',
@@ -13,11 +23,8 @@ describe('test email validation', async () => {
 
     const emailVal = res.get('email')
 
-    emailVal.check.errorMessage
-
     expect(res.has('email')).toBe(true)
-    expect(emailVal.check.hasError).toBe(true)
-    expect(emailVal.check.errorMessage).toContain('email is required')
+    expect(emailVal?.message).toContain('Email is invalid or already taken')
   })
 
 
@@ -31,20 +38,11 @@ describe('test email validation', async () => {
 
     const emailVal = res.get('email')
 
-    emailVal.check.errorMessage
-
     expect(res.has('email')).toBe(true)
-    expect(emailVal.check.hasError).toBe(true)
-    expect(emailVal.check.errorMessage).toContain('test, is not a valid email!')
+    expect(emailVal?.message).toContain('Email is invalid or already taken')
   })
 
   it('should return error if email taken', async () => {
-
-    vi.mock('~/server/database/repositories/userRespository', () => {
-      return {
-        getUserByEmail: vi.fn(() => ({ email: 'test@fullstackjack.com' }))
-      }
-    })
 
     const email = 'test@fullstackjack.com'
 
@@ -57,11 +55,7 @@ describe('test email validation', async () => {
 
     const emailVal = res.get('email')
 
-    emailVal.check.errorMessage
-
     expect(res.has('email')).toBe(true)
-    expect(emailVal.check.hasError).toBe(true)
-    expect(emailVal.check.emailTaken).toBe(true)
-    expect(emailVal.check.errorMessage).toContain(`This email, test@fullstackjack.com, is already registered!`)
+    expect(emailVal?.message).toContain(`Email is invalid or already taken`)
   })
 })

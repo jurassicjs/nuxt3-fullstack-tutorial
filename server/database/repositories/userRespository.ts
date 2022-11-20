@@ -1,8 +1,9 @@
+import { User } from "@prisma/client";
 import prisma from "~/server/database/client";
 import { IUser } from '~/types/IUser';
-import { ISubscription } from "~~/types/ISubscription";
+import { ISubscription } from "~/types/ISubscription";
 
-export async function getUserByEmail(emailOrEmail: string): Promise<IUser> {
+export async function getUserByEmail(emailOrEmail: string): Promise<User|null> {
   return await prisma.user.findFirst({
     where: {
       OR:
@@ -10,16 +11,11 @@ export async function getUserByEmail(emailOrEmail: string): Promise<IUser> {
           { email: emailOrEmail },
           { username: emailOrEmail },
         ]
-    },
-    select: {
-      id: true,
-      username: true,
-      password: true
-    },
+    }
   })
 }
 
-export async function getUserByUserName(username: string): Promise<IUser> {
+export async function getUserByUserName(username: string) {
   return await prisma.user.findUnique({
     where: {
       username: username,
@@ -45,7 +41,7 @@ export async function createUser(data: IUser) {
   return user
 }
 
-export async function getUserById(id: number): Promise<IUser> {
+export async function getUserById(id: number) {
   return await prisma.user.findUnique({
     where: {
       id: id,
@@ -59,7 +55,7 @@ export async function getUserById(id: number): Promise<IUser> {
   })
 }
 
-export async function getUserByStripeCustomerId(stripeCustomerId: string): Promise<IUser> {
+export async function getUserByStripeCustomerId(stripeCustomerId: string) {
   return await prisma.user.findFirst({
     where: {
       stripeCustomerId: stripeCustomerId,
@@ -73,7 +69,7 @@ export async function getUserByStripeCustomerId(stripeCustomerId: string): Promi
   })
 }
 
-export async function getSubscriptionById(stripeId: string): Promise<ISubscription> {
+export async function getSubscriptionById(stripeId: string) {
   return await prisma.subscription.findFirst({
     where: {
       stripeId: stripeId,

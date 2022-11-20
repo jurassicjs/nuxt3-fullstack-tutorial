@@ -1,6 +1,6 @@
 import { getTopicIdByName, getSeriesByTopicId, getVideosByTopicId } from "~~/server/database/repositories/videoRepository"
 
-export default defineEventHandler(async event => {
+export default eventHandler(async event => {
   const topicName = event.context.params.name
 
   const topic = await getTopicIdByName(topicName)

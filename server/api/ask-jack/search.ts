@@ -13,5 +13,5 @@ export default eventHandler(async (event) => {
          return {...question, authName: '@' + user.username};
     }))
 
-    return await questionsWithAuth
+    return questionsWithAuth
 })
