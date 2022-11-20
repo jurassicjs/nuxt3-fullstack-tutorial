@@ -1,0 +1,22 @@
+{
+    "app_name": "SISKA SaaS Dev",
+    "app_description": "EduPay",
+    "menu_home": "Home",
+    "menu_feature": "Feature",
+    "menu_pricing": "Pricing",
+    "menu_store": "Store",
+    "menu_blog": "Blog",
+    "menu_dashboard": "Dashboard",
+    "annual": "Annual",
+    "class": "Class",
+    "cancel": "Cancel",
+    "dashboard": "Dashboard",
+    "hello": "Hello, {name}!",
+    "home": "Home",
+    "language": "Language",
+    "parent": "Parent",
+    "save": "Save",
+    "send": "Send",
+    "student": "Student",
+    "teacher": "Teacher"
+}
