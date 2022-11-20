@@ -1,0 +1,20 @@
+{
+    "app_name": "SISKA SaaS Dev",
+    "app_description": "EduPay",
+    "menu_home": "Home",
+    "menu_feature": "Fitur",
+    "menu_pricing": "Harga",
+    "menu_store": "Toko",
+    "menu_blog": "Blog",
+    "menu_dashboard": "Dasbor",
+    "annual": "Tahunan",
+    "class": "Kelas",
+    "dashboard": "Dasbor",
+    "hello": "Hai, {name}!",
+    "home": "Beranda",
+    "language": "Bahasa",
+    "parent": "Orang Tua",
+    "school_fee": "SPP",
+    "student": "Murid",
+    "teacher": "Guru"
+}

@@ -5,7 +5,7 @@ const router = useRouter();
 const user = await useUser()
 
 function goToRegister(routeto :String) {
-  router.push(routeto)
+  router.push(''+routeto)
 }
 
 const membershipProgram = ref([
