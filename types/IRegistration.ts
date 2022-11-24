@@ -2,12 +2,12 @@ export type IRegistrationErrors = {
  hasErrors?: string
 }
 
-export type RegistationResponse = {
+export type RegistrationResponse = {
  hasErrors: boolean,
  errors?: IRegistrationErrors
 }
 
-export type RegistationRequest = {
+export type RegistrationRequest = {
  name: string,
  username?: string
  email?: string

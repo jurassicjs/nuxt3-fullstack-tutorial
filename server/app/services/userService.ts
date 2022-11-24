@@ -1,4 +1,4 @@
-import { RegistationRequest } from '~~/types/IRegistration';
+import { RegistrationRequest } from '~~/types/IRegistration';
 import { H3Event } from 'h3';
 import { getUserBySessionToken } from './sessionService';
 import { isString } from '@vueuse/core';
@@ -6,7 +6,7 @@ import { User } from '@prisma/client';
 import { IUser } from '~~/types/IUser';
 import { validate } from './validator';
 
-export async function validateUser(data: RegistationRequest) {
+export async function validateUser(data: RegistrationRequest) {
 
     const errors = await validate(data)
 

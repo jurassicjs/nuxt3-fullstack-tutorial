@@ -1,8 +1,8 @@
 import { getUserByEmail, getUserByUserName } from "~/server/database/repositories/userRespository"
-import { RegistationRequest } from "~/types/IRegistration"
+import { RegistrationRequest } from "~/types/IRegistration"
 
 
-export async function validate(data: RegistationRequest) {
+export async function validate(data: RegistrationRequest) {
 
     const errors = new Map<string, { message: string | undefined }>()
 
