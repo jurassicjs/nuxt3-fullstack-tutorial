@@ -7,6 +7,12 @@ nuxtApp.hook("page:finish", () => {
   window.scrollTo(0, 0)
 })
 
+useHead({
+  link: [
+    { rel: 'icon', type: 'image/x-icon', href: '/img/favicon.ico' },
+ ]
+})
+
 await useUser()
 </script>
 <template>
