@@ -3,7 +3,7 @@ name: Automated Release Deployment
 on:
   push:
     tags:
-      - rc*
+      - v*
 
 env:
   NODE_VERSION: 16.17.1
