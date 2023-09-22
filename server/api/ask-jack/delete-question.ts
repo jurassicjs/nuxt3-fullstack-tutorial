@@ -1,8 +1,7 @@
 
 import { defineEventHandler, getCookie, sendError } from "h3";
-import { findQuestion } from "~/server/database/repositories/askJackRespository";
+import { findQuestion, deleteQuestion } from "~/server/database/repositories/askJackRespository";
 import { getUserBySessionToken } from '~/server/app/services/sessionService'
-import { deleteQuestion } from "~/server/database/repositories/askJackRespository";
 import sendDefaultErrorResponse from "~~/server/app/errors/responses/DefaultErrorsResponse";
 
 export default defineEventHandler(async (event) => {
